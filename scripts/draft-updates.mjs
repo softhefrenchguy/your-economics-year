@@ -96,10 +96,17 @@ export function validateAndDiff(proposal, current, today) {
     return {};
   }
 
-  if (proposal.status && STATUS_VALUES.includes(proposal.status) && proposal.status !== current.status) {
+  // "closed" means genuinely done, nothing to watch for. A recurring programme whose latest
+  // cycle just ended should stay "watchlist" for the next one, not get auto-closed — that
+  // recurring-vs-discontinued call is exactly the kind of judgment a human should make, not
+  // something to infer from one page read. Caught in end-to-end testing (SOAS's summer school).
+  const wantsClose = proposal.status === "closed" && current.recurring;
+  if (proposal.status && STATUS_VALUES.includes(proposal.status) && proposal.status !== current.status && !wantsClose) {
     patch.status = proposal.status;
-  } else if (current.status === "open" && wouldBeStale) {
-    // Model didn't touch status, but confirmed dates that have now passed — close it.
+  } else if (current.status === "open" && wouldBeStale && !current.recurring) {
+    // Model didn't touch status, but confirmed dates that have now passed — close it, unless
+    // it's recurring, in which case leaving status alone (for a human to move to watchlist,
+    // if that's not already its status) is safer than guessing "closed".
     patch.status = "closed";
   }
   if (proposal.costType && COST_TYPE_VALUES.includes(proposal.costType) && proposal.costType !== current.costType) {

@@ -40,7 +40,7 @@
     "url": "https://iea.org.uk/the-budget-challenge/"
   },
   "soas-y12-outreach-summer-school": {
-    "hash": "9d17f528058d348845c421f543d6b5d656d9837b856223dad667e0677aa2c577",
+    "hash": "0f52943bf2130d0df04ab043e86d772f096c91ed69ce79a5f4d12ac0738c2e55",
     "checkedAt": "2026-09-16",
     "url": "https://www.soas.ac.uk/about/event/soas-year-12-outreach-summer-school-2026"
   },
@@ -60,7 +60,7 @@
     "url": "https://www.royalholloway.ac.uk/research-and-education/subjects/economics/department-of-economics-activity-hub/connect-with-us/"
   },
   "royal-holloway-economics-ai": {
-    "hash": "41e9e26b9eb3dae5a65e2ad99fa8dad1a0b43a38aff53af8780d5d6ed11aa549",
+    "hash": "37a2b284346e240af65fca3caac6dbcbb4348579711e55ae65f111753d97f3cd",
     "checkedAt": "2026-09-16",
     "url": "https://www.royalholloway.ac.uk/research-and-education/subjects/economics/department-of-economics-activity-hub/economics-of-ai-insight-day/"
   },
@@ -98,5 +98,15 @@
     "hash": "487dc55da35e0cb9294a31398f8a69dc984f0d78345d84de5a044152c85e323c",
     "checkedAt": "2026-09-16",
     "url": "https://www.discovereconomics.co.uk/events/discover-economics-with-bank-of-england-economists-rupal-patel-and-jack-leslie"
+  },
+  "lse-monetary-policy-musalem-2026": {
+    "hash": "cf92b41c9dd0008a1c0f914ccc811ed285b77984f5df0c9dffd7bf72eb74749c",
+    "checkedAt": "2026-09-16",
+    "url": "https://www.lse.ac.uk/events/monetary-policy"
+  },
+  "lse-cop32-african-climate-economics-2026": {
+    "hash": "4bbbb09847217e450d495b218575c2afe6999d580806a7561ceafcdfbd1a0a93",
+    "checkedAt": "2026-09-16",
+    "url": "https://www.lse.ac.uk/events/african-agenda-for-climate-action"
   }
 }

@@ -150,11 +150,18 @@ export function OpportunityDialog({
             </button>
           </div>
         ) : (
-          <p>
-            {item.status === "closed"
-              ? "This opportunity's most recent cycle has closed."
-              : "Apply directly on the official page when applications are open. No teacher registration is needed."}
-          </p>
+          <>
+            <p>
+              {item.status === "closed"
+                ? "This opportunity's most recent cycle has closed."
+                : "No teacher registration is needed — you can apply yourself, directly on the official page."}
+            </p>
+            {item.status === "open" && (
+              <a className="card-apply-button" href={item.officialUrl} target="_blank" rel="noopener noreferrer">
+                Apply on the official site <Icon name="arrow" size={16} />
+              </a>
+            )}
+          </>
         )}
         {(item.status === "coming-soon" || item.status === "watchlist") && (
           <>

@@ -1014,6 +1014,13 @@ footer > p {
 .card-apply-button:hover {
   background: #45624a;
 }
+.detail-dialog .card-apply-button {
+  width: 100%;
+  justify-content: center;
+  padding: 13px;
+  font-size: 12px;
+  margin-top: 4px;
+}
 .access-badge {
   font-size: 10px;
   background: #e5ecda;

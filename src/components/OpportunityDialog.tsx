@@ -85,7 +85,7 @@ export function OpportunityDialog({
         <p>{item.description}</p>
         <h3>What you'll get from it</h3>
         <p>{item.whyRelevant}</p>
-        <h3>Can I take part?</h3>
+        <h3>How can I take part?</h3>
         <p>{item.eligibilityDetails || item.eligibilitySummary}</p>
         {item.wideningParticipation && <span className="access-badge">Widening participation / access programme</span>}
         <h3>Where & how much?</h3>

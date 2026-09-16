@@ -873,4 +873,65 @@ export const opportunities: Opportunity[] = [
     officialUrl: "https://www.lse.ac.uk/events/african-agenda-for-climate-action",
     dateConfidence: "confirmed",
   }),
+
+  entry("kings-entrepreneurship-essay-competition", {
+    name: "King's Entrepreneurship Lab Essay Competition",
+    provider: "King's Entrepreneurship Lab (E-Lab), King's College Cambridge",
+    type: "Essay competition",
+    subjects: ["Business", "Economics"],
+    topics: ["Business", "Entrepreneurship"],
+    yearGroups: ["Year 11", "Year 12", "Year 13"],
+    location: "Online / global submission",
+    deliveryMode: "online",
+    ukWide: true,
+    costType: "free",
+    status: "watchlist",
+    recurring: true,
+    previousCycle: {
+      label: "2026 cycle",
+      applicationsOpen: "2026-04-02",
+      applicationDeadline: "2026-08-05",
+      notes:
+        "A roughly 1,000-word essay (minimum 850) responding to one of four prompts on entrepreneurship — no economics study required. Winner £1,500, two runners-up £750 each; prize ceremony December 2026 at King's College, Cambridge.",
+    },
+    eligibilitySummary:
+      "UK-based students in Years 11–13 (England/Wales), S4–S6 (Scotland) or Years 12–14 (Northern Ireland); no subject requirements.",
+    description:
+      "An annual essay competition run by King's College Cambridge's Entrepreneurship Lab, exploring entrepreneurial thinking, failure, responsibility and constraints.",
+    whyRelevant:
+      "Applies economic thinking about incentives, risk and decision-making to entrepreneurship specifically, and is judged by a Cambridge college rather than a generic essay mill.",
+    officialUrl: "https://www.kingselab.org/essay-competition",
+    dateConfidence: "previous-cycle",
+  }),
+
+  entry("sidgwick-prize-economics", {
+    name: "The Sidgwick Prize — Economics",
+    provider: "The Sidgwick Prize",
+    type: "Essay competition",
+    topics: ["Economics"],
+    yearGroups: ["Secondary school", "Sixth form"],
+    minAge: 13,
+    maxAge: 18,
+    location: "Online / global submission",
+    deliveryMode: "online",
+    ukWide: true,
+    costType: "paid",
+    costAmount: 12,
+    status: "watchlist",
+    recurring: true,
+    previousCycle: {
+      label: "2025–26 cycle",
+      applicationsOpen: "2025-10-01",
+      applicationDeadline: "2026-06-30",
+      notes:
+        "£12 standard entry fee (£20 for late entries, accepted until 15 July 2026), one fee per essay, up to 2,000 words in one of eight disciplines including Economics. Every entry receives written feedback from academic specialists, including University of Cambridge faculty. Discipline winners get £100 plus 75% off a summer course; the overall winner gets £100 and a fully-funded place on a residential course.",
+    },
+    eligibilitySummary: "Any student aged 13–18 on the submission date, from any country.",
+    description:
+      "An international essay competition across eight academic disciplines, including an Economics category with questions on topics like cryptocurrency regulation and automation.",
+    whyRelevant:
+      "Every entrant gets individual written feedback from an academic specialist — unusual among essay competitions, and useful independent of whether you place.",
+    officialUrl: "https://www.sidgwickprize.com/",
+    dateConfidence: "previous-cycle",
+  }),
 ];

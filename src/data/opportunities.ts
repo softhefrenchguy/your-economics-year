@@ -873,7 +873,7 @@ export const opportunities: Opportunity[] = [
     officialUrl: "https://www.lse.ac.uk/events/african-agenda-for-climate-action",
     dateConfidence: "confirmed",
   }),
-  entry("discover-economics-royal-economic-society-bangor-university-", {
+  entry("discover-economics-royal-economic-society-bangor-university", {
     name: "Explore the World of Economics",
     provider: "Discover Economics (Royal Economic Society) & Bangor University",
     type: "Taster / event",
@@ -905,7 +905,7 @@ export const opportunities: Opportunity[] = [
     wideningParticipation: false,
     dateConfidence: "confirmed"
   }),
-  entry("discover-economics-royal-economic-society-financial-conduct-", {
+  entry("discover-economics-royal-economic-society-financial-conduct", {
     name: "FCA Insight Day",
     provider: "Discover Economics (Royal Economic Society) & Financial Conduct Authority",
     type: "Taster / event",
@@ -937,40 +937,6 @@ export const opportunities: Opportunity[] = [
     requiresTeacher: false,
     requiresSchoolNomination: false,
     wideningParticipation: true,
-    dateConfidence: "confirmed"
-  }),
-  entry("lse-department-of-economics-centre-for-economic-performance-", {
-    name: "Creative destruction, AI, and the European recovery",
-    provider: "LSE Department of Economics, Centre for Economic Performance and Centre for Macroeconomics",
-    type: "Taster / event",
-    subjects: [
-      "Economics"
-    ],
-    topics: [
-      "Economics",
-      "AI",
-      "International Economics"
-    ],
-    yearGroups: [
-      "Year 12"
-    ],
-    location: "Sheikh Zayed Theatre, Cheng Kin Ku Building, LSE, London (also online via LSE Live)",
-    deliveryMode: "hybrid",
-    ukWide: true,
-    costType: "free",
-    eventStart: "2026-02-24",
-    eventEnd: "2026-02-24",
-    status: "open",
-    recurring: true,
-    eligibilitySummary: "Open to the public; no restrictions on age or background",
-    eligibilityDetails: "Open to the public; no restrictions on age or background",
-    description: "A public lecture at the London School of Economics featuring Philippe Aghion, joint recipient of the 2025 Nobel Memorial Prize in Economic Sciences, discussing how the Schumpeterian growth paradigm (creative destruction) can help explain issues like secular stagnation, the middle-income trap, Europe's economic decline, and the impact of AI on growth and capitalism.",
-    whyRelevant: "This is a rare chance to hear directly from a Nobel Prize-winning economist explain cutting-edge ideas about economic growth, innovation, and how AI might reshape economies - all in accessible public-lecture format, either in person or via free livestream. It's a great way to see how academic economic theory connects to live policy debates you may have read about, like Europe's economic stagnation.",
-    officialUrl: "https://www.lse.ac.uk/events/nobel-laureate",
-    sourceLastChecked: "2026-09-16",
-    requiresTeacher: false,
-    requiresSchoolNomination: false,
-    wideningParticipation: false,
     dateConfidence: "confirmed"
   }),
 ];

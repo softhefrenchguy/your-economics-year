@@ -362,6 +362,10 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("soas-y12-outreach-summer-school", {
+    sourceLastChecked: "2026-09-16",
+    eventEnd: "2026-07-17",
+    eventStart: "2026-07-13",
+    applicationDeadline: "2026-04-24",
     name: "SOAS Year 12 Outreach Summer School — Thriving Futures",
     provider: "SOAS University of London",
     type: "Summer school",
@@ -373,7 +377,7 @@ export const opportunities: Opportunity[] = [
     costType: "free",
     financialSupport:
       "Travel costs may be covered for eligible students outside the London Oyster 16+ travel zones.",
-    status: "watchlist",
+    status: "closed",
     recurring: true,
     previousCycle: {
       label: "2026 cycle",

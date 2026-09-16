@@ -28,13 +28,17 @@ const STATUS_VALUES = ["open", "coming-soon", "watchlist", "closed"];
 const COST_TYPE_VALUES = ["free", "paid", "unknown"];
 const DATE_FIELDS = ["applicationsOpen", "applicationDeadline", "eventStart", "eventEnd"];
 
+// Not strict: fields the model has nothing to say about should simply be omitted, which is
+// awkward to express in a strict/exhaustive-required schema without hitting nullable-enum
+// edge cases in the schema validator. validateAndDiff() below independently re-validates
+// every field regardless (regex/enum-checked) before anything is applied, so strict-mode's
+// guarantee isn't load-bearing here — omission is handled the same as an explicit null.
 const PROPOSE_UPDATE_TOOL = {
   name: "propose_update",
   description:
-    "Report whether this opportunity's real-world dates/status/cost have changed, based only on what the fetched page text explicitly states.",
+    "Report whether this opportunity's real-world dates/status/cost have changed, based only on what the fetched page text explicitly states. Omit any field you have nothing confident to say about — do not guess.",
   input_schema: {
     type: "object",
-    additionalProperties: false,
     required: ["hasChange", "confidence", "summary"],
     properties: {
       hasChange: { type: "boolean" },
@@ -44,16 +48,15 @@ const PROPOSE_UPDATE_TOOL = {
         type: "string",
         description: "A short verbatim quote from the page text that supports the proposed change, for human review.",
       },
-      applicationsOpen: { type: ["string", "null"], description: "YYYY-MM-DD or YYYY-MM, else null" },
-      applicationDeadline: { type: ["string", "null"], description: "YYYY-MM-DD or YYYY-MM, else null" },
-      eventStart: { type: ["string", "null"], description: "YYYY-MM-DD or YYYY-MM, else null" },
-      eventEnd: { type: ["string", "null"], description: "YYYY-MM-DD or YYYY-MM, else null" },
-      status: { type: ["string", "null"], enum: [...STATUS_VALUES, null] },
-      costType: { type: ["string", "null"], enum: [...COST_TYPE_VALUES, null] },
-      costAmount: { type: ["number", "null"] },
+      applicationsOpen: { type: "string", description: "YYYY-MM-DD or YYYY-MM. Omit if not stated." },
+      applicationDeadline: { type: "string", description: "YYYY-MM-DD or YYYY-MM. Omit if not stated." },
+      eventStart: { type: "string", description: "YYYY-MM-DD or YYYY-MM. Omit if not stated." },
+      eventEnd: { type: "string", description: "YYYY-MM-DD or YYYY-MM. Omit if not stated." },
+      status: { type: "string", enum: STATUS_VALUES, description: "Omit if not clearly stated." },
+      costType: { type: "string", enum: COST_TYPE_VALUES, description: "Omit if not clearly stated." },
+      costAmount: { type: "number", description: "Omit if not clearly stated." },
     },
   },
-  strict: true,
 };
 
 const SYSTEM_PROMPT = `You verify whether a real-world programme's dates, status or cost have changed, by comparing existing structured data against text freshly fetched from that programme's own official page.

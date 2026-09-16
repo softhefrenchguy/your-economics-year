@@ -362,6 +362,10 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("soas-y12-outreach-summer-school", {
+    sourceLastChecked: "2026-09-16",
+    eventEnd: "2026-07-17",
+    eventStart: "2026-07-13",
+    applicationDeadline: "2026-04-24",
     name: "SOAS Year 12 Outreach Summer School — Thriving Futures",
     provider: "SOAS University of London",
     type: "Summer school",
@@ -499,6 +503,10 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("royal-holloway-economics-ai", {
+    sourceLastChecked: "2026-09-16",
+    eventEnd: "2025-06-25",
+    eventStart: "2025-06-25",
+    applicationDeadline: "2025-05-30",
     name: "Economics of AI Insight Day",
     provider: "Royal Holloway Department of Economics",
     type: "Taster / event",

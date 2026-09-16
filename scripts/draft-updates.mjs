@@ -119,6 +119,18 @@ export function validateAndDiff(proposal, current, today) {
   ) {
     patch.costAmount = proposal.costAmount;
   }
+
+  // Top-level dates only mean anything for open/coming-soon/closed items (actionDate and
+  // effectiveStatus are the only things that read them). An item staying "watchlist" gets its
+  // history through previousCycle, not these fields — which this patcher doesn't touch — so a
+  // date patch here would just sit inert, or worse, look like a live deadline when it's stale.
+  // Caught in end-to-end testing: a watchlist item got a "confirmed" 2025 date added a year
+  // after the fact, with no status change to make sense of it.
+  const resultingStatus = patch.status ?? current.status;
+  if (resultingStatus === "watchlist") {
+    for (const field of DATE_FIELDS) delete patch[field];
+  }
+
   return patch;
 }
 

@@ -177,7 +177,8 @@ function slugify(text) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
-    .slice(0, 60);
+    .slice(0, 60)
+    .replace(/-+$/, ""); // slice() can re-expose a trailing hyphen mid-truncation — strip it again
 }
 
 export function validateNewEntry(proposal, existingIds, existingUrls, officialUrl, today) {
@@ -199,6 +200,14 @@ export function validateNewEntry(proposal, existingIds, existingUrls, officialUr
   // A brand-new discovery with no real dates at all isn't safe to place — we'd have nothing
   // to derive status from and no previousCycle to fall back on. Skip rather than guess.
   if (Object.keys(dateFields).length === 0) return null;
+
+  // A hub page can keep linking to an event long after it's happened (caught in end-to-end
+  // testing: LSE's own public-lectures page still listed a February 2026 lecture as upcoming
+  // seven months later). A brand-new "discovery" whose only known date is already past isn't
+  // an actionable opportunity — reject outright rather than add a pre-closed entry nobody
+  // asked for. This mirrors draft-updates.mjs's staleness guard for existing entries.
+  const closeDate = dateFields.applicationDeadline ?? dateFields.eventEnd ?? dateFields.eventStart;
+  if (today && closeDate && closeDate < today) return null;
 
   const requiresTeacher = Boolean(proposal.requiresTeacher);
   const requiresSchoolNomination = Boolean(proposal.requiresSchoolNomination);

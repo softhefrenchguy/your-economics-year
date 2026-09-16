@@ -6,3 +6,4 @@ dist/
 .DS_Store
 scripts/.changed-sources.json
 scripts/.draft-summary.json
+scripts/.discovery-summary.json

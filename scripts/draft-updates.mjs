@@ -14,7 +14,7 @@
 // Run with: npm run draft-updates (normally invoked by CI right after check-sources)
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import Anthropic from "@anthropic-ai/sdk";
 import { todayISO } from "../src/lib/clock.ts";
 
@@ -280,4 +280,8 @@ function pathToFileUrlSafe(p) {
   return "file://" + p.replace(/\\/g, "/");
 }
 
-main();
+// Only run when executed directly (npm run draft-updates), not when imported — e.g. for
+// testing the pure helpers above against real data without triggering a real pipeline run.
+// pathToFileURL (not the string-replace helper above) handles Windows drive letters and
+// space-encoding correctly, which matters for exact equality against import.meta.url.
+if (import.meta.url === pathToFileURL(process.argv[1]).href) main();

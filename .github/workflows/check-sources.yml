@@ -49,6 +49,7 @@ jobs:
         run: |
           gh label create data-check --color FBCA04 --description "Automated opportunity source-freshness findings" || true
           gh label create ai-drafted --color 5319E7 --description "Data changes proposed by an AI reading a changed source page - needs human review" || true
+          gh label create new-opportunity --color 0E8A16 --description "A newly discovered opportunity drafted by AI - needs human review before merge" || true
 
       - name: Open or update an issue for anything needing a manual look
         env:
@@ -86,5 +87,37 @@ jobs:
             --title "AI-drafted opportunity data updates ($(date +%Y-%m-%d))" \
             --body-file pr-body.md \
             --label ai-drafted \
+            --base main \
+            --head "$branch"
+
+      - name: Return to main before discovery
+        run: git checkout main
+
+      - name: Discover new opportunities (Claude Sonnet)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: npm run discover-opportunities | tee discovery-output.txt
+
+      - name: Open a PR for newly discovered opportunities
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          hasAnyNew=$(jq -r '.hasAnyNew // false' scripts/.discovery-summary.json 2>/dev/null || echo false)
+          if [ "$hasAnyNew" != "true" ]; then
+            echo "No new opportunities discovered — no PR to open."
+            exit 0
+          fi
+
+          node scripts/build-discovery-pr-body.mjs
+
+          branch="new-opportunity/$(date +%Y-%m-%d)-${GITHUB_RUN_ID}"
+          git checkout -b "$branch"
+          git add src/data/opportunities.ts
+          git commit -m "Newly discovered opportunities ($(date +%Y-%m-%d))"
+          git push -u origin "$branch"
+          gh pr create \
+            --title "New opportunities discovered ($(date +%Y-%m-%d))" \
+            --body-file discovery-pr-body.md \
+            --label new-opportunity \
             --base main \
             --head "$branch"

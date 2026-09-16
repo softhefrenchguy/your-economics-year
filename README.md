@@ -33,6 +33,7 @@ npm run check-sources
 - `src/App.tsx` — page composition and UI state.
 - `src/styles.css` — responsive visual styles and Tailwind directives.
 - `scripts/check-sources.mjs`, `scripts/draft-updates.mjs`, `scripts/build-pr-body.mjs` — see "Keeping data fresh", below.
+- `scripts/discover-opportunities.mjs`, `scripts/build-discovery-pr-body.mjs` — see "Discovering new opportunities", below.
 
 ## Status is live, not hand-set
 
@@ -51,6 +52,16 @@ This deliberately does not try to defeat sites that block automation — no prox
 Requires an `ANTHROPIC_API_KEY` repository secret (Settings → Secrets and variables → Actions → New repository secret, or `gh secret set ANTHROPIC_API_KEY` from your own terminal — never paste the key into chat or a commit). Cost is small: this only runs on sources actually flagged changed, each call is a few thousand input tokens against Haiku 4.5 (~$1/$5 per MTok), so a few cents a month in the realistic case.
 
 `.github/workflows/check-sources.yml` runs both scripts automatically every Monday (and on demand via the Actions tab). Anything `check-sources` flags — changed or erroring — also opens/updates a GitHub issue labelled `data-check`, so a source with no clean AI-provable change (or one of the always-blocked sites) still surfaces for a manual look instead of silently waiting for someone to remember to check.
+
+## Discovering new opportunities
+
+**`npm run discover-opportunities`** automates the research-and-verify loop this project's data was originally built with by hand: it scans a small set of known hub/listing pages (`HUB_SOURCES` in the script — currently Discover Economics' events page, LSE Economics' public lectures page, and the University of London taster-courses page) for opportunities not yet tracked, and drafts full entries for the ones it judges genuinely relevant.
+
+This is a materially bigger judgment call than `draft-updates` — deciding whether something is a good fit and writing several paragraphs of description, eligibility and relevance, rather than patching one date field — so it runs on Claude Sonnet 5, not Haiku, and every candidate is capped (`MAX_CANDIDATES_PER_HUB`, `MAX_NEW_ENTRIES_PER_RUN`) to keep review batches small and cost bounded. The same rules as `draft-updates` apply: fetched text is untrusted and the model is told so explicitly, a candidate with no real supporting date is dropped rather than guessed at, and the model can decline outright (`isRelevant: false`) — declines are recorded in the PR body's "considered but not added" section, not silently discarded, so a human can see what was rejected and why.
+
+New entries are generated as plain object literals (`JSON.stringify` with the quotes stripped from keys — valid TS either way, since JSON object syntax is a subset of it) and inserted before the closing `];`, then the whole file must still pass `tsc --noEmit` before anything is committed — same safety gate as `draft-updates`. They land in their own pull request, labelled `new-opportunity`, kept separate from the update-drafting PR since "is this a good addition" is a different review question from "did this date change correctly."
+
+Uses the same `ANTHROPIC_API_KEY` secret as `draft-updates`. Cost is still small in absolute terms but higher per run than the update check — worst case (every hub maxes out its candidate cap without adding anything) is roughly 15–20 Sonnet calls a run, each a few thousand tokens; comfortably inside a modest monthly workspace cap, but worth knowing it's not as cheap as the Haiku-based update check.
 
 ## MVP behaviour
 

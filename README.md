@@ -46,6 +46,8 @@ This only ages items that have real dates. `watchlist` is always author-set (the
 
 This is deliberately not a scraper: it never reads a date out of a page or touches `opportunities.ts` itself, only tells you where to look. A handful of university sites (london.ac.uk, ucl.ac.uk, stem.org.uk) block automated requests entirely (403), so those always need a manual check — the script can't help there, and says so.
 
+`.github/workflows/check-sources.yml` runs this automatically every Monday (and on demand via the Actions tab). If anything looks changed or errors out, it opens a GitHub issue labelled `data-check` (or comments on the existing one, rather than piling up duplicates) — so staleness surfaces on its own instead of depending on someone remembering to run the command.
+
 ## MVP behaviour
 
 The opening page offers a free taster with no teacher registration as an approachable starting point, selected from open opportunities. It is a general suggestion, not a personalised recommendation. Browsing initially shows two opportunities; "Show more" reveals the rest. Changing a filter or timing tab resets the list to two. Filters sit in an optional disclosure, with the active filter count visible when collapsed. Cards summarise the benefit, eligibility, cost and next action; full descriptions remain in the details dialog.

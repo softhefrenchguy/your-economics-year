@@ -1,0 +1,56 @@
+name: Check opportunity sources
+
+on:
+  schedule:
+    # Every Monday 07:00 UTC. GitHub may delay scheduled runs slightly under load —
+    # that's fine here, this isn't time-sensitive.
+    - cron: "0 7 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  check-sources:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - run: npm ci
+
+      - name: Run source check
+        run: npm run check-sources | tee check-output.txt
+
+      - name: Commit updated snapshots
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scripts/source-snapshots.json
+          git diff --cached --quiet || git commit -m "Update source snapshots [skip ci]"
+          git push
+
+      - name: Ensure the tracking label exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh label create data-check --color FBCA04 --description "Automated opportunity source-freshness findings" || true
+
+      - name: Open or update an issue if something needs a human to look
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if grep -qE "⚠|✗" check-output.txt; then
+            existing=$(gh issue list --label data-check --state open --json number --jq '.[0].number')
+            if [ -n "$existing" ]; then
+              gh issue comment "$existing" --body-file check-output.txt
+              echo "Commented on existing issue #$existing"
+            else
+              gh issue create --title "Opportunity data needs review" --body-file check-output.txt --label data-check
+            fi
+          else
+            echo "Nothing to report — no issue created."
+          fi

@@ -32,7 +32,7 @@ npm run check-sources
 - `src/lib/reminders.ts` — replaceable local-storage adapter that stores reminder intent only.
 - `src/App.tsx` — page composition and UI state.
 - `src/styles.css` — responsive visual styles and Tailwind directives.
-- `scripts/check-sources.mjs` — see "Keeping data fresh", below.
+- `scripts/check-sources.mjs`, `scripts/draft-updates.mjs`, `scripts/build-pr-body.mjs` — see "Keeping data fresh", below.
 
 ## Status is live, not hand-set
 
@@ -42,11 +42,15 @@ This only ages items that have real dates. `watchlist` is always author-set (the
 
 ## Keeping data fresh
 
-`npm run check-sources` fetches every opportunity's `officialUrl`, hashes its (roughly normalised) text, and compares it against a snapshot from the last run (`scripts/source-snapshots.json`, committed so comparisons persist across sessions). It flags pages that look different since last time — a cheap signal to go re-verify that entry — and separately flags URLs that return an error (a dead link needs fixing regardless of whether the content "changed"). It found and fixed one real dead link during development: an Aon job-board posting that had been taken down after its cycle closed, replaced with Aon's stable programme hub page.
+`npm run check-sources` fetches every opportunity's `officialUrl` with a real headless Chromium (Playwright — an ordinary browser engine, not a spoofed or fingerprint-evaded one) and compares its rendered text against a snapshot from the last run (`scripts/source-snapshots.json`, committed so comparisons persist across sessions). It flags pages that look different since last time, and separately flags URLs that error out (a dead link needs fixing regardless of whether content "changed"). It found and fixed one real dead link during development: an Aon job-board posting taken down after its cycle closed, replaced with Aon's stable programme hub page.
 
-This is deliberately not a scraper: it never reads a date out of a page or touches `opportunities.ts` itself, only tells you where to look. A handful of university sites (london.ac.uk, ucl.ac.uk, stem.org.uk) block automated requests entirely (403), so those always need a manual check — the script can't help there, and says so.
+This deliberately does not try to defeat sites that block automation — no proxies, no fingerprint spoofing, no CAPTCHA-solving. A block is reported as "couldn't check", not worked around. A handful of sites (london.ac.uk, ucl.ac.uk, stem.org.uk) block it outright and always need a manual check. Note the headless browser isn't a strict improvement over a plain fetch either — Bristol's WP page blocks the browser while it allowed a plain fetch, so which approach gets through varies per site.
 
-`.github/workflows/check-sources.yml` runs this automatically every Monday (and on demand via the Actions tab). If anything looks changed or errors out, it opens a GitHub issue labelled `data-check` (or comments on the existing one, rather than piling up duplicates) — so staleness surfaces on its own instead of depending on someone remembering to run the command.
+**`npm run draft-updates`** goes one step further: for every source `check-sources` just flagged as changed, it hands the current data entry plus the freshly fetched page text to Claude Haiku and asks it to propose specific field updates (dates, status, cost) as strict structured output — never free-form file edits. The page text is untrusted third-party content, so the model is explicitly told to treat it as data, never as instructions, and every proposed value is independently regex/enum-validated here before being applied; anything that doesn't validate cleanly is dropped. Applying a patch is careful about exact indentation so it can't confuse a top-level field with a same-named one nested in `previousCycle` (see the comment in `applyPatch`). Nothing is ever merged automatically — `.github/workflows/check-sources.yml` opens a pull request labelled `ai-drafted` with each proposal's summary, confidence and a supporting quote from the source page, for a human to check against the diff and merge or close.
+
+Requires an `ANTHROPIC_API_KEY` repository secret (Settings → Secrets and variables → Actions → New repository secret, or `gh secret set ANTHROPIC_API_KEY` from your own terminal — never paste the key into chat or a commit). Cost is small: this only runs on sources actually flagged changed, each call is a few thousand input tokens against Haiku 4.5 (~$1/$5 per MTok), so a few cents a month in the realistic case.
+
+`.github/workflows/check-sources.yml` runs both scripts automatically every Monday (and on demand via the Actions tab). Anything `check-sources` flags — changed or erroring — also opens/updates a GitHub issue labelled `data-check`, so a source with no clean AI-provable change (or one of the always-blocked sites) still surfaces for a manual look instead of silently waiting for someone to remember to check.
 
 ## MVP behaviour
 

@@ -1,107 +1,102 @@
 {
   "lse-pathways-banking-finance": {
-    "hash": "872f9bfcf76de8e5b539bbf2b533015fab49dcb204b5b2e46cc3e82cc9d3bba7",
+    "hash": "f486b836e52b70ddf8ee253383987f9ec5a327e0fd6f897feea6a0e80d44d487",
     "checkedAt": "2026-09-16",
     "url": "https://www.lse.ac.uk/study-at-lse/undergraduate/widening-participation/activities/pathways-to-banking-and-finance-london-years-12-13"
   },
   "dauphine-preuni-economics-management": {
-    "hash": "98df35ffc85417ea16f818193631b9e35ee379a5e4940ac6ff66b98709045bd1",
+    "hash": "5b793e70ec630698227dc2f7d8785bf67210e79c728174a72fb942552e63ef6f",
     "checkedAt": "2026-09-16",
     "url": "https://london.dauphine.psl.eu/programmes/pre-uni-camps"
   },
   "yse-launch": {
-    "hash": "ecaa88e0a49f3d10908334de274692c46cb6f08691f195956f3c7e7993f8b7a3",
+    "hash": "c7812e1af090fdbebc915bbbaef129c9015807beaeb9b22c07d8a84ab01924a7",
     "checkedAt": "2026-09-16",
     "url": "https://yseuk.org/launch/"
   },
   "fcdo-next-generation-economics": {
-    "hash": "b83ee0914c3d276cbb783fb1e757b8718baff131f89f76f0737a588bc53c5756",
+    "hash": "bb6fdef2fd8b8cb386242a1d69b142a25c0177ba59d10737db70d37ce0a3b160",
     "checkedAt": "2026-09-16",
     "url": "https://www.gov.uk/guidance/fcdo-next-generation-economics-competition"
   },
   "cambridge-economics-challenge": {
-    "hash": "870ea3c80c769ab78fb6f7c332abdc60f2813fd27c6bc6486062d874f18d933a",
+    "hash": "4a16384703450721b713d8a66473a63b4cab337ee36fb33bad9bb159527a4c2a",
     "checkedAt": "2026-09-16",
     "url": "https://www.cecl6.com/"
   },
   "oxford-econsoc-essay": {
-    "hash": "7788ee489361bec784a7d44308c17b902af8f26ae2186e71e184b38021b54b42",
+    "hash": "414ef3ddea792821a43b8969abab0ff311324371952f4926cc8bc727ae6dc9f5",
     "checkedAt": "2026-09-16",
     "url": "https://oxfordeconsoc.org/essay-competition"
   },
   "iea-monetary-policy-essay": {
-    "hash": "e5e92d153d73fa7b7524e7fe0d7161a61e5188b283950352a016459dbe999875",
+    "hash": "27b0dbf2a6026bd4ac49f54775f51cf13358bee9a09f23e0de28e594c98b1cfd",
     "checkedAt": "2026-09-16",
     "url": "https://iea.org.uk/Monetary-Policy-Essay-Prize"
   },
   "iea-budget-challenge": {
-    "hash": "415b89c4420c3542ddd7133e62e4f96ef350331fa1df705a8b2dffca168cf4b1",
+    "hash": "27b0dbf2a6026bd4ac49f54775f51cf13358bee9a09f23e0de28e594c98b1cfd",
     "checkedAt": "2026-09-16",
     "url": "https://iea.org.uk/the-budget-challenge/"
   },
   "soas-y12-outreach-summer-school": {
-    "hash": "22d63b1200457350ed2648bf70024397051c4e1af046373f2c422f79f08b3361",
+    "hash": "54c9a89046f2b9c98b4d56bb4646964ef249a334c9a616530902192bd65e3131",
     "checkedAt": "2026-09-16",
     "url": "https://www.soas.ac.uk/about/event/soas-year-12-outreach-summer-school-2026"
   },
   "christs-cambridge-summer-school": {
-    "hash": "bb0a70aa7634401b2e78d6c2c3c80357bf08c04be68fad8903aeec1fa0ab7f31",
+    "hash": "4b729de0c6cc3d4ba0357449545d8161a81ec6af2bebe798f8369e337d3bfe49",
     "checkedAt": "2026-09-16",
     "url": "https://www.undergraduate.study.cam.ac.uk/events/experience-christs-summer-schools"
   },
   "royal-holloway-economics-work-experience": {
-    "hash": "b177b29f71feb6c642e887e623506838d957270ac2757986a63d37cfa43a62f3",
+    "hash": "bbceeccdac5cf071dba388978cdb1571e2537588480e504dfe584bce9b59d0d4",
     "checkedAt": "2026-09-16",
     "url": "https://www.royalholloway.ac.uk/research-and-education/subjects/economics/department-of-economics-activity-hub/connect-with-us/"
   },
   "royal-holloway-data-bootcamp": {
-    "hash": "b177b29f71feb6c642e887e623506838d957270ac2757986a63d37cfa43a62f3",
+    "hash": "bbceeccdac5cf071dba388978cdb1571e2537588480e504dfe584bce9b59d0d4",
     "checkedAt": "2026-09-16",
     "url": "https://www.royalholloway.ac.uk/research-and-education/subjects/economics/department-of-economics-activity-hub/connect-with-us/"
   },
   "royal-holloway-economics-ai": {
-    "hash": "ea1955eef487c21fa3fb59b00be6e502e71f1a25122a93c2ff6738fe0ef33a77",
+    "hash": "37a2b284346e240af65fca3caac6dbcbb4348579711e55ae65f111753d97f3cd",
     "checkedAt": "2026-09-16",
     "url": "https://www.royalholloway.ac.uk/research-and-education/subjects/economics/department-of-economics-activity-hub/economics-of-ai-insight-day/"
   },
+  "aon-discover-finance-city-edition": {
+    "hash": "af1bea9f91fc0092614637307703f5a68838ab70378974ff97ca9a766ee806c0",
+    "checkedAt": "2026-09-16",
+    "url": "https://www.aon.com/careers/early-careers/uk/workinsight"
+  },
   "gs-money-markets-risk": {
-    "hash": "f894fb6732bc54d4899d34275a90e3414cd3cf5168fec6654ad5611c3f2cab13",
+    "hash": "91e6c4791ec0bc2c4d6d9bfb4fde6504b12d442c958d40ba99373ccfabb54643",
     "checkedAt": "2026-09-16",
     "url": "https://www.goldmansachs.com/worldwide/united-kingdom/press-releases/2026/gs-lseg-foundation-launch-financial-education-initiative"
   },
   "res-annual-public-lecture-2026": {
-    "hash": "6f163cf23048e3e12eddb1aea8b3428896e46bdf2fa5df5c6bbd9c7128617bac",
+    "hash": "5180fef5694e4f678cda3b42f65fe6c804791de1d3d65e863124761545367fcf",
     "checkedAt": "2026-09-16",
     "url": "https://www.discovereconomics.co.uk/events/res-annual-public-lecture-2026"
   },
   "frontier-economics-apprenticeship-evening": {
-    "hash": "aaf40f31ad8e2ad04a50e48d377994b5401ea5d382741ab61e16670c87a74d2d",
+    "hash": "39a562715570f198fa95efc7144691e11755052da1aa7b78130334c84883c11f",
     "checkedAt": "2026-09-16",
     "url": "https://www.discovereconomics.co.uk/events/economic-apprenticeships-at-frontier-open-evening"
   },
   "young-enterprise-company-programme": {
-    "hash": "8c1baf85302cf5eb5be07e3039b0cbc4c8d64f66904989c22dc03b80941e3906",
+    "hash": "66098bf1dd7fe3c018cc2607034b2548dae2eb7e0a9950bf4ae2c2bdff0227fb",
     "checkedAt": "2026-09-16",
     "url": "https://www.young-enterprise.org.uk/what-we-do/programmes/company-programme"
   },
-  "bristol-discover-economics-taster": {
-    "hash": "43d87ca4eccb90f7e89caefe5834044a043de4591e4ff53bc750ff2b882671b4",
-    "checkedAt": "2026-09-16",
-    "url": "https://www.bristol.ac.uk/economics/widening-participation-and-outreach/"
-  },
   "young-economist-of-the-year": {
-    "hash": "cf7f47ba4e501808f2df610a2651d9818bdebda3c2b46ae08e71a6f0515391a8",
+    "hash": "a2b3c5499457561406581246a8ef1d6cd6eabe5b6f02df42980099b12a1a489b",
     "checkedAt": "2026-09-16",
     "url": "https://www.discovereconomics.co.uk/young-economist-of-the-year-2026"
   },
   "discover-economics-boe-economists-bristol": {
-    "hash": "1a78d416677f02107f30e6ef943d9c83e1c4188b4191d5fd74521ee2f3ae07bd",
+    "hash": "487dc55da35e0cb9294a31398f8a69dc984f0d78345d84de5a044152c85e323c",
     "checkedAt": "2026-09-16",
     "url": "https://www.discovereconomics.co.uk/events/discover-economics-with-bank-of-england-economists-rupal-patel-and-jack-leslie"
-  },
-  "aon-discover-finance-city-edition": {
-    "hash": "0f1717a050bfde18e8c191514fb889d713fa7470c3bedc1a12c2661303344136",
-    "checkedAt": "2026-09-16",
-    "url": "https://www.aon.com/careers/early-careers/uk/workinsight"
   }
 }

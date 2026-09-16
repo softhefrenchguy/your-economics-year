@@ -10,6 +10,7 @@ on:
 permissions:
   contents: write
   issues: write
+  pull-requests: write
 
 jobs:
   check-sources:
@@ -23,8 +24,16 @@ jobs:
 
       - run: npm ci
 
+      - name: Install headless Chromium for the source check
+        run: npx playwright install --with-deps chromium
+
       - name: Run source check
         run: npm run check-sources | tee check-output.txt
+
+      - name: Draft data updates for changed sources (Claude Haiku)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: npm run draft-updates | tee draft-output.txt
 
       - name: Commit updated snapshots
         run: |
@@ -34,12 +43,14 @@ jobs:
           git diff --cached --quiet || git commit -m "Update source snapshots [skip ci]"
           git push
 
-      - name: Ensure the tracking label exists
+      - name: Ensure tracking labels exist
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh label create data-check --color FBCA04 --description "Automated opportunity source-freshness findings" || true
+        run: |
+          gh label create data-check --color FBCA04 --description "Automated opportunity source-freshness findings" || true
+          gh label create ai-drafted --color 5319E7 --description "Data changes proposed by an AI reading a changed source page - needs human review" || true
 
-      - name: Open or update an issue if something needs a human to look
+      - name: Open or update an issue for anything needing a manual look
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -47,10 +58,33 @@ jobs:
             existing=$(gh issue list --label data-check --state open --json number --jq '.[0].number')
             if [ -n "$existing" ]; then
               gh issue comment "$existing" --body-file check-output.txt
-              echo "Commented on existing issue #$existing"
             else
               gh issue create --title "Opportunity data needs review" --body-file check-output.txt --label data-check
             fi
           else
             echo "Nothing to report — no issue created."
           fi
+
+      - name: Open a PR for AI-drafted data updates
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          hasAnyChange=$(jq -r '.hasAnyChange // false' scripts/.draft-summary.json 2>/dev/null || echo false)
+          if [ "$hasAnyChange" != "true" ]; then
+            echo "No AI-drafted data changes to open a PR for."
+            exit 0
+          fi
+
+          node scripts/build-pr-body.mjs
+
+          branch="data-check/$(date +%Y-%m-%d)-${GITHUB_RUN_ID}"
+          git checkout -b "$branch"
+          git add src/data/opportunities.ts
+          git commit -m "AI-drafted opportunity data updates ($(date +%Y-%m-%d))"
+          git push -u origin "$branch"
+          gh pr create \
+            --title "AI-drafted opportunity data updates ($(date +%Y-%m-%d))" \
+            --body-file pr-body.md \
+            --label ai-drafted \
+            --base main \
+            --head "$branch"

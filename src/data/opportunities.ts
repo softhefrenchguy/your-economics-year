@@ -824,4 +824,53 @@ export const opportunities: Opportunity[] = [
       "https://www.discovereconomics.co.uk/events/discover-economics-with-bank-of-england-economists-rupal-patel-and-jack-leslie",
     dateConfidence: "confirmed",
   }),
+
+  entry("lse-monetary-policy-musalem-2026", {
+    name: "In Conversation with Alberto Musalem, President of the Federal Reserve Bank of St. Louis",
+    provider: "London School of Economics",
+    type: "Taster / event",
+    topics: ["Economics", "Monetary Policy"],
+    yearGroups: ["Sixth form"],
+    location: "London",
+    deliveryMode: "hybrid",
+    costType: "free",
+    eventStart: "2026-09-29",
+    eventEnd: "2026-09-29",
+    status: "open",
+    recurring: false,
+    eligibilitySummary:
+      "Open to the public with a free ticket; not tailored for school groups specifically, but no age restriction is stated.",
+    eligibilityDetails:
+      "A free public LSE event, in-person (campus venue confirmed to ticket holders) or via livestream on LSE Live. Requires a ticket to attend; a recording is later posted to LSE's YouTube channel.",
+    description:
+      "Alberto Musalem, President of the Federal Reserve Bank of St. Louis, discusses monetary policy and recent economic trends with Ricardo Reis, LSE's A. W. Phillips Professor of Economics.",
+    whyRelevant:
+      "About as close to a primary source on real-world monetary policy as a student can get — a sitting central bank president in direct conversation with an academic economist.",
+    officialUrl: "https://www.lse.ac.uk/events/monetary-policy",
+    dateConfidence: "confirmed",
+  }),
+
+  entry("lse-cop32-african-climate-economics-2026", {
+    name: "The Road to COP32: An African Agenda for Climate Action and Economic Development",
+    provider: "London School of Economics",
+    type: "Taster / event",
+    topics: ["Economics", "Development Economics", "Public Policy"],
+    yearGroups: ["Sixth form"],
+    location: "London",
+    deliveryMode: "hybrid",
+    costType: "free",
+    eventStart: "2026-09-23",
+    eventEnd: "2026-09-23",
+    status: "open",
+    recurring: false,
+    eligibilitySummary: "Open to the public, free, no ticket purchase required; not tailored for school groups specifically.",
+    eligibilityDetails:
+      "A free public LSE event, in-person (Old Theatre, Old Building) or via livestream on LSE Live, part of LSE Environment Week. Live captions are available on the livestream.",
+    description:
+      "A panel — chaired by Lord Nicholas Stern, with speakers including Dr Vera Songwe — on how Africa can shape the global climate agenda ahead of COP32, and the gap between climate finance commitments and the investment needed for resilient economic growth.",
+    whyRelevant:
+      "A real-world application of development and environmental economics debate, directly relevant to A-level topics on development, climate policy and economic growth.",
+    officialUrl: "https://www.lse.ac.uk/events/african-agenda-for-climate-action",
+    dateConfidence: "confirmed",
+  }),
 ];

@@ -144,6 +144,8 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("yse-launch", {
+    sourceLastChecked: "2026-09-21",
+    costAmount: 3000,
     name: "LAUNCH",
     provider: "Young Social Entrepreneurs",
     type: "Business & entrepreneurship",
@@ -153,7 +155,7 @@ export const opportunities: Opportunity[] = [
     location: "UK-wide",
     deliveryMode: "hybrid",
     ukWide: true,
-    costType: "unknown",
+    costType: "paid",
     status: "coming-soon",
     recurring: true,
     expectedWindow: "Returning in 2027 · exact dates not yet announced",
@@ -499,6 +501,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("royal-holloway-economics-ai", {
+    sourceLastChecked: "2026-09-21",
     name: "Economics of AI Insight Day",
     provider: "Royal Holloway Department of Economics",
     type: "Taster / event",
@@ -506,7 +509,7 @@ export const opportunities: Opportunity[] = [
     yearGroups: ["Year 12"],
     location: "London",
     deliveryMode: "in-person",
-    costType: "unknown",
+    costType: "free",
     status: "watchlist",
     recurring: true,
     expectedWindow:

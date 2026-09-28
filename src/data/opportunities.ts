@@ -851,6 +851,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("lse-cop32-african-climate-economics-2026", {
+    sourceLastChecked: "2026-09-28",
     name: "The Road to COP32: An African Agenda for Climate Action and Economic Development",
     provider: "London School of Economics",
     type: "Taster / event",
@@ -861,7 +862,7 @@ export const opportunities: Opportunity[] = [
     costType: "free",
     eventStart: "2026-09-23",
     eventEnd: "2026-09-23",
-    status: "open",
+    status: "closed",
     recurring: false,
     eligibilitySummary: "Open to the public, free, no ticket purchase required; not tailored for school groups specifically.",
     eligibilityDetails:

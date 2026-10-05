@@ -826,6 +826,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("lse-monetary-policy-musalem-2026", {
+    sourceLastChecked: "2026-10-05",
     name: "In Conversation with Alberto Musalem, President of the Federal Reserve Bank of St. Louis",
     provider: "London School of Economics",
     type: "Taster / event",
@@ -836,7 +837,7 @@ export const opportunities: Opportunity[] = [
     costType: "free",
     eventStart: "2026-09-29",
     eventEnd: "2026-09-29",
-    status: "open",
+    status: "closed",
     recurring: false,
     eligibilitySummary:
       "Open to the public with a free ticket; not tailored for school groups specifically, but no age restriction is stated.",

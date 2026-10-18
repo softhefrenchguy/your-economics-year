@@ -934,4 +934,39 @@ export const opportunities: Opportunity[] = [
     officialUrl: "https://www.sidgwickprize.com/",
     dateConfidence: "previous-cycle",
   }),
+  entry("discover-economics-royal-economic-society-in-collaboration-w", {
+    name: "FCA Insight Day",
+    provider: "Discover Economics (Royal Economic Society) in collaboration with Financial Conduct Authority",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "Economics",
+      "Finance",
+      "Markets"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    location: "Financial Conduct Authority, 12 Endeavour Square, Stratford Cross, London E20 1JN",
+    deliveryMode: "in-person",
+    ukWide: true,
+    costType: "free",
+    eventStart: "2026-10-09",
+    eventEnd: "2026-10-09",
+    status: "open",
+    recurring: true,
+    eligibilitySummary: "Year 12 students",
+    eligibilityDetails: "Event is designated for Y12 students, likely via school sign-up.",
+    description: "Spend a morning at the Financial Conduct Authority's London office taking part in activities led by FCA economists and other speakers. You'll explore how economics applies to real-world regulatory and financial contexts, and get a feel for what a career as a professional economist might look like. Lunch is provided.",
+    whyRelevant: "If you're curious about economics beyond the classroom, this gives you a rare look inside a major financial regulator and a chance to hear directly from working economists about their career paths and the practical applications of economic ideas.",
+    teacherPitch: "This is a free, half-day insight event at the FCA's London headquarters specifically for Year 12 students, run by the Royal Economic Society's Discover Economics campaign. It offers students a direct look at how economics is applied in a major financial regulator and exposes them to professional economists as speakers, which could be a valuable addition to your department's enrichment offerings. Contact discovereconomics@res.org.uk for details on arranging attendance.",
+    officialUrl: "https://www.discovereconomics.co.uk/events/fca-insight-day-1",
+    sourceLastChecked: "2026-10-05",
+    requiresTeacher: true,
+    requiresSchoolNomination: false,
+    wideningParticipation: true,
+    dateConfidence: "confirmed"
+  }),
 ];

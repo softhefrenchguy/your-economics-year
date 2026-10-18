@@ -934,4 +934,70 @@ export const opportunities: Opportunity[] = [
     officialUrl: "https://www.sidgwickprize.com/",
     dateConfidence: "previous-cycle",
   }),
+  entry("discover-economics-royal-economic-society-bangor-university", {
+    name: "Explore the World of Economics – Discover Economics Conference",
+    provider: "Discover Economics (Royal Economic Society) & Bangor University",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "Economics"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    location: "Bangor University, Bangor, Gwynedd LL57 2DG, UK",
+    deliveryMode: "in-person",
+    ukWide: true,
+    costType: "free",
+    eventStart: "2026-10-01",
+    eventEnd: "2026-10-01",
+    status: "open",
+    recurring: true,
+    eligibilitySummary: "Open to students in Years 11-13",
+    eligibilityDetails: "Designed for students in Years 11 to 13; no other eligibility criteria stated.",
+    description: "Spend a day at Bangor University's Albert Gubay Business School taking part in interactive workshops that tackle real-life economic challenges, led by expert speakers and current Bangor students. You'll explore how economics shapes society and get a taste of where studying the subject could take you.",
+    whyRelevant: "A hands-on chance to see how economics applies to real-world problems, hear from current university students, and get a feel for what studying economics at degree level is like — useful if you're weighing up subject choices or just curious about the field.",
+    officialUrl: "https://www.discovereconomics.co.uk/events/explore-the-world-of-economics",
+    sourceLastChecked: "2026-09-21",
+    requiresTeacher: false,
+    requiresSchoolNomination: false,
+    wideningParticipation: true,
+    dateConfidence: "confirmed"
+  }),
+  entry("discover-economics-royal-economic-society-in-collaboration-w", {
+    name: "FCA Insight Day",
+    provider: "Discover Economics (Royal Economic Society) in collaboration with the Financial Conduct Authority",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "Economics",
+      "Finance",
+      "Public Policy"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    location: "Financial Conduct Authority, 12 Endeavour Square, Stratford Cross, London E20 1JN, UK",
+    deliveryMode: "in-person",
+    ukWide: true,
+    costType: "free",
+    eventStart: "2026-10-09",
+    eventEnd: "2026-10-09",
+    status: "open",
+    recurring: true,
+    eligibilitySummary: "Year 12 students",
+    eligibilityDetails: "Event is aimed at Year 12 ('Y12s') students, as indicated in the event listing.",
+    description: "Spend a day at the Financial Conduct Authority's London headquarters taking part in activities led by FCA employees and other speakers, exploring how economics is applied in real-world contexts and hearing about careers as professional economists. Lunch is provided.",
+    whyRelevant: "This is a rare chance to see economics in action inside a major financial regulator, hear directly from working economists about their career paths, and get a feel for what studying and applying economics can lead to - useful if you're weighing up whether to pursue economics further.",
+    officialUrl: "https://www.discovereconomics.co.uk/events/fca-insight-day-1",
+    sourceLastChecked: "2026-09-21",
+    requiresTeacher: false,
+    requiresSchoolNomination: false,
+    wideningParticipation: true,
+    dateConfidence: "confirmed"
+  }),
 ];

@@ -328,6 +328,11 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("iea-budget-challenge", {
+    sourceLastChecked: "2026-10-19",
+    eventEnd: "2027-04",
+    eventStart: "2027-02",
+    applicationDeadline: "2027-01-29",
+    applicationsOpen: "2026-10-19",
     name: "The Budget Challenge",
     provider: "Institute of Economic Affairs",
     type: "Competition",
@@ -338,7 +343,7 @@ export const opportunities: Opportunity[] = [
     deliveryMode: "in-person",
     ukWide: true,
     costType: "free",
-    status: "watchlist",
+    status: "open",
     recurring: true,
     previousCycle: {
       label: "2026 cycle",
@@ -826,6 +831,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("lse-monetary-policy-musalem-2026", {
+    sourceLastChecked: "2026-10-19",
     name: "In Conversation with Alberto Musalem, President of the Federal Reserve Bank of St. Louis",
     provider: "London School of Economics",
     type: "Taster / event",
@@ -836,7 +842,7 @@ export const opportunities: Opportunity[] = [
     costType: "free",
     eventStart: "2026-09-29",
     eventEnd: "2026-09-29",
-    status: "open",
+    status: "closed",
     recurring: false,
     eligibilitySummary:
       "Open to the public with a free ticket; not tailored for school groups specifically, but no age restriction is stated.",
@@ -851,6 +857,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("lse-cop32-african-climate-economics-2026", {
+    sourceLastChecked: "2026-10-19",
     name: "The Road to COP32: An African Agenda for Climate Action and Economic Development",
     provider: "London School of Economics",
     type: "Taster / event",
@@ -861,7 +868,7 @@ export const opportunities: Opportunity[] = [
     costType: "free",
     eventStart: "2026-09-23",
     eventEnd: "2026-09-23",
-    status: "open",
+    status: "closed",
     recurring: false,
     eligibilitySummary: "Open to the public, free, no ticket purchase required; not tailored for school groups specifically.",
     eligibilityDetails:

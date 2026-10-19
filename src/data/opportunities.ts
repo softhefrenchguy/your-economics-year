@@ -934,4 +934,38 @@ export const opportunities: Opportunity[] = [
     officialUrl: "https://www.sidgwickprize.com/",
     dateConfidence: "previous-cycle",
   }),
+  entry("discover-economics-royal-economic-society-does-education-pay", {
+    name: "Does Education Pay? Festival of Social Sciences Webinar",
+    provider: "Discover Economics (Royal Economic Society)",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "Economics",
+      "Labour Economics",
+      "Data"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    location: "Virtual Event",
+    deliveryMode: "online",
+    ukWide: true,
+    costType: "free",
+    eventStart: "2026-10-21",
+    eventEnd: "2026-10-21",
+    status: "open",
+    recurring: true,
+    eligibilitySummary: "Open to anyone interested, free RSVP required",
+    eligibilityDetails: "Open to anyone interested, free RSVP required",
+    description: "This is a free, 60-minute online webinar exploring how economists use large-scale government data to study the returns to education and future earnings. You'll be introduced to the Longitudinal Education Outcomes (LEO) dataset and hear short presentations from researchers on their findings about how different education pathways relate to employment and pay.",
+    whyRelevant: "If you're curious about how economists actually use real-world data to answer big questions like \"is university worth it?\", this session gives you a window into labour economics research methods and findings, useful context if you're considering studying economics further.",
+    officialUrl: "https://www.discovereconomics.co.uk/events/does-education-pay-festival-of-social-sciences-webinar",
+    sourceLastChecked: "2026-10-19",
+    requiresTeacher: false,
+    requiresSchoolNomination: false,
+    wideningParticipation: true,
+    dateConfidence: "confirmed"
+  }),
 ];

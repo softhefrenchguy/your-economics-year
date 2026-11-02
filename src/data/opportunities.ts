@@ -934,4 +934,37 @@ export const opportunities: Opportunity[] = [
     officialUrl: "https://www.sidgwickprize.com/",
     dateConfidence: "previous-cycle",
   }),
+  entry("discover-economics-royal-economic-society-queen-mary-univers", {
+    name: "Discover Economics – Empowering Women",
+    provider: "Discover Economics (Royal Economic Society) / Queen Mary University of London",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "Economics",
+      "Finance"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    location: "Queen Mary University of London, 327 Mile End Rd, Bethnal Green, London E1 4NS",
+    deliveryMode: "in-person",
+    ukWide: true,
+    costType: "free",
+    eventStart: "2026-11-03",
+    eventEnd: "2026-11-03",
+    status: "open",
+    recurring: true,
+    eligibilitySummary: "Open event, with a particular focus on encouraging women and anyone who identifies as female to explore Economics.",
+    eligibilityDetails: "This event is designed to highlight opportunities in Economics for women and anyone who identifies as female, but the RSVP process suggests it's open to interested students.",
+    description: "A free event at Queen Mary University of London featuring a panel discussion with leading female economists from academia, the Bank of England, HSBC and the Future of Life Institute, followed by an information session with student ambassadors. It's designed to showcase the range of career paths and opportunities Economics can offer.",
+    whyRelevant: "If you're curious about what studying or working in Economics actually looks like, this is a chance to hear directly from female economists working in academia, central banking, and finance about their career paths, and to ask questions in an informal setting.",
+    officialUrl: "https://www.discovereconomics.co.uk/events/discover-economics-empowering-women-2",
+    sourceLastChecked: "2026-11-02",
+    requiresTeacher: false,
+    requiresSchoolNomination: false,
+    wideningParticipation: true,
+    dateConfidence: "confirmed"
+  }),
 ];

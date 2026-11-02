@@ -115,6 +115,8 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("dauphine-preuni-economics-management", {
+    sourceLastChecked: "2026-11-02",
+    costAmount: 275,
     name: "Dauphine-PSL Pre-Uni Camp — Economics & Management",
     provider: "Dauphine-PSL London",
     type: "University programme",
@@ -499,6 +501,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("royal-holloway-economics-ai", {
+    sourceLastChecked: "2026-11-02",
     name: "Economics of AI Insight Day",
     provider: "Royal Holloway Department of Economics",
     type: "Taster / event",
@@ -506,7 +509,7 @@ export const opportunities: Opportunity[] = [
     yearGroups: ["Year 12"],
     location: "London",
     deliveryMode: "in-person",
-    costType: "unknown",
+    costType: "free",
     status: "watchlist",
     recurring: true,
     expectedWindow:

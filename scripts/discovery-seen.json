@@ -1,0 +1,47 @@
+{
+  "https://www.discovereconomics.co.uk/young-economist-2026-finalists": {
+    "status": "declined",
+    "date": "2026-11-03",
+    "name": "Young Economist 2026 Finalists"
+  },
+  "https://www.lsesuesec.org/lsesu-economics-society-essay-competition/": {
+    "status": "failed-validation",
+    "date": "2026-11-03",
+    "name": "LSESU Economics Society Essay Competition (ASEEDER partnership)"
+  },
+  "https://res.org.uk/discover-economics/": {
+    "status": "declined",
+    "date": "2026-11-03",
+    "name": "Discover Economics"
+  },
+  "https://www.bankofengland.co.uk/education/competitions": {
+    "status": "declined",
+    "date": "2026-11-03",
+    "name": "Competitions"
+  },
+  "https://www.bankofengland.co.uk/education/school-visits": {
+    "status": "failed-validation",
+    "date": "2026-11-03",
+    "name": "Request a speaker for your school"
+  },
+  "https://www.bankofengland.co.uk/education/research-support-programme": {
+    "status": "declined",
+    "date": "2026-11-03",
+    "name": "Research support programme"
+  },
+  "https://www.res.org.uk/": {
+    "status": "declined",
+    "date": "2026-11-03",
+    "name": "Young Economist of the Year (RES official competition site)"
+  },
+  "https://www.discovereconomics.co.uk/events/discover-economics-empowering-women-2": {
+    "status": "rejected-in-review",
+    "date": "2026-11-03",
+    "name": "Discover Economics: Empowering Women (event was the same day)"
+  },
+  "https://www.lsesuesec.org/#road7": {
+    "status": "rejected-in-review",
+    "date": "2026-11-03",
+    "name": "LSESU essay competition draft (merged closed essay comp with the separate Economics Challenge dates)"
+  }
+}

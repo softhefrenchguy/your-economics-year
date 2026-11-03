@@ -934,4 +934,186 @@ export const opportunities: Opportunity[] = [
     officialUrl: "https://www.sidgwickprize.com/",
     dateConfidence: "previous-cycle",
   }),
+  entry("lse-stone-centre-for-wealth-inequality-and-entrepreneurship", {
+    name: "How should we tax the wealthy?",
+    provider: "LSE (Stone Centre for Wealth Inequality and Entrepreneurship)",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "Economics",
+      "Fiscal Policy",
+      "Public Policy"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    minAge: null,
+    maxAge: null,
+    location: "LSE campus, London (and online)",
+    deliveryMode: "hybrid",
+    ukWide: true,
+    costType: "free",
+    eventStart: "2026-11-17",
+    eventEnd: "2026-11-17",
+    status: "open",
+    recurring: false,
+    eligibilitySummary: "Open to the public; no specific eligibility restrictions stated",
+    eligibilityDetails: "Open to the public; no specific eligibility restrictions stated",
+    description: "A public talk at LSE launching the new Stone Centre for Wealth Inequality and Entrepreneurship, where leading economists and a tax barrister debate how governments should design taxes on wealth and capital without discouraging entrepreneurship and investment.",
+    whyRelevant: "If you're interested in how economics informs real policy debates, this event lets you hear top economists (including Gabriel Zucman, a leading wealth inequality researcher) and a tax law expert discuss one of the most contested questions in public finance: how to tax wealth fairly without harming growth. It's a chance to see academic economic research directly connected to live political debate.",
+    officialUrl: "https://www.lse.ac.uk/events/how-should-we-tax-the-wealthy",
+    sourceLastChecked: "2026-11-03",
+    requiresTeacher: false,
+    requiresSchoolNomination: false,
+    wideningParticipation: false,
+    dateConfidence: "confirmed"
+  }),
+  entry("lse-financial-markets-group-fmg-from-values-to-impact-what-c", {
+    name: "From values to impact: what can sustainable investing achieve?",
+    provider: "LSE Financial Markets Group (FMG)",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "Economics",
+      "Finance",
+      "Public Policy",
+      "Markets"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    minAge: null,
+    maxAge: null,
+    location: "Sheikh Zayed Theatre, Cheng Kin Ku Building, LSE, London",
+    deliveryMode: "in-person",
+    ukWide: false,
+    costType: "free",
+    eventStart: "2026-11-12",
+    eventEnd: "2026-11-12",
+    status: "open",
+    recurring: true,
+    eligibilitySummary: "Open to the public; no specific eligibility restrictions stated.",
+    eligibilityDetails: "The event is listed as an open public event hosted by LSE; no age, academic level or institutional restrictions are mentioned.",
+    description: "A public lecture at LSE given by Professor Augustin Landier (HEC Paris) exploring whether private finance can achieve genuine social and environmental impact, and where public policy is still needed. The talk covers sustainable investing strategies such as divestment, engagement, and conditional financing, drawing on economic theory and experimental evidence.",
+    whyRelevant: "If you're interested in how finance, ethics and public policy intersect, this talk offers a chance to hear cutting-edge research on sustainable investing directly from an expert economist, and to see how economic theory is applied to real debates about corporate responsibility and investor behaviour.",
+    officialUrl: "https://www.lse.ac.uk/events/open/from-values-to-impact-what-can-sustainable-investing-achieve",
+    sourceLastChecked: "2026-11-03",
+    requiresTeacher: false,
+    requiresSchoolNomination: false,
+    wideningParticipation: false,
+    dateConfidence: "confirmed"
+  }),
+  entry("lse-economica-structural-change-and-development-economica-ph", {
+    name: "Structural change and development (Economica Phillips Lecture)",
+    provider: "LSE (Economica)",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "Economics",
+      "Development Economics",
+      "International Economics"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    minAge: null,
+    maxAge: null,
+    location: "LSE campus, London / online via LSE Live",
+    deliveryMode: "hybrid",
+    ukWide: true,
+    costType: "free",
+    eventStart: "2026-11-12",
+    eventEnd: "2026-11-12",
+    status: "open",
+    recurring: true,
+    eligibilitySummary: "Open to the public, no specific eligibility requirements stated.",
+    eligibilityDetails: "The event is a public lecture open to anyone who registers, either in-person or online; no age or academic restrictions mentioned.",
+    description: "A free public lecture hosted by LSE's Economica journal, delivered by Princeton economist Richard Rogerson, exploring how structural change—shifts in the balance between agriculture, manufacturing and services—relates to economic development, using China and India as contrasting case studies.",
+    whyRelevant: "If you're curious about how economies develop and why some countries industrialise while others don't, this lecture offers a chance to hear cutting-edge research from a leading macroeconomist, directly relevant to development economics topics in A-level Economics.",
+    officialUrl: "https://www.lse.ac.uk/events/structural-change-and-development",
+    sourceLastChecked: "2026-11-03",
+    requiresTeacher: false,
+    requiresSchoolNomination: false,
+    wideningParticipation: false,
+    dateConfidence: "confirmed"
+  }),
+  entry("lse-the-ralph-miliband-programme-anti-fascist-economics-in-d", {
+    name: "Anti-fascist economics: In Defence of Affordability, Dignity and Democracy",
+    provider: "LSE - The Ralph Miliband Programme",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "Economics",
+      "Public Policy",
+      "Fiscal Policy"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    minAge: null,
+    maxAge: null,
+    location: "Old Theatre, Old Building, LSE, Houghton Street, London WC2A 2AE",
+    deliveryMode: "in-person",
+    ukWide: false,
+    costType: "free",
+    eventStart: "2026-11-24",
+    eventEnd: "2026-11-24",
+    status: "open",
+    recurring: false,
+    eligibilitySummary: "Open to all, no ticket required",
+    eligibilityDetails: "This event is free and open to all with no ticket required. Entry is on a first come, first served basis.",
+    description: "A public talk at LSE where economist Isabella Weber (University of Massachusetts Amherst), known for her work on inflation and price stabilisation policy, discusses her new book on affordability, democracy and economic systems, in conversation with LSE's Lea Ypi.",
+    whyRelevant: "If you're interested in economics, this is a chance to hear a research economist talk about real-world policy issues like inflation and price controls, and how economic ideas connect to broader questions about society and democracy — a good way to see economics applied beyond the textbook.",
+    officialUrl: "https://www.lse.ac.uk/events/ralph-miliband-programme/anti-fascist-economics-in-defense-of-affordability-dignity-and-democracy",
+    sourceLastChecked: "2026-11-03",
+    requiresTeacher: false,
+    requiresSchoolNomination: false,
+    wideningParticipation: false,
+    dateConfidence: "confirmed"
+  }),
+  entry("lse-department-of-geography-and-environment-global-school-of", {
+    name: "Can global value chains go green? Trade, investment and the net-zero development challenge",
+    provider: "LSE (Department of Geography and Environment, Global School of Sustainability, International Growth Centre)",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "International Economics",
+      "Development Economics",
+      "Public Policy",
+      "Economics"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    minAge: null,
+    maxAge: null,
+    location: "LSE campus, London (venue tbc to ticketholders) and online via LSE Live",
+    deliveryMode: "hybrid",
+    ukWide: true,
+    costType: "free",
+    eventStart: "2026-11-18",
+    eventEnd: "2026-11-18",
+    status: "open",
+    recurring: false,
+    eligibilitySummary: "Open to the public, no specific eligibility restrictions stated",
+    eligibilityDetails: "Open to the public, no specific eligibility restrictions stated",
+    description: "This is a free public talk at LSE bringing together leading economists from the World Bank, European Bank for Reconstruction and Development, Asian Infrastructure Investment Bank and LSE to discuss whether global trade and investment can support both economic development and environmental sustainability. You can attend in person at LSE's campus or watch online via LSE Live.",
+    whyRelevant: "If you're interested in how economics connects to real-world issues like international trade, development and climate policy, this talk offers a chance to hear directly from economists working at major international institutions like the World Bank and OECD, and to see how academic research on global value chains feeds into policy debates.",
+    officialUrl: "https://www.lse.ac.uk/events/global-value-chains",
+    sourceLastChecked: "2026-11-03",
+    requiresTeacher: false,
+    requiresSchoolNomination: false,
+    wideningParticipation: false,
+    dateConfidence: "confirmed"
+  }),
 ];

@@ -48,7 +48,14 @@ const seenPath = path.join(here, "discovery-seen.json");
 // the model would mostly be paid to reject them.
 const HUB_SOURCES = [
   "https://www.discovereconomics.co.uk/event",
-  "https://www.lse.ac.uk/economics/events-and-seminars/public-lectures",
+  // LSE's whole public-events calendar, 12 per page (pageIndex works as a plain URL). Page 1
+  // is skipped: it's mostly events within MIN_LEAD_DAYS, which would be rejected anyway.
+  // Replaced the Economics department's own public-lectures page, which had stopped being
+  // updated (still headed "Events 2025/2026" in November 2026, newest lecture March 2026).
+  "https://www.lse.ac.uk/events/search-events?pageIndex=2",
+  "https://www.lse.ac.uk/events/search-events?pageIndex=3",
+  "https://www.lse.ac.uk/events/search-events?pageIndex=4",
+  "https://www.lse.ac.uk/events/search-events?pageIndex=5",
   "https://www.london.ac.uk/study/taster-courses-schools",
   "https://lsesueconsoc.org/competitions/",
   "https://lboro.ac.uk/study/school-college-liaison/post-16/inspiring-minds/businessandeconomics/",

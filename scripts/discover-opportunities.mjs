@@ -28,15 +28,33 @@ const dataFilePath = path.join(here, "..", "src", "data", "opportunities.ts");
 const summaryPath = path.join(here, ".discovery-summary.json");
 const MAX_PAGE_TEXT_CHARS = 6000;
 const MAX_CANDIDATES_PER_HUB = 5;
-const MAX_NEW_ENTRIES_PER_RUN = 3;
+const MAX_NEW_ENTRIES_PER_RUN = 5;
+// Candidates already declined/rejected aren't re-sent to the model for this long, so a
+// growing hub list doesn't mean paying to re-reject the same links every week.
+const SEEN_TTL_DAYS = 56;
+const seenPath = path.join(here, "discovery-seen.json");
 
 // Hub/listing pages known to regularly post real, verifiable Economics opportunities for
 // UK Year 12 students — the same sources mined by hand earlier in this project.
+// Each was checked to load in the weekly run's Edge browser and to be genuinely about
+// Economics (2026-11-03). Pages that loaded but barely mentioned Economics (Portsmouth's and
+// Cambridge's general event lists, Sutton Trust, UniTasterDays' homepage) were left out —
+// the model would mostly be paid to reject them.
 const HUB_SOURCES = [
   "https://www.discovereconomics.co.uk/event",
   "https://www.lse.ac.uk/economics/events-and-seminars/public-lectures",
   "https://www.london.ac.uk/study/taster-courses-schools",
+  "https://lsesueconsoc.org/competitions/",
+  "https://lboro.ac.uk/study/school-college-liaison/post-16/inspiring-minds/businessandeconomics/",
+  "https://res.org.uk/education/",
+  "https://www.bankofengland.co.uk/education",
+  "https://iea.org.uk/education/",
+  "https://www.oxbridgementors.co.uk/competitions/economics-competitions/",
 ];
+// Third-party listing sites, not organisers. Every entry must cite the organiser's own
+// official page, so from these hubs only links to OTHER sites are kept as candidates —
+// never the aggregator's own write-up of an opportunity.
+const AGGREGATOR_HUBS = new Set(["www.oxbridgementors.co.uk"]);
 
 const TYPE_VALUES = [
   "Competition",
@@ -242,6 +260,18 @@ export function insertEntry(source, entryObject) {
   return source.slice(0, idx) + block.replace(/\n$/, "") + source.slice(idx);
 }
 
+async function loadSeen() {
+  try {
+    return JSON.parse(await readFile(seenPath, "utf8"));
+  } catch {
+    return {};
+  }
+}
+
+function daysBetween(fromISO, toISO) {
+  return (Date.parse(toISO) - Date.parse(fromISO)) / 86400000;
+}
+
 function pathToFileUrlSafe(p) {
   return "file://" + p.replace(/\\/g, "/");
 }
@@ -253,6 +283,7 @@ async function main() {
   const existingIds = new Set(opportunities.map((o) => o.id));
   const existingUrls = new Set(opportunities.map((o) => o.officialUrl));
 
+  const seen = await loadSeen();
   const client = new Anthropic();
   const { context, close } = await openBrowser();
   const discovered = [];
@@ -267,8 +298,11 @@ async function main() {
         discovered.push({ hub: hubUrl, status: "hub-error", detail: hub.error ?? `HTTP ${hub.status}` });
         continue;
       }
+      const hubHost = new URL(hubUrl).hostname;
+      const isAggregator = AGGREGATOR_HUBS.has(hubHost);
       const linkList = hub.links
         .filter((l) => new URL(l.href).hostname !== "www.google.com")
+        .filter((l) => !isAggregator || new URL(l.href).hostname !== hubHost)
         .slice(0, 400)
         .map((l) => `${l.text} -> ${l.href}`)
         .join("\n");
@@ -293,6 +327,9 @@ async function main() {
       for (const candidate of candidates) {
         if (addedCount >= MAX_NEW_ENTRIES_PER_RUN) break;
         if (existingUrls.has(candidate.url)) continue;
+        if (isAggregator && new URL(candidate.url).hostname === hubHost) continue;
+        const seenBefore = seen[candidate.url];
+        if (seenBefore && daysBetween(seenBefore.date, today) < SEEN_TTL_DAYS) continue;
         const detail = await fetchPage(context, candidate.url);
         if (!detail.ok) {
           discovered.push({ hub: hubUrl, name: candidate.name, url: candidate.url, status: "detail-error", detail: detail.error ?? `HTTP ${detail.status}` });
@@ -357,6 +394,16 @@ async function main() {
   } finally {
     await close();
   }
+
+  // Remember rejections (not errors — a fetch failure deserves a retry next week).
+  for (const item of discovered) {
+    if (item.url && ["declined", "failed-validation"].includes(item.status))
+      seen[item.url] = { status: item.status, date: today, name: item.name };
+  }
+  for (const [url, value] of Object.entries(seen)) {
+    if (daysBetween(value.date, today) >= SEEN_TTL_DAYS) delete seen[url];
+  }
+  await writeFile(seenPath, JSON.stringify(seen, null, 2) + "\n");
 
   const hasAnyNew = addedCount > 0;
   if (hasAnyNew) await writeFile(dataFilePath, source);

@@ -113,6 +113,12 @@ async function main() {
   if (hasKey) {
     heading("5. Looking for new opportunities (Claude Sonnet; solve any CAPTCHA)");
     script("discover-opportunities.mjs", "--interactive");
+    // The "already rejected" memory goes straight to main, like the snapshots.
+    git("add", "scripts/discovery-seen.json");
+    if (!run("git", ["diff", "--cached", "--quiet"], { allowFail: true, quiet: true }).ok) {
+      git("commit", "-m", "Update discovery memory [skip ci]");
+      run("git", ["push"]);
+    }
     if (readJson("scripts/.discovery-summary.json")?.hasAnyNew) {
       const link = proposeOnBranch(
         "new-opportunity",

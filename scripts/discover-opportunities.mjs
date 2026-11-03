@@ -29,6 +29,9 @@ const summaryPath = path.join(here, ".discovery-summary.json");
 const MAX_PAGE_TEXT_CHARS = 6000;
 const MAX_CANDIDATES_PER_HUB = 5;
 const MAX_NEW_ENTRIES_PER_RUN = 5;
+// Keeps one busy hub (LSE's calendar lists dozens of events) from taking every slot and
+// starving the competition and taster hubs further down the list.
+const MAX_NEW_ENTRIES_PER_HUB = 2;
 // Candidates already declined/rejected aren't re-sent to the model for this long, so a
 // growing hub list doesn't mean paying to re-reject the same links every week.
 const SEEN_TTL_DAYS = 56;
@@ -165,6 +168,12 @@ const PROPOSE_ENTRY_TOOL = {
         description: "Only if requiresTeacher/requiresSchoolNomination: written to the teacher, why it's worth the department's time.",
       },
       wideningParticipation: { type: "boolean" },
+      recurring: {
+        type: "boolean",
+        description: "True only if the page shows this runs regularly (annual competition, yearly programme, a named lecture series). A one-off talk is false.",
+      },
+      minAge: { type: "integer", description: "Only if the page states a minimum age. Omit otherwise; public events usually have none." },
+      maxAge: { type: "integer", description: "Only if the page states a maximum age. Omit otherwise." },
     },
   },
 };
@@ -239,12 +248,18 @@ export function validateNewEntry(proposal, existingIds, existingUrls, officialUr
     yearGroups: ["Year 12"],
     location: proposal.location || "UK-wide",
     deliveryMode: DELIVERY_VALUES.includes(proposal.deliveryMode) ? proposal.deliveryMode : "online",
-    ukWide: true,
+    // In-person only means you have to get there; the shared default in the data file
+    // (true) is wrong for a single-venue event.
+    ukWide: proposal.deliveryMode !== "in-person",
+    // The data file's shared defaults are minAge 16 / maxAge 17; a discovered public event
+    // must not inherit an age limit the page never stated.
+    minAge: Number.isInteger(proposal.minAge) ? proposal.minAge : null,
+    maxAge: Number.isInteger(proposal.maxAge) ? proposal.maxAge : null,
     costType: COST_TYPE_VALUES.includes(proposal.costType) ? proposal.costType : "unknown",
     ...(typeof proposal.costAmount === "number" && proposal.costAmount >= 0 ? { costAmount: proposal.costAmount } : {}),
     ...dateFields,
     status: "open",
-    recurring: true,
+    recurring: proposal.recurring === true,
     eligibilitySummary: proposal.eligibilitySummary || "Check the official page for exact eligibility.",
     eligibilityDetails: proposal.eligibilityDetails || proposal.eligibilitySummary || "Check the official page for exact eligibility.",
     description: proposal.description || "",
@@ -345,8 +360,9 @@ async function main() {
       const candidateTool = candidateResponse.content.find((b) => b.type === "tool_use");
       const candidates = candidateTool?.input?.candidates ?? [];
 
+      let addedFromHub = 0;
       for (const candidate of candidates) {
-        if (addedCount >= MAX_NEW_ENTRIES_PER_RUN) break;
+        if (addedCount >= MAX_NEW_ENTRIES_PER_RUN || addedFromHub >= MAX_NEW_ENTRIES_PER_HUB) break;
         if (existingUrls.has(candidate.url)) continue;
         if (isAggregator && new URL(candidate.url).hostname === hubHost) continue;
         const seenBefore = seen[candidate.url];
@@ -404,6 +420,7 @@ async function main() {
         existingIds.add(entryObject.id);
         existingUrls.add(entryObject.officialUrl);
         addedCount++;
+        addedFromHub++;
         discovered.push({
           hub: hubUrl,
           name: candidate.name,

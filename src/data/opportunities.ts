@@ -1116,4 +1116,234 @@ export const opportunities: Opportunity[] = [
     wideningParticipation: false,
     dateConfidence: "confirmed"
   }),
+  entry("lse-health-london-school-of-economics-the-economics-of-chanc", {
+    name: "The economics of chance: what random events reveal about forces shaping health",
+    provider: "LSE Health, London School of Economics",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "Economics",
+      "Public Policy"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    location: "London / Online",
+    deliveryMode: "hybrid",
+    ukWide: true,
+    minAge: null,
+    maxAge: null,
+    costType: "free",
+    eventStart: "2026-11-26",
+    eventEnd: "2026-11-26",
+    status: "open",
+    recurring: false,
+    eligibilitySummary: "Check the official page for exact eligibility.",
+    eligibilityDetails: "Check the official page for exact eligibility.",
+    description: "A public lecture by Harvard physician-economist Anupam B Jena, exploring how economists use \"natural experiments\" — real-world events that mimic controlled experiments — to understand what drives healthcare spending, quality, and patient outcomes. Jena will discuss findings from his research and his book Random Acts of Medicine, showing how economic thinking can uncover patterns in medical and policy behaviour.",
+    whyRelevant: "This talk shows how economic reasoning and data analysis are applied beyond traditional finance or markets — to healthcare policy — using a method (natural experiments) that's a great introduction to applied economic research. It's a chance to see how a top health economist thinks through real-world problems, whether you attend in person or watch online.",
+    officialUrl: "https://www.lse.ac.uk/events/economics-chance-health",
+    sourceLastChecked: "2026-11-03",
+    requiresTeacher: false,
+    requiresSchoolNomination: false,
+    wideningParticipation: false,
+    dateConfidence: "confirmed"
+  }),
+  entry("lse-hayek-programme-in-economics-and-liberal-political-econo", {
+    name: "British progress and the centre-right",
+    provider: "LSE (Hayek Programme in Economics and Liberal Political Economy)",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "Economics",
+      "Public Policy",
+      "Markets"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    location: "London / Online",
+    deliveryMode: "hybrid",
+    ukWide: true,
+    minAge: null,
+    maxAge: null,
+    costType: "free",
+    eventStart: "2026-12-01",
+    eventEnd: "2026-12-01",
+    status: "open",
+    recurring: false,
+    eligibilitySummary: "Check the official page for exact eligibility.",
+    eligibilityDetails: "Check the official page for exact eligibility.",
+    description: "This LSE public event brings together an entrepreneur, a former MP, a policy expert and an LSE economics professor to debate whether a market-liberal agenda — covering productivity, planning reform, energy costs and competition — can tackle the UK's regional inequality and stagnant growth. You can attend in person at LSE's campus or watch online via LSE Live.",
+    whyRelevant: "If you're interested in economics and public policy, this is a chance to hear live debate among practitioners and an LSE economics professor on real UK growth and productivity issues, and to see how economic theory gets applied to live policy arguments.",
+    officialUrl: "https://www.lse.ac.uk/events/british-progress",
+    sourceLastChecked: "2026-11-03",
+    requiresTeacher: false,
+    requiresSchoolNomination: false,
+    wideningParticipation: false,
+    dateConfidence: "confirmed"
+  }),
+
+  // Added by hand on 3 Nov 2026 after a London-focus search; each checked on its official page.
+  entry("kcl-k-plus", {
+    name: "K+ (Social Science & Public Policy pathway)",
+    provider: "King's College London",
+    type: "University programme",
+    subjects: ["Economics"],
+    topics: ["Economics", "Public Policy"],
+    yearGroups: ["Year 12"],
+    location: "London",
+    deliveryMode: "in-person",
+    ukWide: false,
+    costType: "free",
+    applicationsOpen: "2026-11-09",
+    applicationDeadline: "2026-11-30",
+    status: "coming-soon",
+    recurring: true,
+    eligibilitySummary:
+      "Year 12 at a non-selective state school in Greater London (or a target region), usually with no parent who went to university.",
+    eligibilityDetails:
+      "Applicants must be in Year 12, live or go to school in Greater London or a listed target region, attend a non-selective state school, have 8 GCSEs at 4–9 including English and Maths with at least five at 6–9, and usually have no parent or carer who completed university. Grade requirements can be waived for care-experienced, estranged, forced-migrant, Gypsy, Roma or Traveller, and homeless students. One application only.",
+    description:
+      "A two-year King's College London programme running through Year 12 and 13. Economics sits in the Social Science & Public Policy pathway, which runs a non-residential summer school on the Strand campus plus events through the year. Applications for the 2026–28 cohort are open 9–30 November 2026.",
+    whyRelevant:
+      "Finishing K+ can get you up to a two-grade reduced offer for most King's courses and a £1,000 bursary if you enrol, and the pathway covers economics, politics and social policy.",
+    officialUrl: "https://www.kcl.ac.uk/study/social-mobility/projects/prospective-students/k-plus",
+    sourceLastChecked: "2026-11-03",
+    wideningParticipation: true,
+    dateConfidence: "confirmed",
+    featured: true,
+  }),
+
+  entry("smf-aspiring-professionals-programme", {
+    name: "Aspiring Professionals Programme",
+    provider: "Social Mobility Foundation",
+    type: "Mentoring / development",
+    subjects: ["Economics"],
+    topics: ["Economics", "Finance", "Banking", "Professional Services"],
+    yearGroups: ["Year 12"],
+    location: "London or UK-wide (mostly online)",
+    deliveryMode: "hybrid",
+    ukWide: true,
+    costType: "free",
+    applicationsOpen: "2026-09-01",
+    applicationDeadline: "2026-12-11",
+    status: "open",
+    recurring: true,
+    eligibilitySummary:
+      "Year 12 at a state school, eligible for free school meals or care-experienced, or meeting two other low-income or first-generation criteria.",
+    eligibilityDetails:
+      "You must be in Year 12, never have attended a fee-paying school, and either be eligible for free school meals or care-experienced, or meet two of: first in your family to go to university, household income under £45,000, or your highest-paid parent works in a target occupation group or is unemployed. Grade requirements apply (four GCSEs at 7–9 in England), with exemptions for care-experienced applicants. Applications close at 12pm on Friday 11 December.",
+    description:
+      "A free programme that supports students from Year 12 to their first graduate job: a mentor from your chosen sector, work experience with partner employers, skills sessions and help with university applications. Sectors include Banking & Finance and a J.P. Morgan Finance Programme that covers economics. APP City runs in London; most of it is remote.",
+    whyRelevant:
+      "A mentor and real work experience in banking, finance or economics, plus university application support, from Year 12 onwards and completely free.",
+    officialUrl: "https://socialmobility.org.uk/apply",
+    sourceLastChecked: "2026-11-03",
+    wideningParticipation: true,
+    dateConfidence: "confirmed",
+    featured: true,
+  }),
+
+  entry("fitzwilliam-economics-essay-competition", {
+    name: "Gerald O'Connell Essay Competition in Economics",
+    provider: "Fitzwilliam College, Cambridge",
+    type: "Essay competition",
+    subjects: ["Economics"],
+    topics: ["Economics"],
+    yearGroups: ["Year 12"],
+    location: "UK-wide (entered online)",
+    deliveryMode: "online",
+    ukWide: true,
+    costType: "free",
+    status: "watchlist",
+    recurring: true,
+    expectedWindow: "Questions usually come out in November; the 2027 questions aren't published yet",
+    previousCycle: {
+      label: "2026 competition",
+      applicationDeadline: "2026-02-27",
+      notes: "A 1,500-word essay answering one of the college's economics questions, submitted online as a PDF. Past deadlines: 28 Feb 2025, 1 Mar 2024.",
+    },
+    eligibilitySummary:
+      "Year 12 students at UK schools; some past years were limited to state schools, so check this year's rules.",
+    eligibilityDetails:
+      "Entrants must be in their penultimate year of school (Year 12 in England and Wales). In past years the economics competition was open to UK state-school students only. Check the rules in this year's questions PDF.",
+    description:
+      "Fitzwilliam College's annual economics essay prize: choose one question, write up to 1,500 words (excluding bibliography) and submit it online.",
+    whyRelevant:
+      "A Cambridge college essay prize judged by economists. It's a strong thing to write about in a personal statement, and the questions are a good way to read beyond the A-level syllabus.",
+    officialUrl: "https://www.fitz.cam.ac.uk/node/347",
+    sourceLastChecked: "2026-11-03",
+    dateConfidence: "previous-cycle",
+  }),
+
+  entry("john-locke-essay-competition", {
+    name: "John Locke Institute Essay Competition (Economics)",
+    provider: "John Locke Institute",
+    type: "Essay competition",
+    subjects: ["Economics"],
+    topics: ["Economics", "Markets"],
+    yearGroups: ["Year 12", "Year 13"],
+    maxAge: 18,
+    location: "Online (awards in London)",
+    deliveryMode: "online",
+    ukWide: true,
+    costType: "free",
+    status: "watchlist",
+    recurring: true,
+    expectedWindow: "2027 dates not announced yet",
+    previousCycle: {
+      label: "2026 competition",
+      applicationDeadline: "2026-05-31",
+      eventStart: "2026-10-03",
+      notes: "Registration closed 31 March 2026 (late registration to 30 April); essays were due 31 May 2026; the awards dinner was in London on 3 October 2026. 2026 economics questions included a cashless society and personalised pricing.",
+    },
+    eligibilitySummary: "Students anywhere, under 19 on the submission deadline.",
+    eligibilityDetails:
+      "Open to students of any age under 19 on the submission deadline, in any country. You must register before you submit. Entry is free; late submission costs a fee.",
+    description:
+      "An international essay competition with an economics category: pick one of three questions and write an essay arguing your answer. Shortlisted students are invited to an academic conference and awards dinner in London.",
+    whyRelevant:
+      "One of the best-known essay prizes for sixth-formers. Economics admissions tutors recognise it, and the questions push you to argue rather than describe.",
+    officialUrl: "https://www.johnlockeinstitute.com/essay-competition",
+    sourceLastChecked: "2026-11-03",
+    dateConfidence: "previous-cycle",
+  }),
+
+  entry("sutton-trust-summer-schools", {
+    name: "Sutton Trust Summer Schools",
+    provider: "Sutton Trust",
+    type: "Summer school",
+    subjects: ["Economics"],
+    topics: ["Economics", "Finance", "Data"],
+    yearGroups: ["Year 12"],
+    location: "UK-wide (London partners include Imperial and UCL)",
+    deliveryMode: "in-person",
+    ukWide: true,
+    costType: "free",
+    status: "watchlist",
+    recurring: true,
+    expectedWindow: "2027 applications expected to open in January",
+    previousCycle: {
+      label: "2026 summer schools",
+      applicationsOpen: "2026-01-12",
+      applicationDeadline: "2026-03-05",
+      notes: "Free residential and non-residential summer schools at leading universities in over 40 subjects, including economics courses (for example Imperial's Economics, Finance and Data Science).",
+    },
+    eligibilitySummary: "Year 12 students who have always attended state schools, with priority for less advantaged backgrounds.",
+    eligibilityDetails:
+      "For Year 12 students at UK state schools. Priority criteria include free school meals, being first in your family to go to university, and living in an area with low progression to higher education. Check the Sutton Trust eligibility page for the 2027 criteria.",
+    description:
+      "Free university summer schools for state-school Year 12 students: a week of lectures, seminars and student life in the subject you choose, completely free.",
+    whyRelevant:
+      "A free week studying economics at a top university, which some partner universities recognise with contextual or guaranteed alternative offers.",
+    officialUrl: "https://summerschools.suttontrust.com/",
+    sourceLastChecked: "2026-11-03",
+    wideningParticipation: true,
+    dateConfidence: "previous-cycle",
+  }),
 ];

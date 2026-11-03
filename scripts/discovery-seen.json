@@ -43,5 +43,40 @@
     "status": "rejected-in-review",
     "date": "2026-11-03",
     "name": "LSESU essay competition draft (merged closed essay comp with the separate Economics Challenge dates)"
+  },
+  "https://www.lse.ac.uk/events/geography-wealth-nations": {
+    "status": "declined",
+    "date": "2026-11-03",
+    "name": "Geography and the wealth of nations"
+  },
+  "https://www.lse.ac.uk/events/political-economy": {
+    "status": "declined",
+    "date": "2026-11-03",
+    "name": "The republic of innovation: a new political economy of freedom"
+  },
+  "https://ifs.org.uk/events/ifs-public-economics-day-2027": {
+    "status": "declined",
+    "date": "2026-11-03",
+    "name": "IFS Public Economics Day 2027"
+  },
+  "https://ifs.org.uk/events/ifs-green-budget-2026": {
+    "status": "declined",
+    "date": "2026-11-03",
+    "name": "IFS Green Budget 2026"
+  },
+  "https://ifs.org.uk/events/ifs-annual-lecture-are-ideas-harder-find-overall": {
+    "status": "failed-validation",
+    "date": "2026-11-03",
+    "name": "IFS Annual Lecture: Are Ideas Harder to Find, Overall?"
+  },
+  "https://ifs.org.uk/events/what-should-we-do-about-high-electricity-prices-uk": {
+    "status": "declined",
+    "date": "2026-11-03",
+    "name": "What should we do about high electricity prices in the UK?"
+  },
+  "https://ifs.org.uk/events/autumn-budget-2026-ifs-analysis": {
+    "status": "declined",
+    "date": "2026-11-03",
+    "name": "Autumn Budget 2026: IFS analysis"
   }
 }

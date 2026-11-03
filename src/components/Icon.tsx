@@ -12,7 +12,9 @@ export type IconName =
   | "book"
   | "spark"
   | "chevron"
-  | "info";
+  | "info"
+  | "home"
+  | "bookmark";
 const paths: Record<IconName, string> = {
   arrow: "M5 12h14m-6-6 6 6-6 6",
   bell: "M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4",
@@ -28,6 +30,8 @@ const paths: Record<IconName, string> = {
   spark: "m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5Z",
   chevron: "m9 5 7 7-7 7",
   info: "M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM12 11v6m0-10v1",
+  home: "M3 11 12 4l9 7M5 10v10h5v-6h4v6h5V10",
+  bookmark: "M6 3h12v18l-6-5-6 5Z",
 };
 export function Icon({
   name,
@@ -45,7 +49,7 @@ export function Icon({
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.6"
+      strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"

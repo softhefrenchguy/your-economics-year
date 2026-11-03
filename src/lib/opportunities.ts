@@ -185,3 +185,11 @@ export function effectiveStatus(item: Opportunity, today: string): OpportunitySt
 export function withEffectiveStatus(items: Opportunity[], today: string): Opportunity[] {
   return items.map((item) => ({ ...item, status: effectiveStatus(item, today) }));
 }
+
+// The site covers what a London-based Year 12 student can actually do: anything in London,
+// online, or open UK-wide (national competitions and schemes run through any school). Things
+// tied to somewhere else (a Bristol event, a Cambridge summer school) are left out.
+export function availableInLondon(item: Opportunity): boolean {
+  if (item.deliveryMode === "online") return true;
+  return /london|uk-wide|online/i.test(item.location);
+}

@@ -3,6 +3,7 @@ import { opportunities } from "../data/opportunities";
 import {
   academicMonths,
   actionDate,
+  availableInLondon,
   categorise,
   currentAcademicYear,
   effectiveStatus,
@@ -290,5 +291,20 @@ describe("data integrity", () => {
       if (item.dateConfidence === "previous-cycle") expect(item.previousCycle).not.toBeNull();
       if (item.dateConfidence === "expected") expect(item.previousCycle).toBeNull();
     }
+  });
+});
+
+describe("London focus", () => {
+  const byName = (part: string) => opportunities.find((item) => item.name.includes(part))!;
+  it("keeps London, online and UK-wide opportunities a London student can do", () => {
+    expect(availableInLondon(byName("How should we tax the wealthy"))).toBe(true);
+    expect(availableInLondon(byName("RES Annual Public Lecture"))).toBe(true);
+    expect(availableInLondon(byName("Young Economist of the Year"))).toBe(true);
+    expect(availableInLondon(byName("Company Programme"))).toBe(true);
+  });
+  it("drops opportunities tied to somewhere outside London", () => {
+    expect(availableInLondon(byName("Discover Economics with Bank of England"))).toBe(false);
+    expect(availableInLondon(byName("in-school taster session"))).toBe(false);
+    expect(availableInLondon(byName("Experience Christ's Summer School"))).toBe(false);
   });
 });

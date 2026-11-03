@@ -29,7 +29,7 @@ function TeacherItem({ item }: { item: Opportunity }) {
           <p className="provider">{item.provider}</p>
           <h3>{item.name}</h3>
         </div>
-        <span className={`status-dot ${item.status}`} title={item.status} />
+        <span className={`status-pill status-${item.status}`}>{item.status === "open" ? "Open" : item.status === "coming-soon" ? "Coming soon" : item.status === "watchlist" ? "Watchlist" : "Closed"}</span>
       </div>
       <p className="teacher-item-line">
         <Icon name="bell" size={14} /> {whatsNeeded(item)}
@@ -40,10 +40,7 @@ function TeacherItem({ item }: { item: Opportunity }) {
       <p className="teacher-item-line">
         <Icon name="book" size={14} /> {item.eligibilitySummary}
       </p>
-      <p className="relevance">
-        <Icon name="spark" size={15} />
-        <span>{item.teacherPitch}</span>
-      </p>
+      {item.teacherPitch && <p className="teacher-pitch">{item.teacherPitch}</p>}
       <div className="source-note">
         <Icon name="info" />
         <p>
@@ -63,10 +60,9 @@ function TeacherItem({ item }: { item: Opportunity }) {
 export function TeacherPage({ opportunities }: { opportunities: Opportunity[] }) {
   const { nominated, direct } = teacherOpportunities(opportunities);
   return (
-    <section className="teacher-page page-width" aria-labelledby="teacher-title">
-      <p className="eyebrow">FOR ECONOMICS TEACHERS</p>
-      <h2 id="teacher-title">Five minutes for something a student wants to do</h2>
-      <p className="teacher-intro">
+    <section className="page teacher-page" aria-labelledby="teacher-title">
+      <h1 className="page-title" id="teacher-title">For teachers: five minutes for something a student wants to do</h1>
+      <p className="page-intro">
         A student has likely pointed you here. This page collects every opportunity on this site that a student
         can't act on alone — because it needs your department to nominate or register the school, or because it's a
         booking only a staff member can make. Everything else on the site, a student can pursue independently.
@@ -99,7 +95,7 @@ export function TeacherPage({ opportunities }: { opportunities: Opportunity[] })
           </div>
         </div>
       )}
-      <p className="data-caption">
+      <p className="teacher-caption">
         This is an independent, student-built directory, not affiliated with any provider listed here. Each item
         links to its own official page — that page, not this one, is the source of truth on current dates and
         eligibility.

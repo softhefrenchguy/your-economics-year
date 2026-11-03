@@ -73,9 +73,13 @@ ANTHROPIC_API_KEY=sk-ant-...
 
 Without it, step 2 still runs and the AI steps are skipped. Interactive mode is also available on its own: `npm run check-sources -- --interactive` or `npm run discover-opportunities -- --interactive`. The CAPTCHA detection lives in [scripts/lib/browser.mjs](scripts/lib/browser.mjs).
 
+## London focus
+
+The site lists what a London-based Year 12 student can actually do: anything in London, online, or open UK-wide (national competitions and schemes run through any school). `availableInLondon` in `src/lib/opportunities.ts` applies this when the app loads, so out-of-area listings stay in the data file but aren't shown. Discovery applies the same rule to new drafts, and caps any one organiser at two new entries per run so a busy calendar (LSE's) can't crowd out everyone else.
+
 ## Discovering new opportunities
 
-**`npm run discover-opportunities`** automates the research-and-verify loop this project's data was originally built with by hand: it scans a small set of known hub/listing pages (`HUB_SOURCES` in the script — twelve pages including Discover Economics, four pages of LSE's public-events calendar, University of London tasters, the LSESU Economics Society, the Royal Economic Society, the Bank of England, the IEA, Loughborough's Inspiring Minds and Oxbridge Mentors' economics competitions list) for opportunities not yet tracked, and drafts full entries for the ones it judges genuinely relevant.
+**`npm run discover-opportunities`** automates the research-and-verify loop this project's data was originally built with by hand: it scans a small set of known hub/listing pages (`HUB_SOURCES` in the script — Discover Economics, four pages of LSE's public-events calendar, University of London tasters, the LSESU Economics Society, the Royal Economic Society, the Bank of England, the IEA, Oxbridge Mentors' economics competitions list, and the London economics organisations IFS, Resolution Foundation and Queen Mary's School of Economics and Finance) for opportunities not yet tracked, and drafts full entries for the ones it judges genuinely relevant.
 
 This is a materially bigger judgment call than `draft-updates` — deciding whether something is a good fit and writing several paragraphs of description, eligibility and relevance, rather than patching one date field — so it runs on Claude Sonnet 5, not Haiku, and every candidate is capped (`MAX_CANDIDATES_PER_HUB`, `MAX_NEW_ENTRIES_PER_RUN`) to keep review batches small and cost bounded. The same rules as `draft-updates` apply: fetched text is untrusted and the model is told so explicitly, a candidate with no real supporting date is dropped rather than guessed at, and the model can decline outright (`isRelevant: false`) — declines are recorded in the PR body's "considered but not added" section, not silently discarded, so a human can see what was rejected and why.
 

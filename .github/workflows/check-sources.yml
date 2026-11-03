@@ -1,10 +1,9 @@
 name: Check opportunity sources
 
+# No longer scheduled: the weekly run now happens on a real PC via `npm run weekly`, where a
+# person can complete the CAPTCHAs that block this headless runner (see README). Kept as a
+# manual fallback — it still works for every site that doesn't ask for a human check.
 on:
-  schedule:
-    # Every Monday 07:00 UTC. GitHub may delay scheduled runs slightly under load —
-    # that's fine here, this isn't time-sensitive.
-    - cron: "0 7 * * 1"
   workflow_dispatch: {}
 
 permissions:

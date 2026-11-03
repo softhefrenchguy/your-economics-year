@@ -14,18 +14,18 @@
 // explicitly to treat it as data not instructions, every field is independently validated
 // before being written, and the file must still pass `tsc --noEmit` before anything commits.
 //
-// Run with: npm run discover-opportunities
+// Run with: npm run discover-opportunities   (add `-- --interactive` for CAPTCHA help, see
+// scripts/lib/browser.mjs)
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { chromium } from "playwright";
+import { openBrowser, visit as fetchPage } from "./lib/browser.mjs";
 import Anthropic from "@anthropic-ai/sdk";
 import { todayISO } from "../src/lib/clock.ts";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const dataFilePath = path.join(here, "..", "src", "data", "opportunities.ts");
 const summaryPath = path.join(here, ".discovery-summary.json");
-const NAV_TIMEOUT_MS = 20000;
 const MAX_PAGE_TEXT_CHARS = 6000;
 const MAX_CANDIDATES_PER_HUB = 5;
 const MAX_NEW_ENTRIES_PER_RUN = 3;
@@ -71,26 +71,6 @@ const TOPIC_VALUES = [
 const DELIVERY_VALUES = ["online", "in-person", "hybrid"];
 const COST_TYPE_VALUES = ["free", "paid", "unknown"];
 const DATE_RE = /^\d{4}-\d{2}(-\d{2})?$/;
-
-async function fetchPage(context, url) {
-  const page = await context.newPage();
-  try {
-    const response = await page.goto(url, { waitUntil: "domcontentloaded", timeout: NAV_TIMEOUT_MS });
-    const status = response?.status() ?? 0;
-    if (!response || status >= 400) return { ok: false, status };
-    const text = await page.evaluate(() => document.body?.innerText ?? "");
-    const links = await page.$$eval("a[href]", (anchors) =>
-      anchors
-        .map((a) => ({ text: (a.textContent ?? "").trim(), href: a.href }))
-        .filter((l) => l.text && l.href.startsWith("http")),
-    );
-    return { ok: true, status, text, links };
-  } catch (error) {
-    return { ok: false, status: 0, error: error instanceof Error ? error.message : String(error) };
-  } finally {
-    await page.close();
-  }
-}
 
 const FIND_CANDIDATES_TOOL = {
   name: "list_candidates",
@@ -274,8 +254,7 @@ async function main() {
   const existingUrls = new Set(opportunities.map((o) => o.officialUrl));
 
   const client = new Anthropic();
-  const browser = await chromium.launch();
-  const context = await browser.newContext();
+  const { context, close } = await openBrowser();
   const discovered = [];
   let source = source0;
   let addedCount = 0;
@@ -376,7 +355,7 @@ async function main() {
       }
     }
   } finally {
-    await browser.close();
+    await close();
   }
 
   const hasAnyNew = addedCount > 0;

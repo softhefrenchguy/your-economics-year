@@ -11,7 +11,8 @@
     "preview": "vite preview --host 127.0.0.1",
     "check-sources": "node --experimental-strip-types scripts/check-sources.mjs",
     "draft-updates": "node --experimental-strip-types scripts/draft-updates.mjs",
-    "discover-opportunities": "node --experimental-strip-types scripts/discover-opportunities.mjs"
+    "discover-opportunities": "node --experimental-strip-types scripts/discover-opportunities.mjs",
+    "weekly": "node --experimental-strip-types scripts/weekly.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",

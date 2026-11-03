@@ -7,3 +7,5 @@ dist/
 scripts/.changed-sources.json
 scripts/.draft-summary.json
 scripts/.discovery-summary.json
+pr-body.md
+discovery-pr-body.md

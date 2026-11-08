@@ -20,7 +20,7 @@
     "url": "https://www.gov.uk/guidance/fcdo-next-generation-economics-competition"
   },
   "cambridge-economics-challenge": {
-    "hash": "a0cf2eddc1bfb83dc8b341d30a642816494b8d7106a7956c571946e11afe36f6",
+    "hash": "d6d8366e9fdd485a5e8229f478a76fe1728b3e5ba6b0d5794fcd72f179ceeb0f",
     "checkedAt": "2026-11-08",
     "url": "https://www.cecl6.com/"
   },
@@ -40,7 +40,7 @@
     "url": "https://iea.org.uk/the-budget-challenge/"
   },
   "soas-y12-outreach-summer-school": {
-    "hash": "0fe59c181a7c2c7757691b99bd93234e4440922227f534fedff9f7ca223231ac",
+    "hash": "2f5e134b201be4cd0e29eee7c2f3e033bc740f0ec14a3ec5de93a3ab32920ff2",
     "checkedAt": "2026-11-08",
     "url": "https://www.soas.ac.uk/about/event/soas-year-12-outreach-summer-school-2026"
   },
@@ -75,12 +75,12 @@
     "url": "https://www.goldmansachs.com/worldwide/united-kingdom/press-releases/2026/gs-lseg-foundation-launch-financial-education-initiative"
   },
   "res-annual-public-lecture-2026": {
-    "hash": "1cf42390ea4b5b60541a9303a0dbf248a3c1773aff434b469ba8c963e000e5a4",
+    "hash": "6f8003aee3e4d8197cd4478c8aa4269ef1b431f396b84bee217921e530627484",
     "checkedAt": "2026-11-08",
     "url": "https://www.discovereconomics.co.uk/events/res-annual-public-lecture-2026"
   },
   "frontier-economics-apprenticeship-evening": {
-    "hash": "51a1bbfea238bbf271864e6b9cb6c3c2abea4f59d3aac2eefdaaa0985389ffa5",
+    "hash": "35719713ece9deccd964891f738497e2360a46947b0abb04151b0c23f4ee7628",
     "checkedAt": "2026-11-08",
     "url": "https://www.discovereconomics.co.uk/events/economic-apprenticeships-at-frontier-open-evening"
   },
@@ -115,7 +115,7 @@
     "url": "https://www.kingselab.org/essay-competition"
   },
   "sidgwick-prize-economics": {
-    "hash": "a9bbbac7c8ef834e6966405d4a98c32930a66b13ca2865b29a1c0ad3080d8775",
+    "hash": "06c2ff9a7f4d416a5a0423847f2e53a73cdeb7c685341e76883f8e661aff51b2",
     "checkedAt": "2026-11-08",
     "url": "https://www.sidgwickprize.com/"
   },
@@ -175,7 +175,7 @@
     "url": "https://www.lse.ac.uk/events/british-progress"
   },
   "kcl-k-plus": {
-    "hash": "fe2e2ca54c2d149b21985885e821aca2ad87c3c4693892cb19377a4a68454d2d",
+    "hash": "3ae2f94bc9b172ef54a012f0bd418a7801f02d0bfebeae5791ad96f38ef30b65",
     "checkedAt": "2026-11-08",
     "url": "https://www.kcl.ac.uk/study/social-mobility/projects/prospective-students/k-plus"
   },
@@ -198,5 +198,15 @@
     "hash": "2527d66eba25ea9558cdd489d6a45b626325097d8b29616243d483765cb52c15",
     "checkedAt": "2026-11-08",
     "url": "https://summerschools.suttontrust.com/"
+  },
+  "lse-international-inequalities-institute-addressing-the-adve": {
+    "hash": "7e3c7dc87f7fec05e8b3e06b4f5eb1b49d2a18a5d33d107f116f38a19edcd3d4",
+    "checkedAt": "2026-11-08",
+    "url": "https://www.lse.ac.uk/events/consequences-inequality"
+  },
+  "lse-hayek-programme-in-economics-and-liberal-political-econo-2": {
+    "hash": "389fbdcc039063a6f70aa24c3e3dcc9ba8f191c3036fd2f1cb0e5b75519112ed",
+    "checkedAt": "2026-11-08",
+    "url": "https://www.lse.ac.uk/hayek/events/future-of-money-bitcoin-gold"
   }
 }

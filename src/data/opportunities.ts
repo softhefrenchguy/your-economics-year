@@ -917,6 +917,9 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("sidgwick-prize-economics", {
+    sourceLastChecked: "2026-11-08",
+    applicationDeadline: "2027-06-30",
+    applicationsOpen: "2026-09-19",
     name: "The Sidgwick Prize — Economics",
     provider: "The Sidgwick Prize",
     type: "Essay competition",
@@ -929,7 +932,7 @@ export const opportunities: Opportunity[] = [
     ukWide: true,
     costType: "paid",
     costAmount: 12,
-    status: "watchlist",
+    status: "open",
     recurring: true,
     previousCycle: {
       label: "2025–26 cycle",

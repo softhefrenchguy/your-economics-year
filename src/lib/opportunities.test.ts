@@ -31,7 +31,8 @@ describe("opportunity filtering", () => {
     expect(result.length).toBe(opportunities.filter((item) => item.status === status).length);
   });
   it("returns an empty list for a status with no matching records, without throwing", () => {
-    expect(filterOpportunities(opportunities, emptyFilters, "closed")).toEqual([]);
+    const noneClosed = opportunities.filter((item) => item.status !== "closed");
+    expect(filterOpportunities(noneClosed, emptyFilters, "closed")).toEqual([]);
   });
   it("excludes paid and unknown-cost entries when free only is selected", () => {
     const result = filterOpportunities(opportunities, { ...emptyFilters, freeOnly: true });

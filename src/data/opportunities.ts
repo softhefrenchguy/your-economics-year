@@ -209,7 +209,7 @@ export const opportunities: Opportunity[] = [
   entry("cambridge-economics-challenge", {
     sourceLastChecked: "2026-11-08",
     eventEnd: "2027-06-22",
-    eventStart: "2026-06-01",
+    eventStart: "2027-06-01",
     applicationDeadline: "2027-05-31",
     applicationsOpen: "2026-09-02",
     name: "Cambridge Economics Challenge",
@@ -609,7 +609,7 @@ export const opportunities: Opportunity[] = [
     whyRelevant:
       "A very low-commitment way for a Year 12 student to experience university Economics before applying.",
     officialUrl:
-      "https://www.london.ac.uk/study/taster-courses-schools/taste-economics-city-st-georges-cg30288",
+      "https://london.ac.uk/ways-study/study-campus-london/university-taster-courses",
     dateConfidence: "previous-cycle",
   }),
 
@@ -635,7 +635,7 @@ export const opportunities: Opportunity[] = [
       "Academic subject taster allowing Year 12 students to experience university-level study.",
     whyRelevant:
       "Useful for Economics applicants interested in economic history and understanding economic questions in historical context.",
-    officialUrl: "https://www.london.ac.uk/study/taster-courses-schools/lse-explore-extra-economic-history-ls29557",
+    officialUrl: "https://london.ac.uk/ways-study/study-campus-london/university-taster-courses",
     dateConfidence: "previous-cycle",
   }),
 

@@ -115,6 +115,8 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("dauphine-preuni-economics-management", {
+    sourceLastChecked: "2026-11-08",
+    costAmount: 275,
     name: "Dauphine-PSL Pre-Uni Camp — Economics & Management",
     provider: "Dauphine-PSL London",
     type: "University programme",
@@ -205,6 +207,11 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("cambridge-economics-challenge", {
+    sourceLastChecked: "2026-11-08",
+    eventEnd: "2027-06-22",
+    eventStart: "2027-06-01",
+    applicationDeadline: "2027-05-31",
+    applicationsOpen: "2026-09-02",
     name: "Cambridge Economics Challenge",
     provider: "Cambridge Economics Challenge",
     type: "Competition",
@@ -215,7 +222,7 @@ export const opportunities: Opportunity[] = [
     deliveryMode: "in-person",
     ukWide: true,
     costType: "free",
-    status: "watchlist",
+    status: "open",
     recurring: true,
     previousCycle: {
       label: "2025–26 cycle",
@@ -271,6 +278,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("lsesu-economics-essay", {
+    sourceLastChecked: "2026-11-08",
     name: "LSESU Economics Society Annual Essay Competition",
     provider: "LSESU Economics Society",
     type: "Essay competition",
@@ -279,7 +287,7 @@ export const opportunities: Opportunity[] = [
     yearGroups: ["Year 12 equivalent"],
     location: "Online",
     deliveryMode: "online",
-    costType: "unknown",
+    costType: "free",
     status: "watchlist",
     recurring: true,
     previousCycle: {
@@ -499,6 +507,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("royal-holloway-economics-ai", {
+    sourceLastChecked: "2026-11-08",
     name: "Economics of AI Insight Day",
     provider: "Royal Holloway Department of Economics",
     type: "Taster / event",
@@ -506,7 +515,7 @@ export const opportunities: Opportunity[] = [
     yearGroups: ["Year 12"],
     location: "London",
     deliveryMode: "in-person",
-    costType: "unknown",
+    costType: "free",
     status: "watchlist",
     recurring: true,
     expectedWindow:
@@ -600,7 +609,7 @@ export const opportunities: Opportunity[] = [
     whyRelevant:
       "A very low-commitment way for a Year 12 student to experience university Economics before applying.",
     officialUrl:
-      "https://www.london.ac.uk/study/taster-courses-schools/taste-economics-city-st-georges-cg30288",
+      "https://london.ac.uk/ways-study/study-campus-london/university-taster-courses",
     dateConfidence: "previous-cycle",
   }),
 
@@ -626,7 +635,7 @@ export const opportunities: Opportunity[] = [
       "Academic subject taster allowing Year 12 students to experience university-level study.",
     whyRelevant:
       "Useful for Economics applicants interested in economic history and understanding economic questions in historical context.",
-    officialUrl: "https://www.london.ac.uk/study/taster-courses-schools/lse-explore-extra-economic-history-ls29557",
+    officialUrl: "https://london.ac.uk/ways-study/study-campus-london/university-taster-courses",
     dateConfidence: "previous-cycle",
   }),
 
@@ -657,6 +666,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("frontier-economics-apprenticeship-evening", {
+    sourceLastChecked: "2026-11-08",
     name: "Economic Apprenticeships at Frontier — Open Evening",
     provider: "Frontier Economics / Discover Economics",
     type: "Taster / event",
@@ -667,7 +677,7 @@ export const opportunities: Opportunity[] = [
     costType: "free",
     eventStart: "2026-11-02",
     eventEnd: "2026-11-02",
-    status: "open",
+    status: "closed",
     recurring: false,
     eligibilitySummary:
       "Aimed at sixth form students considering an economics apprenticeship route; exact age/year eligibility isn't stated on the event page — check before booking.",
@@ -826,6 +836,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("lse-monetary-policy-musalem-2026", {
+    sourceLastChecked: "2026-11-08",
     name: "In Conversation with Alberto Musalem, President of the Federal Reserve Bank of St. Louis",
     provider: "London School of Economics",
     type: "Taster / event",
@@ -836,7 +847,7 @@ export const opportunities: Opportunity[] = [
     costType: "free",
     eventStart: "2026-09-29",
     eventEnd: "2026-09-29",
-    status: "open",
+    status: "closed",
     recurring: false,
     eligibilitySummary:
       "Open to the public with a free ticket; not tailored for school groups specifically, but no age restriction is stated.",
@@ -851,6 +862,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("lse-cop32-african-climate-economics-2026", {
+    sourceLastChecked: "2026-11-08",
     name: "The Road to COP32: An African Agenda for Climate Action and Economic Development",
     provider: "London School of Economics",
     type: "Taster / event",
@@ -861,7 +873,7 @@ export const opportunities: Opportunity[] = [
     costType: "free",
     eventStart: "2026-09-23",
     eventEnd: "2026-09-23",
-    status: "open",
+    status: "closed",
     recurring: false,
     eligibilitySummary: "Open to the public, free, no ticket purchase required; not tailored for school groups specifically.",
     eligibilityDetails:

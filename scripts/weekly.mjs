@@ -54,10 +54,10 @@ function repoWebUrl() {
 }
 
 // Puts the data-file change on its own branch, pushes it, and returns a pre-filled PR URL.
-// Returns null (and reverts the data file) if the change doesn't type-check.
+// Returns null (and reverts the data file) if the change doesn't type-check or breaks a test.
 function proposeOnBranch(prefix, title, bodyScript, bodyFile) {
-  if (!run("npm", ["run", "check"], { allowFail: true }).ok) {
-    console.log(`✗ The drafted change broke the type check, so it was discarded. Nothing pushed.`);
+  if (!run("npm", ["run", "check"], { allowFail: true }).ok || !run("npx", ["vitest", "run"], { allowFail: true }).ok) {
+    console.log(`✗ The drafted change broke the type check or a test, so it was discarded. Nothing pushed.`);
     git("checkout", "--", DATA_FILE);
     return null;
   }

@@ -1346,4 +1346,76 @@ export const opportunities: Opportunity[] = [
     wideningParticipation: true,
     dateConfidence: "previous-cycle",
   }),
+  entry("lse-international-inequalities-institute-addressing-the-adve", {
+    name: "Addressing the adverse consequences of inequality (John Hills Memorial Lecture)",
+    provider: "LSE International Inequalities Institute",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "Economics",
+      "Public Policy",
+      "Fiscal Policy"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    location: "London (LSE campus) / Online",
+    deliveryMode: "hybrid",
+    ukWide: true,
+    minAge: null,
+    maxAge: null,
+    costType: "free",
+    eventStart: "2026-11-25",
+    eventEnd: "2026-11-25",
+    status: "open",
+    recurring: true,
+    eligibilitySummary: "Open to the public, both in-person and online",
+    eligibilityDetails: "Open to the public, both in-person and online",
+    description: "This inaugural John Hills Memorial Lecture, hosted by LSE's International Inequalities Institute, brings together leading economists Richard Blundell (UCL) and Francisco Ferreira (LSE) to discuss inequalities in income, work, wealth, place and health in advanced economies like the UK, drawing on the IFS Deaton Review. It explores why economic policies need to go beyond redistribution to address the root causes of inequality.",
+    whyRelevant: "If you're interested in economics and public policy, this lecture offers a chance to hear from two highly distinguished economists discussing real-world issues like wealth inequality, regional disparities, and social mobility - directly connecting academic economic theory to pressing policy debates in the UK.",
+    officialUrl: "https://www.lse.ac.uk/events/consequences-inequality",
+    sourceLastChecked: "2026-11-08",
+    requiresTeacher: false,
+    requiresSchoolNomination: false,
+    wideningParticipation: false,
+    dateConfidence: "confirmed"
+  }),
+  entry("lse-hayek-programme-in-economics-and-liberal-political-econo-2", {
+    name: "Is Bitcoin the way to a better money? Is gold?",
+    provider: "LSE Hayek Programme in Economics and Liberal Political Economy",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "Economics",
+      "Monetary Policy",
+      "Finance"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    location: "London",
+    deliveryMode: "in-person",
+    ukWide: false,
+    minAge: null,
+    maxAge: null,
+    costType: "free",
+    eventStart: "2026-12-09",
+    eventEnd: "2026-12-09",
+    status: "open",
+    recurring: false,
+    eligibilitySummary: "Open to all, no registration required",
+    eligibilityDetails: "Free and open to all; seats are first-come-first-served on the day with no pre-registration.",
+    description: "A free public lecture at LSE where Professor Lawrence H. White (George Mason University), author of Better Money: Gold, Fiat, or Bitcoin?, compares gold, fiat currency and Bitcoin as monetary standards, examining how each performs under economic shocks and what might make the soundest money in a digital age. An economic journalist will join as a discussant.",
+    whyRelevant: "If you're curious about how money actually works and whether alternatives like Bitcoin or gold could do a better job than central bank currencies, this talk offers a rigorous but accessible comparison from a leading monetary economist, plus a live discussion with a journalist — a great way to see university-level economic debate in action.",
+    officialUrl: "https://www.lse.ac.uk/hayek/events/future-of-money-bitcoin-gold",
+    sourceLastChecked: "2026-11-08",
+    requiresTeacher: false,
+    requiresSchoolNomination: false,
+    wideningParticipation: false,
+    dateConfidence: "confirmed"
+  }),
 ];

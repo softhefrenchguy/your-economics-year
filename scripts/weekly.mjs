@@ -21,6 +21,8 @@ const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(root);
 const DATA_FILE = "src/data/opportunities.ts";
 const SNAPSHOTS = "scripts/source-snapshots.json";
+// Which URLs are dead or keep failing (scripts/lib/source-health.mjs) — data-free, like snapshots.
+const HEALTH = "scripts/source-health.json";
 
 if (existsSync(".env.local")) process.loadEnvFile(".env.local");
 const hasKey = Boolean(process.env.ANTHROPIC_API_KEY);
@@ -98,6 +100,7 @@ async function main() {
 
   heading("4. Saving snapshots");
   git("add", SNAPSHOTS);
+  if (existsSync(HEALTH)) git("add", HEALTH);
   if (!run("git", ["diff", "--cached", "--quiet"], { allowFail: true, quiet: true }).ok) {
     git("commit", "-m", "Update source snapshots [skip ci]");
     run("git", ["push"]);
@@ -115,6 +118,7 @@ async function main() {
     script("discover-opportunities.mjs", "--interactive");
     // The "already rejected" memory goes straight to main, like the snapshots.
     git("add", "scripts/discovery-seen.json");
+    if (existsSync(HEALTH)) git("add", HEALTH);
     if (!run("git", ["diff", "--cached", "--quiet"], { allowFail: true, quiet: true }).ok) {
       git("commit", "-m", "Update discovery memory [skip ci]");
       run("git", ["push"]);

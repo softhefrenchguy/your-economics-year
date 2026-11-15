@@ -9,3 +9,10 @@ scripts/.draft-summary.json
 scripts/.discovery-summary.json
 pr-body.md
 discovery-pr-body.md
+# Local AI/editor tooling, not part of the site
+.agents/
+.claude/
+.impeccable/
+.playwright-mcp/
+.mcp.json
+skills-lock.json

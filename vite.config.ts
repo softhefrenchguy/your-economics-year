@@ -6,5 +6,5 @@ export default defineConfig({
   // own tests still run at root; only the Pages deploy workflow sets GITHUB_PAGES.
   base: process.env.GITHUB_PAGES ? "/your-economics-year/" : "/",
   plugins: [react()],
-  test: { environment: "node", include: ["src/**/*.test.ts"] },
+  test: { environment: "node", include: ["src/**/*.test.ts", "scripts/**/*.test.mjs"] },
 });

@@ -19,6 +19,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { openBrowser, visit } from "./lib/browser.mjs";
+import { loadHealth, recordVisit, saveHealth, skipReason } from "./lib/source-health.mjs";
 import { opportunities } from "../src/data/opportunities.ts";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -47,18 +48,34 @@ function sleep(ms) {
 
 async function main() {
   const snapshots = await loadSnapshots();
+  const health = await loadHealth();
+  const today = new Date().toISOString().slice(0, 10);
   const results = [];
+  // Several entries can share one officialUrl (e.g. a university's taster-course list): load
+  // it once per run, not once per entry — that's one copy-paste for you instead of several.
+  const visited = new Map();
   const { context, close } = await openBrowser();
   try {
     for (const item of opportunities) {
       if (!item.officialUrl) continue;
-      const page = await visit(context, item.officialUrl);
+      const skipped = skipReason(health, item.officialUrl);
+      if (skipped) {
+        results.push({ id: item.id, status: skipped.state, detail: `${skipped.reason} (since ${skipped.since}), url: ${item.officialUrl}` });
+        continue;
+      }
+      let page = visited.get(item.officialUrl);
+      if (!page) {
+        page = await visit(context, item.officialUrl);
+        visited.set(item.officialUrl, page);
+        recordVisit(health, item.officialUrl, page, today);
+        await sleep(REQUEST_DELAY_MS);
+      }
       if (!page.ok) {
         results.push({ id: item.id, status: "error", detail: page.error });
       } else {
         const digest = hash(page.text);
         const previous = snapshots[item.id];
-        const checkedAt = new Date().toISOString().slice(0, 10);
+        const checkedAt = today;
         if (!previous)
           results.push({ id: item.id, status: "new", detail: "no prior snapshot — baseline recorded" });
         else if (previous.hash !== digest)
@@ -66,16 +83,18 @@ async function main() {
         else results.push({ id: item.id, status: "unchanged", detail: `matches snapshot from ${previous.checkedAt}` });
         snapshots[item.id] = { hash: digest, checkedAt, url: item.officialUrl };
       }
-      await sleep(REQUEST_DELAY_MS);
     }
   } finally {
     await close();
   }
   await writeFile(snapshotPath, JSON.stringify(snapshots, null, 2) + "\n");
+  await saveHealth(health);
 
   const changed = results.filter((r) => r.status === "changed");
   const errored = results.filter((r) => r.status === "error");
   const fresh = results.filter((r) => r.status === "new");
+  const dead = results.filter((r) => r.status === "dead");
+  const givenUp = results.filter((r) => r.status === "given-up");
 
   await writeFile(
     changedPath,
@@ -97,10 +116,21 @@ async function main() {
     for (const r of errored) console.log(`  - ${r.id}: ${r.detail}`);
     console.log("");
   }
+  if (dead.length) {
+    console.log(`💀 ${dead.length} dead link(s), not tried this run — give these entries a new officialUrl:`);
+    for (const r of dead) console.log(`  - ${r.id}: ${r.detail}`);
+    console.log("");
+  }
+  if (givenUp.length) {
+    console.log(`⏸ ${givenUp.length} source(s) failed several runs in a row and are no longer tried (npm run check-sources -- --retry-dead to retry):`);
+    for (const r of givenUp) console.log(`  - ${r.id}: ${r.detail}`);
+    console.log("");
+  }
   if (fresh.length) {
     console.log(`${fresh.length} source(s) had no prior snapshot — baseline recorded now, nothing to compare yet.`);
   }
-  if (!changed.length && !errored.length && !fresh.length) console.log("No changes detected since the last run.");
+  if (!changed.length && !errored.length && !fresh.length && !dead.length && !givenUp.length)
+    console.log("No changes detected since the last run.");
 }
 
 main();

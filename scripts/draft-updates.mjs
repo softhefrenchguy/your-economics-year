@@ -51,8 +51,12 @@ const PROPOSE_UPDATE_TOOL = {
       },
       applicationsOpen: { type: "string", description: "YYYY-MM-DD or YYYY-MM. Omit if not stated." },
       applicationDeadline: { type: "string", description: "YYYY-MM-DD or YYYY-MM. Omit if not stated." },
-      eventStart: { type: "string", description: "YYYY-MM-DD or YYYY-MM. Omit if not stated." },
-      eventEnd: { type: "string", description: "YYYY-MM-DD or YYYY-MM. Omit if not stated." },
+      eventStart: {
+        type: "string",
+        description:
+          "YYYY-MM-DD or YYYY-MM: when the programme/event itself takes place. Never a results, shortlist or awards-ceremony date — an essay competition with no event of its own has none. Omit if not stated.",
+      },
+      eventEnd: { type: "string", description: "YYYY-MM-DD or YYYY-MM. Same rule as eventStart. Omit if not stated." },
       status: { type: "string", enum: STATUS_VALUES, description: "Omit if not clearly stated." },
       costType: { type: "string", enum: COST_TYPE_VALUES, description: "Omit if not clearly stated." },
       costAmount: { type: "number", description: "Omit if not clearly stated." },
@@ -129,6 +133,13 @@ export function validateAndDiff(proposal, current, today) {
   const resultingStatus = patch.status ?? current.status;
   if (resultingStatus === "watchlist") {
     for (const field of DATE_FIELDS) delete patch[field];
+  }
+
+  // Dates read off the official page are this cycle's real dates, so the entry stops being
+  // "last year's dates" — otherwise the dialog would label confirmed 2027 dates "Last year's
+  // dates · not confirmed" (caught reviewing the 15 Nov run: Sidgwick Prize, Sutton Trust).
+  if (DATE_FIELDS.some((field) => field in patch) && current.dateConfidence && current.dateConfidence !== "confirmed") {
+    patch.dateConfidence = "confirmed";
   }
 
   return patch;

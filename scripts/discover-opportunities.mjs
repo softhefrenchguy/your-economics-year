@@ -19,7 +19,8 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { openBrowser, visit as fetchPage } from "./lib/browser.mjs";
+import { openBrowser, visit } from "./lib/browser.mjs";
+import { loadHealth, recordVisit, saveHealth, skipReason } from "./lib/source-health.mjs";
 import Anthropic from "@anthropic-ai/sdk";
 import { todayISO } from "../src/lib/clock.ts";
 import { availableInLondon } from "../src/lib/opportunities.ts";
@@ -331,6 +332,15 @@ async function main() {
   const existingUrls = new Set(opportunities.map((o) => o.officialUrl));
 
   const seen = await loadSeen();
+  // Shared with check-sources: a URL known dead (or failing week after week) isn't loaded.
+  const health = await loadHealth();
+  const fetchPage = async (ctx, url) => {
+    const skipped = skipReason(health, url);
+    if (skipped) return { ok: false, status: 0, skipped: true, error: `${skipped.state}, not retried: ${skipped.reason} (since ${skipped.since})` };
+    const result = await visit(ctx, url);
+    recordVisit(health, url, result, today);
+    return result;
+  };
   const addedByOrganiser = new Map();
   const client = new Anthropic();
   const { context, close } = await openBrowser();
@@ -452,6 +462,7 @@ async function main() {
     }
   } finally {
     await close();
+    await saveHealth(health);
   }
 
   // Remember rejections (not errors — a fetch failure deserves a retry next week).

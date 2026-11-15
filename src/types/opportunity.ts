@@ -72,7 +72,8 @@ export interface Opportunity {
 
   costType: CostType;
   costAmount?: number | null;
-  costCurrency?: "GBP";
+  // Pounds unless stated: an overseas competition can charge in dollars.
+  costCurrency?: "GBP" | "USD";
   financialSupport?: string | null;
 
   applicationsOpen?: string | null;

@@ -1,6 +1,6 @@
 import type { Opportunity } from "../types/opportunity";
 import { formatDate, teacherOpportunities } from "../lib/opportunities";
-import { statusName } from "../lib/display";
+import { costLabel, statusName } from "../lib/display";
 import { Icon } from "./Icon";
 
 function whatsNeeded(item: Opportunity): string {
@@ -19,7 +19,7 @@ function whatsNeeded(item: Opportunity): string {
 function costLine(item: Opportunity): string {
   if (item.costType === "free") return "Free to take part.";
   if (item.costType === "unknown") return item.financialSupport ?? "Cost isn't listed on the official page — confirm before committing.";
-  return `£${item.costAmount} to take part.`;
+  return `${costLabel(item)} to take part.`;
 }
 
 function TeacherItem({ item }: { item: Opportunity }) {

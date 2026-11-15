@@ -1514,4 +1514,161 @@ export const opportunities: Opportunity[] = [
     wideningParticipation: false,
     dateConfidence: "confirmed"
   }),
+
+  // ---- Added 15 Nov 2026 from a source search; every fact checked on the official page that day. ----
+
+  entry("harvard-international-economics-essay-contest", {
+    name: "Harvard International Economics Essay Contest",
+    provider: "Harvard Undergraduate Economics Association",
+    type: "Essay competition",
+    topics: ["Economics", "International Economics"],
+    yearGroups: ["Year 12", "Year 13"],
+    minAge: null,
+    maxAge: null,
+    location: "Online (open worldwide)",
+    deliveryMode: "online",
+    ukWide: true,
+    costType: "paid",
+    costAmount: 35,
+    costCurrency: "USD",
+    financialSupport:
+      "US$35 entry fee for schools outside the US, paid by card when you submit. If you can't pay by card or need a fee waiver, email competitions@thehuea.org instead of submitting the form.",
+    applicationsOpen: "2026-10-26",
+    applicationDeadline: "2027-01-05",
+    status: "open",
+    recurring: true,
+    eligibilitySummary: "High school students anywhere in the world. Year 12 and 13 enter the Grades 11–12 division.",
+    eligibilityDetails:
+      "Open to high school students anywhere in the world, in two divisions set by your grade on the deadline. Students in their final or second-to-last year of secondary school (Year 12 or 13 in the UK) enter the Grades 11–12 division. Individual entries only, one per student. The deadline is 11:59pm Eastern Time on 5 January 2027 (4:59am UK time on 6 January), and late entries aren't accepted.",
+    description:
+      "Take a position on a current economic question and defend it in up to 1,500 words. This year's prompts cover AI and young people's first jobs, caps on international students, free instant-payment systems like India's UPI, who should pay for climate damage to homes, and minimum wages where many people work informally. You can also pose your own question. Essays are judged anonymously, and winners are announced in March 2027.",
+    whyRelevant:
+      "A tightly argued 1,500-word essay on a live economic question is exactly the kind of independent thinking you'll do at university, and the prompts are global, so you can use evidence from the UK or anywhere else.",
+    officialUrl: "https://www.thehuea.org/competitions/hieec",
+    sourceLastChecked: "2026-11-15",
+    dateConfidence: "confirmed",
+  }),
+
+  entry("erc-econ-club", {
+    name: "Econ Club",
+    provider: "Economic Research Council",
+    type: "Mentoring / development",
+    topics: ["Economics", "Public Policy"],
+    yearGroups: ["Year 12", "Year 13"],
+    minAge: null,
+    maxAge: null,
+    location: "Online",
+    deliveryMode: "online",
+    ukWide: true,
+    costType: "free",
+    status: "open",
+    recurring: true,
+    eligibilitySummary: "Sixth form students at any UK school. Your teacher signs the school up.",
+    eligibilityDetails:
+      "A teacher registers the school and its students through the Economic Research Council's sign-up form. The ERC says it offers the programme free to every school in the UK.",
+    description:
+      "A sixth-form programme from Britain's oldest economics think tank: webinars with economists and policymakers, a research component, mentoring and an ambassadors scheme. All the webinars are available on demand, so you can watch them whenever suits you.",
+    whyRelevant:
+      "Talks that go beyond the A-level syllabus and challenge its assumptions, with a research project if you want to go further.",
+    teacherPitch:
+      "Free for every UK school and almost no admin: register once and your students get on-demand webinars that build on A-level content, plus an optional research component and mentoring for keen students.",
+    officialUrl: "https://ercouncil.org/the-ercs-econ-club/",
+    sourceLastChecked: "2026-11-15",
+    requiresTeacher: true,
+    dateConfidence: "confirmed",
+  }),
+
+  entry("gresham-romantic-history-of-copyright", {
+    name: "The Romantic History of Copyright",
+    provider: "Gresham College",
+    type: "Taster / event",
+    topics: ["Economics", "Economic History", "AI"],
+    yearGroups: ["Year 12", "Year 13"],
+    minAge: null,
+    maxAge: null,
+    location: "London (Barnard's Inn Hall, Holborn) or online",
+    deliveryMode: "hybrid",
+    ukWide: true,
+    costType: "free",
+    eventStart: "2027-01-12",
+    eventEnd: "2027-01-12",
+    status: "open",
+    recurring: false,
+    eligibilitySummary: "Free public lecture, open to anyone. Register to attend in person or watch online.",
+    eligibilityDetails:
+      "Gresham College lectures are free and open to the public. Register on the official page to attend at Barnard's Inn Hall, Holborn, or to watch online. Tuesday 12 January 2027, 6pm.",
+    description:
+      "Economist Professor Daniel Susskind on the long history of copyright, now at the centre of a fight between AI companies that need data and creators who don't want to give it away. He covers the competing justifications for copyright and the strange economic properties of ideas that complicate them. Part of his series AI, Copyright and the Fight for Free Culture.",
+    whyRelevant:
+      "Ideas behave very differently from ordinary goods: anyone can use one without using it up. This lecture shows what that means for markets, using one of the biggest economic arguments around AI right now.",
+    officialUrl: "https://www.gresham.ac.uk/whats-on/romantic-copyright",
+    sourceLastChecked: "2026-11-15",
+    dateConfidence: "confirmed",
+  }),
+
+  entry("imperial-sutton-trust-economics-finance-data-science", {
+    name: "Economics, Finance and Data Science Summer School",
+    provider: "Imperial College London / Sutton Trust",
+    type: "Summer school",
+    topics: ["Economics", "Finance", "Data"],
+    yearGroups: ["Year 12"],
+    location: "London (Imperial College London)",
+    deliveryMode: "in-person",
+    ukWide: false,
+    costType: "free",
+    applicationsOpen: "2027-01-11",
+    applicationDeadline: "2027-03-04",
+    status: "coming-soon",
+    recurring: true,
+    previousCycle: {
+      label: "2026 summer school",
+      eventStart: "2026-07-14",
+      eventEnd: "2026-07-17",
+      notes:
+        "Ran 14–17 July 2026 at Imperial, with two online events beforehand. 2027 dates for this course aren't published yet.",
+    },
+    eligibilitySummary:
+      "Year 12 at a UK state school. You need eight GCSEs with at least five at 7–9 (including 7–9 in maths and sciences) and at least a 5 in English Language.",
+    eligibilityDetails:
+      "Applications go through the Sutton Trust's UK Summer Schools, which open on 11 January 2027 and close on 4 March 2027. This course asks for a minimum of eight GCSEs with at least five at grades 7–9, including 7–9 in maths and sciences, and at least grade 5 in English Language. The Sutton Trust's general criteria (state school, with priority for less advantaged backgrounds) also apply. Check them on the official page.",
+    description:
+      "A free summer school at Imperial College Business School combining economics, finance and data science, with lectures, workshops and real-world case studies, plus two online events beforehand to get you ready. It's one of the Sutton Trust's UK Summer Schools, so you apply through the Sutton Trust.",
+    whyRelevant:
+      "A taste of how economics is studied with data at one of London's top universities, at no cost to you.",
+    officialUrl: "https://summerschools.suttontrust.com/course/imperial-college-london/economics-finance-and-data-science/",
+    sourceLastChecked: "2026-11-15",
+    wideningParticipation: true,
+    dateConfidence: "confirmed",
+  }),
+
+  entry("marshall-society-essay-competition", {
+    name: "Marshall Society Essay Competition",
+    provider: "Marshall Society (University of Cambridge)",
+    type: "Essay competition",
+    topics: ["Economics", "Economic History", "Monetary Policy"],
+    yearGroups: ["Year 12", "Year 13"],
+    minAge: null,
+    maxAge: null,
+    location: "Online (open worldwide)",
+    deliveryMode: "online",
+    ukWide: true,
+    costType: "unknown",
+    status: "watchlist",
+    recurring: true,
+    expectedWindow: "2027 titles not announced yet",
+    previousCycle: {
+      label: "2026 competition",
+      applicationDeadline: "2026-08",
+      notes:
+        "Six essay titles, including whether tariffs are always 'bad', central banks and energy shocks, Britain leaving the gold standard in 1931, and whether the stock market is the economy. Almost 1,500 essays from around the world. The official page doesn't state the 2026 deadline; third-party listings give 30 August 2026.",
+    },
+    eligibilitySummary: "Pre-university students; the 2026 competition took entries from all around the world.",
+    description:
+      "The essay competition of Cambridge University's official economics society, with a choice of titles mixing current policy, theory and economic history. Winners and highly commended entries are named on the society's website.",
+    whyRelevant:
+      "The titles read like Cambridge supervision questions, so it's good practice at arguing both sides with theory and evidence, even if you don't place.",
+    officialUrl: "https://marshallsoc.org/marshall-society-essay-competition-2026/",
+    sourceLastChecked: "2026-11-15",
+    dateConfidence: "previous-cycle",
+  }),
 ];

@@ -123,7 +123,7 @@ export function OpportunityDialog({
         <h3>Where and how much</h3>
         <p>
           {item.location} · {item.deliveryMode === "hybrid" ? "in person or online" : item.deliveryMode.replace("-", " ")} ·{" "}
-          {item.costType === "free" ? "free to take part" : item.costType === "unknown" ? "cost not listed on the official page" : `£${item.costAmount}`}
+          {item.costType === "free" ? "free to take part" : item.costType === "unknown" ? "cost not listed on the official page" : costLabel(item)}
         </p>
         {item.financialSupport && <p>{item.financialSupport}</p>}
 

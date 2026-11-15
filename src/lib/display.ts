@@ -20,7 +20,8 @@ export function isRollingOpen(item: Opportunity): boolean {
 export function costLabel(item: Opportunity): string {
   if (item.costType === "free") return "Free";
   if (item.costType === "unknown") return "Cost not listed";
-  return `£${item.costAmount}`;
+  if (item.costAmount == null) return "Paid";
+  return `${item.costCurrency === "USD" ? "US$" : "£"}${item.costAmount}`;
 }
 
 export function placeLabel(item: Opportunity): string {

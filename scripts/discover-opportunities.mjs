@@ -76,6 +76,13 @@ const HUB_SOURCES = [
   "https://ifs.org.uk/events",
   "https://www.resolutionfoundation.org/events/",
   "https://www.qmul.ac.uk/sef/events/",
+  // Added 2026-11-15 (each checked to load and list relevant, dated items):
+  // Gresham College's free public lectures, filtered to its Economics tag.
+  "https://www.gresham.ac.uk/whats-on?&type=541",
+  // NIESR's events calendar (public lectures and outlook briefings).
+  "https://niesr.ac.uk/events/list/",
+  // Cambridge's economics society: links to each year's essay competition page.
+  "https://marshallsoc.org/",
 ];
 // Third-party listing sites, not organisers. Every entry must cite the organiser's own
 // official page, so from these hubs only links to OTHER sites are kept as candidates —

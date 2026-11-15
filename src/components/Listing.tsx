@@ -35,11 +35,17 @@ export function Listing({
             <strong>{parts.day}</strong>
             <span>{parts.month}</span>
           </>
-        ) : (
+        ) : item.status === "open" ? (
           <>
             <span>ANY</span>
             <strong>–</strong>
             <span>TIME</span>
+          </>
+        ) : (
+          <>
+            <span>DATE</span>
+            <strong>–</strong>
+            <span>TBC</span>
           </>
         )}
         {note && <i className="pen-circle" />}
@@ -156,7 +162,14 @@ export function ListingSections({
             const joke = withJokes && (count === 3 || count === 9) ? <Doodle index={count === 3 ? 0 : 1} /> : null;
             return (
               <div key={item.id}>
-                <Listing item={item} today={today} saved={saved.includes(item.id)} onOpen={onOpen} onSave={onSave} />
+                <Listing
+                  item={item}
+                  today={today}
+                  saved={saved.includes(item.id)}
+                  dateOverride={group.dates?.[item.id]}
+                  onOpen={onOpen}
+                  onSave={onSave}
+                />
                 {joke}
               </div>
             );

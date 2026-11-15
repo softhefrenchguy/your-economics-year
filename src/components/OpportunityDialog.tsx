@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Opportunity } from "../types/opportunity";
 import { formatDate } from "../lib/opportunities";
-import { costLabel, needsTeacher, teacherMessage, whenLabel } from "../lib/display";
+import { costLabel, needsTeacher, statusName, teacherMessage, whenLabel } from "../lib/display";
 import { Icon } from "./Icon";
 
 function confidenceLabel(item: Opportunity): string {
@@ -10,13 +10,6 @@ function confidenceLabel(item: Opportunity): string {
   if (item.dateConfidence === "previous-cycle") return "Last year's dates · not confirmed";
   return "Expected back · no date yet";
 }
-
-const statusName: Record<Opportunity["status"], string> = {
-  open: "Open now",
-  "coming-soon": "Coming soon",
-  watchlist: "Watchlist",
-  closed: "Closed",
-};
 
 export function OpportunityDialog({
   item,

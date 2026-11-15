@@ -1,5 +1,6 @@
 import type { Opportunity } from "../types/opportunity";
 import { formatDate, teacherOpportunities } from "../lib/opportunities";
+import { statusName } from "../lib/display";
 import { Icon } from "./Icon";
 
 function whatsNeeded(item: Opportunity): string {
@@ -29,7 +30,7 @@ function TeacherItem({ item }: { item: Opportunity }) {
           <p className="provider">{item.provider}</p>
           <h3>{item.name}</h3>
         </div>
-        <span className={`status-pill status-${item.status}`}>{item.status === "open" ? "Open" : item.status === "coming-soon" ? "Coming soon" : item.status === "watchlist" ? "Watchlist" : "Closed"}</span>
+        <span className={`status-pill status-${item.status}`}>{statusName[item.status]}</span>
       </div>
       <p className="teacher-item-line">
         <Icon name="bell" size={14} /> {whatsNeeded(item)}

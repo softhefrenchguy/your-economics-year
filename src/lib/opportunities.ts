@@ -127,7 +127,10 @@ export function timelineEntries(items: Opportunity[], academicYear: number): Tim
       entries.push({ opportunity, date, label, estimated });
   };
   for (const item of items) {
-    if (item.status === "watchlist" || item.status === "coming-soon") {
+    // Last cycle's dates only stand in when this cycle has none confirmed: a coming-soon
+    // item with real dates (Sutton Trust's 2027 round) is placed on those, not last year's.
+    const hasConfirmedDates = Boolean(item.applicationsOpen || item.applicationDeadline || item.eventStart);
+    if (item.status === "watchlist" || (item.status === "coming-soon" && !hasConfirmedDates)) {
       const cycle = item.previousCycle;
       if (cycle) {
         const label = `${cycle.label} · based on last cycle, not confirmed`;
@@ -173,11 +176,14 @@ export function currentAcademicYear(today: string): number {
 //   derive from.
 // - Otherwise: before applicationsOpen -> "coming-soon"; after the last relevant date
 //   (deadline, else event end, else event start) -> "closed"; between the two -> "open".
+// - "coming-soon" means a confirmed date is on the way. One with no dates at all is really
+//   "not announced yet", so it's shown as watchlist — the site never says "coming soon"
+//   without a date to back it.
 export function effectiveStatus(item: Opportunity, today: string): OpportunityStatus {
   if (item.status === "watchlist" || item.status === "closed") return item.status;
   const openDate = item.applicationsOpen;
   const closeDate = item.applicationDeadline ?? item.eventEnd ?? item.eventStart;
-  if (!openDate && !closeDate) return item.status;
+  if (!openDate && !closeDate) return item.status === "coming-soon" ? "watchlist" : item.status;
   if (openDate && today < openDate) return "coming-soon";
   if (closeDate && today > closeDate) return "closed";
   return "open";

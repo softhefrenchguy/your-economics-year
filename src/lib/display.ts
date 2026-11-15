@@ -82,6 +82,71 @@ export interface Section {
   title: string;
   note: string;
   items: Opportunity[];
+  // Per-item date shown on the listing instead of its default one (used by "Not open yet").
+  dates?: Record<string, { date: string; label: string; lastYear: boolean }>;
+}
+
+// Browse has two tabs. "Not open yet" holds both kinds of not-yet: confirmed ("coming-soon",
+// which always has a real date) and not announced ("watchlist", going by last year). They
+// sit together by month; each card says which it is.
+export type BrowseTab = "open" | "upcoming";
+export const inTab = (item: Opportunity, tab: BrowseTab) =>
+  tab === "open" ? item.status === "open" : item.status === "coming-soon" || item.status === "watchlist";
+
+export const statusName: Record<OpportunityStatus, string> = {
+  open: "Open now",
+  "coming-soon": "Opens soon",
+  watchlist: "Not announced yet",
+  closed: "Closed",
+};
+
+// The same month (and day) as last year's date, at its next occurrence from this month on:
+// last September's deadline is expected around next September, not two months ago.
+function nextOccurrence(date: string, today: string): string {
+  const rest = date.slice(4);
+  const year = Number(today.slice(0, 4));
+  return `${year}${rest}`.slice(0, 7) < today.slice(0, 7) ? `${year + 1}${rest}` : `${year}${rest}`;
+}
+
+// Where a not-open-yet item is listed. Confirmed: its opening date. Not announced: last
+// year's date, moved to when it would next come round (used for ordering only — the card
+// itself always shows last year's real date, marked as such).
+export function upcomingPlacement(item: Opportunity, today: string) {
+  if (item.status === "coming-soon") {
+    const date = item.applicationsOpen ?? actionDate(item);
+    return date ? { sortDate: date, shown: { date, label: "Opens", lastYear: false } } : null;
+  }
+  const last = listDate(item);
+  if (!last) return null;
+  return {
+    sortDate: nextOccurrence(last.date, today),
+    shown: { date: last.date, label: "Not announced yet · last year's date", lastYear: true },
+  };
+}
+
+export function upcomingSections(items: Opportunity[], today: string): Section[] {
+  const groups = new Map<string, Section>();
+  const placed = items
+    .map((item) => ({ item, at: upcomingPlacement(item, today) }))
+    .sort(
+      (a, b) =>
+        (a.at?.sortDate.slice(0, 7) ?? "9999").localeCompare(b.at?.sortDate.slice(0, 7) ?? "9999") ||
+        Number(a.at?.shown.lastYear ?? true) - Number(b.at?.shown.lastYear ?? true) ||
+        (a.at?.sortDate ?? "").localeCompare(b.at?.sortDate ?? ""),
+    );
+  for (const { item, at } of placed) {
+    const key = at ? `m-${at.sortDate.slice(0, 7)}` : "z-none";
+    if (!groups.has(key))
+      groups.set(key, { key, title: at ? formatDate(at.sortDate.slice(0, 7)) : "No dates yet", note: "", items: [], dates: {} });
+    const group = groups.get(key)!;
+    group.items.push(item);
+    if (at) group.dates![item.id] = at.shown;
+  }
+  return [...groups.values()].map((section) => {
+    const confirmed = section.items.filter((item) => item.status === "coming-soon").length;
+    const count = `${section.items.length} ${section.items.length === 1 ? "listing" : "listings"}`;
+    return { ...section, note: confirmed ? `${count} · ${confirmed} confirmed` : count };
+  });
 }
 
 // Chronological sections: This week, Later in <this month>, then each later month, then
@@ -114,8 +179,8 @@ export const numberWord = (n: number) => words[n] ?? String(n);
 
 // The headline, written from the data so it is always true. `highlight` gets the yellow
 // highlighter; `after` follows it.
-export function headline(items: Opportunity[], status: OpportunityStatus, today: string): { highlight: string; after: string } {
-  if (status === "open") {
+export function headline(items: Opportunity[], tab: BrowseTab, today: string): { highlight: string; after: string } {
+  if (tab === "open") {
     const next = new Date(Date.parse(`${today.slice(0, 7)}-01T12:00:00Z`));
     next.setUTCMonth(next.getUTCMonth() + 1);
     const freeThisMonth = items.filter(
@@ -125,9 +190,13 @@ export function headline(items: Opportunity[], status: OpportunityStatus, today:
       return { highlight: `${numberWord(freeThisMonth)} free things`, after: ` to do before ${monthName(next.toISOString())}.` };
     return { highlight: `${numberWord(items.length)} things`, after: " you can do right now." };
   }
-  if (status === "coming-soon")
-    return { highlight: `${numberWord(items.length)} on the way.`, after: " Confirmed, just not open yet." };
-  return { highlight: `${numberWord(items.length)} that ran last year`, after: " and will probably be back." };
+  const confirmed = items.filter((item) => item.status === "coming-soon").length;
+  return {
+    highlight: `${numberWord(items.length)} not open yet.`,
+    after: confirmed
+      ? ` ${numberWord(confirmed)} with confirmed dates, the rest going by last year's.`
+      : " None confirmed yet, so the dates shown are last year's.",
+  };
 }
 
 // The pen note for a listing whose date is today, if any.

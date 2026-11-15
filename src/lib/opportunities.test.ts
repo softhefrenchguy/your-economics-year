@@ -16,6 +16,7 @@ import {
   timelineEntries,
   withEffectiveStatus,
 } from "./opportunities";
+import { inTab, upcomingSections } from "./display";
 import type { Opportunity } from "../types/opportunity";
 
 const fixture = (overrides: Partial<Opportunity>): Opportunity => ({
@@ -232,6 +233,25 @@ describe("status ages against real dates instead of needing manual edits", () =>
     const closed = fixture({ status: "closed", applicationDeadline: "2099-01-01" });
     expect(effectiveStatus(closed, "2000-01-01")).toBe("closed");
   });
+  it("never shows 'coming-soon' without a date: one with none is 'not announced yet' (watchlist)", () => {
+    const undated = fixture({ status: "coming-soon", applicationsOpen: null, applicationDeadline: null, eventStart: null, eventEnd: null });
+    expect(effectiveStatus(undated, "2026-11-15")).toBe("watchlist");
+    const dated = fixture({ status: "coming-soon", applicationsOpen: "2027-01-11", applicationDeadline: "2027-03-04" });
+    expect(effectiveStatus(dated, "2026-11-15")).toBe("coming-soon");
+  });
+  it("places a coming-soon item with confirmed dates on those dates, not last cycle's", () => {
+    const item = fixture({
+      status: "coming-soon",
+      applicationsOpen: "2027-01-11",
+      applicationDeadline: "2027-03-04",
+      eventStart: null,
+      eventEnd: null,
+      previousCycle: { label: "2026", applicationsOpen: "2026-01-12", applicationDeadline: "2026-03-05" },
+    });
+    const entries = timelineEntries([item], 2026);
+    expect(entries.map((entry) => entry.date)).toEqual(["2027-01-11", "2027-03-04"]);
+    expect(entries.every((entry) => !entry.estimated)).toBe(true);
+  });
   it("keeps the authored status for rolling items with no dates at all to derive from", () => {
     const rolling = fixture({
       status: "open",
@@ -307,5 +327,28 @@ describe("London focus", () => {
     expect(availableInLondon(byName("Discover Economics with Bank of England"))).toBe(false);
     expect(availableInLondon(byName("in-school taster session"))).toBe(false);
     expect(availableInLondon(byName("Experience Christ's Summer School"))).toBe(false);
+  });
+});
+
+describe("one 'Not open yet' list", () => {
+  const today = "2026-11-15";
+  const confirmed = fixture({ id: "sutton", status: "coming-soon", applicationsOpen: "2027-01-11", applicationDeadline: "2027-03-04", eventStart: null, eventEnd: null });
+  const lastYearJan = fixture({ id: "locke", status: "watchlist", applicationsOpen: null, applicationDeadline: null, eventStart: null, eventEnd: null, previousCycle: { label: "2026", applicationDeadline: "2026-01-20" } });
+  const lastYearSep = fixture({ id: "lsesu", status: "watchlist", applicationsOpen: null, applicationDeadline: null, eventStart: null, eventEnd: null, previousCycle: { label: "2026", applicationDeadline: "2026-09-01" } });
+  const nothing = fixture({ id: "none", status: "watchlist", applicationsOpen: null, applicationDeadline: null, eventStart: null, eventEnd: null, previousCycle: null });
+
+  it("holds both confirmed and not-announced items, ordered by when they next come round", () => {
+    expect(["open", "coming-soon", "watchlist", "closed"].map((status) => inTab(fixture({ status } as Partial<Opportunity>), "upcoming"))).toEqual([false, true, true, false]);
+    const groups = upcomingSections([nothing, lastYearSep, lastYearJan, confirmed], today);
+    expect(groups.map((g) => g.title)).toEqual(["January 2027", "September 2027", "No dates yet"]);
+    // Confirmed first within a month, then last year's.
+    expect(groups[0].items.map((i) => i.id)).toEqual(["sutton", "locke"]);
+    expect(groups[0].note).toBe("2 listings · 1 confirmed");
+  });
+
+  it("labels each card: confirmed opening date, or last year's real date marked as such", () => {
+    const [jan] = upcomingSections([lastYearJan, confirmed], today);
+    expect(jan.dates?.sutton).toEqual({ date: "2027-01-11", label: "Opens", lastYear: false });
+    expect(jan.dates?.locke).toEqual({ date: "2026-01-20", label: "Not announced yet · last year's date", lastYear: true });
   });
 });

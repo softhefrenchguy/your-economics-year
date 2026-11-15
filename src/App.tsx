@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { opportunities, REFERENCE_DATE } from "./data/opportunities";
-import type { Opportunity, OpportunityStatus } from "./types/opportunity";
+import type { Opportunity } from "./types/opportunity";
 import {
   availableInLondon,
   currentAcademicYear,
@@ -11,7 +11,7 @@ import {
   withEffectiveStatus,
   type Filters as FilterState,
 } from "./lib/opportunities";
-import { headline, sections, type Section } from "./lib/display";
+import { headline, inTab, sections, upcomingSections, type BrowseTab, type Section } from "./lib/display";
 import { todayISO } from "./lib/clock";
 import { reminderStore } from "./lib/reminders";
 import { Icon, type IconName } from "./components/Icon";
@@ -28,15 +28,18 @@ const views: { id: View; label: string; icon: IconName }[] = [
   { id: "list", label: "My list", icon: "bookmark" },
   { id: "teachers", label: "Teachers", icon: "mail" },
 ];
-const statuses: { id: OpportunityStatus; label: string; line: string }[] = [
+const statuses: { id: BrowseTab; label: string; line: string }[] = [
   { id: "open", label: "Open now", line: "Everything you can apply for, sign up to or turn up to right now, in date order." },
-  { id: "coming-soon", label: "Coming soon", line: "Confirmed and on the way. Save them and check back when they open." },
-  { id: "watchlist", label: "Watchlist", line: "These ran last year and will probably return. The months shown are last year's, not confirmed." },
+  {
+    id: "upcoming",
+    label: "Not open yet",
+    line: "In the order they open. Where it says “Opens”, the date is confirmed; where it says “not announced yet”, it ran last year and the date shown is last year's.",
+  },
 ];
 
 export default function App() {
   const [view, setView] = useState<View>("browse");
-  const [status, setStatus] = useState<OpportunityStatus>("open");
+  const [status, setStatus] = useState<BrowseTab>("open");
   const [filters, setFilters] = useState<FilterState>(emptyFilters);
   const [saved, setSaved] = useState<string[]>(() => reminderStore.load());
   const [selected, setSelected] = useState<Opportunity | null>(null);
@@ -50,10 +53,11 @@ export default function App() {
   // London-focused: only what a London-based student can do (London, online or UK-wide).
   const live = useMemo(() => withEffectiveStatus(opportunities.filter(availableInLondon), today), [today]);
 
-  const results = prioritiseFree(filterOpportunities(live, filters, status));
+  const filtered = filterOpportunities(live, filters);
+  const results = prioritiseFree(filtered.filter((item) => inTab(item, status)));
   const counts = Object.fromEntries(
-    statuses.map((s) => [s.id, filterOpportunities(live, filters, s.id).length]),
-  ) as Record<OpportunityStatus, number>;
+    statuses.map((s) => [s.id, filtered.filter((item) => inTab(item, s.id)).length]),
+  ) as Record<BrowseTab, number>;
   const lead = headline(results, status, today);
   const activeStatus = statuses.find((s) => s.id === status)!;
   const savedItems = live.filter((item) => saved.includes(item.id));
@@ -87,11 +91,11 @@ export default function App() {
     window.scrollTo({ top: 0 });
   }
   const listProps = { today, saved, onOpen: setSelected, onSave: toggleSaved };
-  const savedGroups: Section[] = statuses
-    .map((s) => {
-      const items = savedItems.filter((item) => item.status === s.id);
-      return { key: s.id, title: s.label, note: `${items.length} saved`, items };
-    })
+  const savedGroups: Section[] = [
+    ...statuses.map((s) => ({ key: s.id, title: s.label, items: savedItems.filter((item) => inTab(item, s.id)) })),
+    { key: "closed", title: "Closed", items: savedItems.filter((item) => item.status === "closed") },
+  ]
+    .map((group) => ({ ...group, note: `${group.items.length} saved` }))
     .filter((group) => group.items.length > 0);
 
   return (
@@ -157,10 +161,14 @@ export default function App() {
                 {results.length} {activeStatus.label.toLowerCase()} listings{filtersOn ? " with your filters" : ""}.
               </p>
               {results.length ? (
-                <ListingSections groups={sections(results, today, status)} {...listProps} jokes={status === "open"} />
+                <ListingSections
+                  groups={status === "open" ? sections(results, today, "open") : upcomingSections(results, today)}
+                  {...listProps}
+                  jokes={status === "open"}
+                />
               ) : (
                 <div className="empty">
-                  <h2>Nothing {activeStatus.label.toLowerCase()} with those filters.</h2>
+                  <h2>Nothing {status === "open" ? "open now" : "coming up"} with those filters.</h2>
                   <div className="empty-actions">
                     {statuses
                       .filter((s) => s.id !== status && counts[s.id] > 0)
@@ -213,7 +221,7 @@ export default function App() {
 
         <footer className="footer">
           <p>
-            Open, coming soon and closed are worked out live from today's date ({formatDate(today, true)}). The listings
+            What's open, not open yet and closed is worked out live from today's date ({formatDate(today, true)}). The listings
             were last verified by hand on {formatDate(REFERENCE_DATE, true)}, and each links to its official page, which
             always has the final word.
           </p>
@@ -259,10 +267,12 @@ export default function App() {
             year's dates aren't out yet, you'll see last year's month, clearly marked "last year". Nothing is guessed,
             and the chart counts only real dates.
           </p>
-          <h3>Open now, Coming soon, Watchlist</h3>
+          <h3>Open now and Not open yet</h3>
           <p>
-            <strong>Open now:</strong> apply, sign up or turn up now. <strong>Coming soon:</strong> confirmed, not open
-            yet. <strong>Watchlist:</strong> ran last year, dates not confirmed.
+            <strong>Open now:</strong> apply, sign up or turn up now. <strong>Not open yet:</strong> everything coming
+            up, in the order it opens. A card saying <strong>“Opens”</strong> has a confirmed date. A card saying{" "}
+            <strong>“not announced yet”</strong> ran last year and hasn't published this year's dates, so it shows last
+            year's date, marked “last yr”.
           </p>
           <h3>My list</h3>
           <p>Saves things in this browser on this device. No account, no emails, no notifications.</p>

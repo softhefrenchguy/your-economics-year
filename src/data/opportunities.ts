@@ -346,7 +346,10 @@ export const opportunities: Opportunity[] = [
     deliveryMode: "in-person",
     ukWide: true,
     costType: "free",
-    status: "watchlist",
+    applicationDeadline: "2027-01-29",
+    eventStart: "2027-02",
+    eventEnd: "2027-04",
+    status: "open",
     recurring: true,
     previousCycle: {
       label: "2026 cycle",
@@ -366,7 +369,8 @@ export const opportunities: Opportunity[] = [
     officialUrl: "https://iea.org.uk/the-budget-challenge/",
     requiresSchoolNomination: true,
     requiresTeacher: true,
-    dateConfidence: "previous-cycle",
+    sourceLastChecked: "2026-10-19",
+    dateConfidence: "confirmed",
   }),
 
   entry("soas-y12-outreach-summer-school", {
@@ -811,6 +815,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("discover-economics-boe-economists-bristol", {
+    sourceLastChecked: "2026-11-15",
     name: "Discover Economics with Bank of England Economists",
     provider: "Discover Economics / Bank of England",
     type: "Taster / event",
@@ -821,7 +826,7 @@ export const opportunities: Opportunity[] = [
     costType: "free",
     eventStart: "2026-11-13",
     eventEnd: "2026-11-13",
-    status: "open",
+    status: "closed",
     recurring: false,
     eligibilitySummary: "For current GCSE and A-level students.",
     eligibilityDetails:
@@ -917,6 +922,9 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("sidgwick-prize-economics", {
+    sourceLastChecked: "2026-11-15",
+    applicationDeadline: "2027-06-30",
+    applicationsOpen: "2026-09-19",
     name: "The Sidgwick Prize — Economics",
     provider: "The Sidgwick Prize",
     type: "Essay competition",
@@ -929,7 +937,7 @@ export const opportunities: Opportunity[] = [
     ukWide: true,
     costType: "paid",
     costAmount: 12,
-    status: "watchlist",
+    status: "open",
     recurring: true,
     previousCycle: {
       label: "2025–26 cycle",
@@ -944,7 +952,7 @@ export const opportunities: Opportunity[] = [
     whyRelevant:
       "Every entrant gets individual written feedback from an academic specialist — unusual among essay competitions, and useful independent of whether you place.",
     officialUrl: "https://www.sidgwickprize.com/",
-    dateConfidence: "previous-cycle",
+    dateConfidence: "confirmed",
   }),
   entry("lse-stone-centre-for-wealth-inequality-and-entrepreneurship", {
     name: "How should we tax the wealthy?",
@@ -1327,6 +1335,10 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("sutton-trust-summer-schools", {
+    eventEnd: "2027-08",
+    eventStart: "2027-06",
+    applicationDeadline: "2027-03-04",
+    applicationsOpen: "2027-01-11",
     name: "Sutton Trust Summer Schools",
     provider: "Sutton Trust",
     type: "Summer school",
@@ -1337,9 +1349,8 @@ export const opportunities: Opportunity[] = [
     deliveryMode: "in-person",
     ukWide: true,
     costType: "free",
-    status: "watchlist",
+    status: "coming-soon",
     recurring: true,
-    expectedWindow: "2027 applications expected to open in January",
     previousCycle: {
       label: "2026 summer schools",
       applicationsOpen: "2026-01-12",
@@ -1354,9 +1365,9 @@ export const opportunities: Opportunity[] = [
     whyRelevant:
       "A free week studying economics at a top university, which some partner universities recognise with contextual or guaranteed alternative offers.",
     officialUrl: "https://summerschools.suttontrust.com/",
-    sourceLastChecked: "2026-11-03",
+    sourceLastChecked: "2026-11-15",
     wideningParticipation: true,
-    dateConfidence: "previous-cycle",
+    dateConfidence: "confirmed",
   }),
   entry("lse-international-inequalities-institute-addressing-the-adve", {
     name: "Addressing the adverse consequences of inequality (John Hills Memorial Lecture)",

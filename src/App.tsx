@@ -11,21 +11,22 @@ import {
   withEffectiveStatus,
   type Filters as FilterState,
 } from "./lib/opportunities";
-import { headline, inTab, sections, upcomingSections, type BrowseTab, type Section } from "./lib/display";
+import { headline, inTab, sections, upcomingSections, type BrowseTab } from "./lib/display";
+import { progressStore } from "./lib/progress";
+import type { Progress, ProgressMap } from "./lib/plan";
 import { todayISO } from "./lib/clock";
 import { reminderStore } from "./lib/reminders";
 import { Icon, type IconName } from "./components/Icon";
 import { ListingSections } from "./components/Listing";
 import { YearChart } from "./components/YearChart";
 import { OpportunityDialog } from "./components/OpportunityDialog";
-import { Timeline } from "./components/Timeline";
+import { YearPlan } from "./components/YearPlan";
 import { TeacherPage } from "./components/TeacherPage";
 
-type View = "browse" | "year" | "list" | "teachers";
+type View = "browse" | "year" | "teachers";
 const views: { id: View; label: string; icon: IconName }[] = [
   { id: "browse", label: "Browse", icon: "home" },
   { id: "year", label: "Your year", icon: "calendar" },
-  { id: "list", label: "My list", icon: "bookmark" },
   { id: "teachers", label: "Teachers", icon: "mail" },
 ];
 const statuses: { id: BrowseTab; label: string; line: string }[] = [
@@ -42,6 +43,7 @@ export default function App() {
   const [status, setStatus] = useState<BrowseTab>("open");
   const [filters, setFilters] = useState<FilterState>(emptyFilters);
   const [saved, setSaved] = useState<string[]>(() => reminderStore.load());
+  const [progress, setProgress] = useState<ProgressMap>(() => progressStore.load());
   const [selected, setSelected] = useState<Opportunity | null>(null);
   const [toast, setToast] = useState("");
   const [about, setAbout] = useState(false);
@@ -81,8 +83,8 @@ export default function App() {
     setToast(
       persisted
         ? removing
-          ? "Removed from My list."
-          : "Saved to My list on this device. Nothing gets emailed or sent."
+          ? "Removed from Your year."
+          : "Saved to Your year, on this device. Nothing gets emailed or sent."
         : "This browser won't store your list, so it'll only last until you close the tab.",
     );
   }
@@ -91,12 +93,11 @@ export default function App() {
     window.scrollTo({ top: 0 });
   }
   const listProps = { today, saved, onOpen: setSelected, onSave: toggleSaved };
-  const savedGroups: Section[] = [
-    ...statuses.map((s) => ({ key: s.id, title: s.label, items: savedItems.filter((item) => inTab(item, s.id)) })),
-    { key: "closed", title: "Closed", items: savedItems.filter((item) => item.status === "closed") },
-  ]
-    .map((group) => ({ ...group, note: `${group.items.length} saved` }))
-    .filter((group) => group.items.length > 0);
+  function updateProgress(id: string, entry: Progress) {
+    const next = { ...progress, [id]: entry };
+    setProgress(next);
+    if (!progressStore.save(next)) setToast("This browser won't store your notes, so they'll only last until you close the tab.");
+  }
 
   return (
     <>
@@ -112,7 +113,7 @@ export default function App() {
             {views.map((v) => (
               <button key={v.id} aria-current={view === v.id ? "page" : undefined} onClick={() => go(v.id)}>
                 {v.label}
-                {v.id === "list" && saved.length > 0 && <span className="count">{saved.length}</span>}
+                {v.id === "year" && saved.length > 0 && <span className="count">{saved.length}</span>}
               </button>
             ))}
             <button onClick={() => setAbout(true)}>About</button>
@@ -190,31 +191,16 @@ export default function App() {
         )}
 
         {view === "year" && (
-          <Timeline items={filterOpportunities(live, filters)} allItems={live} academicYear={academicYear} {...listProps} />
-        )}
-
-        {view === "list" && (
-          <div className="page">
-            <h1 className="page-title">My list</h1>
-            <p className="page-intro">
-              Saved in this browser on this device. No account, and nothing is emailed or sent.
-            </p>
-            {savedGroups.length ? (
-              <div className="page-list">
-                <ListingSections groups={savedGroups} {...listProps} jokes={false} />
-              </div>
-            ) : (
-              <div className="empty">
-                <h2>Nothing saved yet.</h2>
-                <p>Tap the bookmark next to anything that looks interesting and it'll wait for you here.</p>
-                <div className="empty-actions">
-                  <button className="btn btn-ink" onClick={() => go("browse")}>
-                    See what's open <Icon name="arrow" size={15} />
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+          <YearPlan
+            items={savedItems}
+            today={today}
+            progress={progress}
+            onProgress={updateProgress}
+            onOpen={setSelected}
+            onRemove={toggleSaved}
+            onBrowse={() => go("browse")}
+            onToast={setToast}
+          />
         )}
 
         {view === "teachers" && <TeacherPage opportunities={live} />}
@@ -234,7 +220,7 @@ export default function App() {
           <button key={v.id} aria-current={view === v.id ? "page" : undefined} onClick={() => go(v.id)}>
             <Icon name={v.icon} size={21} />
             <span>{v.label}</span>
-            {v.id === "list" && saved.length > 0 && <span className="dot">{saved.length}</span>}
+            {v.id === "year" && saved.length > 0 && <span className="dot">{saved.length}</span>}
           </button>
         ))}
       </nav>
@@ -274,8 +260,12 @@ export default function App() {
             <strong>“not announced yet”</strong> ran last year and hasn't published this year's dates, so it shows last
             year's date, marked “last yr”.
           </p>
-          <h3>My list</h3>
-          <p>Saves things in this browser on this device. No account, no emails, no notifications.</p>
+          <h3>Your year</h3>
+          <p>
+            Everything you save, in the order you need to act, with a button to put the dates in your own calendar. Tick
+            things off and jot down what you got from them, ready for your personal statement. It's all kept in this
+            browser on this device: no account, no emails.
+          </p>
           <h3>Sending things to your teacher</h3>
           <p>
             Some opportunities need your school to sign you up. “Copy message for my teacher” copies a short message

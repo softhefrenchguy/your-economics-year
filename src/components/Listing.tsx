@@ -71,7 +71,7 @@ export function Listing({
       <button
         className={`save ${saved ? "is-on" : ""}`}
         aria-pressed={saved}
-        aria-label={saved ? `Remove ${item.name} from my list` : `Save ${item.name} to my list`}
+        aria-label={saved ? `Remove ${item.name} from your year` : `Save ${item.name} to your year`}
         onClick={() => onSave(item.id)}
       >
         <Icon name={saved ? "check" : "bookmark"} size={18} />

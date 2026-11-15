@@ -82,7 +82,7 @@ export function OpportunityDialog({
           )}
           <button className={`btn btn-icon ${saved ? "is-on" : ""}`} aria-pressed={saved} onClick={() => onSave(item.id)}>
             <Icon name={saved ? "check" : "bookmark"} size={17} />
-            <span>{saved ? "On my list" : "Add to my list"}</span>
+            <span>{saved ? "In your year" : "Add to your year"}</span>
           </button>
         </div>
 

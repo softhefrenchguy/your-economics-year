@@ -919,7 +919,6 @@ export const opportunities: Opportunity[] = [
 
   entry("sidgwick-prize-economics", {
     sourceLastChecked: "2026-11-15",
-    eventStart: "2027-09-18",
     applicationDeadline: "2027-06-30",
     applicationsOpen: "2026-09-19",
     name: "The Sidgwick Prize — Economics",
@@ -949,7 +948,7 @@ export const opportunities: Opportunity[] = [
     whyRelevant:
       "Every entrant gets individual written feedback from an academic specialist — unusual among essay competitions, and useful independent of whether you place.",
     officialUrl: "https://www.sidgwickprize.com/",
-    dateConfidence: "previous-cycle",
+    dateConfidence: "confirmed",
   }),
   entry("lse-stone-centre-for-wealth-inequality-and-entrepreneurship", {
     name: "How should we tax the wealthy?",
@@ -1348,7 +1347,6 @@ export const opportunities: Opportunity[] = [
     costType: "free",
     status: "coming-soon",
     recurring: true,
-    expectedWindow: "2027 applications expected to open in January",
     previousCycle: {
       label: "2026 summer schools",
       applicationsOpen: "2026-01-12",
@@ -1365,7 +1363,7 @@ export const opportunities: Opportunity[] = [
     officialUrl: "https://summerschools.suttontrust.com/",
     sourceLastChecked: "2026-11-15",
     wideningParticipation: true,
-    dateConfidence: "previous-cycle",
+    dateConfidence: "confirmed",
   }),
   entry("lse-international-inequalities-institute-addressing-the-adve", {
     name: "Addressing the adverse consequences of inequality (John Hills Memorial Lecture)",

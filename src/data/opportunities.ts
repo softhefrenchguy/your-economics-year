@@ -346,7 +346,10 @@ export const opportunities: Opportunity[] = [
     deliveryMode: "in-person",
     ukWide: true,
     costType: "free",
-    status: "watchlist",
+    applicationDeadline: "2027-01-29",
+    eventStart: "2027-02",
+    eventEnd: "2027-04",
+    status: "open",
     recurring: true,
     previousCycle: {
       label: "2026 cycle",
@@ -366,7 +369,8 @@ export const opportunities: Opportunity[] = [
     officialUrl: "https://iea.org.uk/the-budget-challenge/",
     requiresSchoolNomination: true,
     requiresTeacher: true,
-    dateConfidence: "previous-cycle",
+    sourceLastChecked: "2026-10-19",
+    dateConfidence: "confirmed",
   }),
 
   entry("soas-y12-outreach-summer-school", {

@@ -1441,4 +1441,77 @@ export const opportunities: Opportunity[] = [
     wideningParticipation: false,
     dateConfidence: "confirmed"
   }),
+  entry("lse-centre-for-macroeconomics-money-the-inside-story", {
+    name: "Money: the inside story",
+    provider: "LSE Centre For Macroeconomics",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "Economics",
+      "Monetary Policy",
+      "Banking"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    location: "London",
+    deliveryMode: "in-person",
+    ukWide: false,
+    minAge: null,
+    maxAge: null,
+    costType: "free",
+    applicationsOpen: "2026-12-14",
+    eventStart: "2027-01-21",
+    eventEnd: "2027-01-21",
+    status: "open",
+    recurring: false,
+    eligibilitySummary: "Open to the public; tickets requested online",
+    eligibilityDetails: "Open to the public; tickets requested online",
+    description: "A public talk at LSE where Rupal Patel and Jack Leslie, both economic advisers at the Bank of England, discuss their book 'Money: The Inside Story'. They'll cover how money works, what causes inflation, and what happens inside the Bank of England during a banking crisis, chaired by LSE Professor Ricardo Reis.",
+    whyRelevant: "This talk offers a chance to hear directly from Bank of England economists about how inflation and monetary policy work in practice, giving real-world insight into topics you'll encounter in A-level Economics, delivered by practitioners rather than just textbooks.",
+    officialUrl: "https://www.lse.ac.uk/events/money-1",
+    sourceLastChecked: "2026-11-15",
+    requiresTeacher: false,
+    requiresSchoolNomination: false,
+    wideningParticipation: false,
+    dateConfidence: "confirmed"
+  }),
+  entry("lse-department-of-international-development-coming-full-circ", {
+    name: "Coming full circle? Sir Arthur Lewis and the future of development theory",
+    provider: "LSE Department of International Development",
+    type: "Taster / event",
+    subjects: [
+      "Economics"
+    ],
+    topics: [
+      "Economics",
+      "Development Economics",
+      "Public Policy"
+    ],
+    yearGroups: [
+      "Year 12"
+    ],
+    location: "London (in-person) / Online",
+    deliveryMode: "hybrid",
+    ukWide: true,
+    minAge: null,
+    maxAge: null,
+    costType: "free",
+    eventStart: "2027-01-26",
+    eventEnd: "2027-01-26",
+    status: "open",
+    recurring: false,
+    eligibilitySummary: "Open to the public; no age or academic restrictions stated.",
+    eligibilityDetails: "Open to the public; no age or academic restrictions stated.",
+    description: "A free public lecture and panel discussion at LSE marking the legacy of Nobel Laureate economist Sir Arthur Lewis. The evening opens with a short lecture from St Lucia's Foreign Minister, followed by a panel of LSE economists and development academics discussing Lewis's contributions and their relevance to development economics today.",
+    whyRelevant: "This is a chance to hear leading academics discuss development economics — a key area of the subject — and see how historical economic theory connects to today's policy debates, whether you attend in person or watch online.",
+    officialUrl: "https://www.lse.ac.uk/events/development-theory",
+    sourceLastChecked: "2026-11-15",
+    requiresTeacher: false,
+    requiresSchoolNomination: false,
+    wideningParticipation: false,
+    dateConfidence: "confirmed"
+  }),
 ];

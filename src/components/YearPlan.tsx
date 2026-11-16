@@ -1,12 +1,11 @@
 import { useState, type ReactNode } from "react";
 import type { Opportunity } from "../types/opportunity";
 import { formatDate } from "../lib/opportunities";
-import { costInline, dayParts, inDays, listDate, needsTeacher, placeLabel, shortProvider } from "../lib/display";
+import { costInline, dayParts, inDays, kindWord, listDate, needsTeacher, numberWord, placeLabel, shortProvider, spokenDate } from "../lib/display";
 import {
   buildPlan,
   confirmedSteps,
   recordText,
-  stepLabel,
   stepPhrase,
   type PlanEntry,
   type PlanStep,
@@ -21,13 +20,14 @@ import { Icon } from "./Icon";
 
 const resourceKind: Record<Resource["kind"], string> = { book: "Book", podcast: "Podcast", course: "Free course", website: "Website" };
 
+// Drawn for the eye only; each row's meta line says the date in words for screen readers.
 function DateBox({ date, top }: { date: string | null; top?: string }) {
   const parts = date ? dayParts(date) : null;
   return (
     <div className="listing-date" aria-hidden="true">
       <span>{top ?? parts?.weekday ?? "DATE"}</span>
       <strong>{parts?.day ?? "–"}</strong>
-      <span>{parts?.month ?? "TBC"}</span>
+      <span>{parts?.month ?? (top === "ANY" ? "TIME" : "TBC")}</span>
     </div>
   );
 }
@@ -35,6 +35,7 @@ function DateBox({ date, top }: { date: string | null; top?: string }) {
 function Meta({ item }: { item: Opportunity }) {
   return (
     <>
+      <span className="kind-word">{kindWord(item)}</span> ·{" "}
       {shortProvider(item) !== item.name && <>{shortProvider(item)} · </>}
       {placeLabel(item)} · {item.costType === "free" ? <mark className="hl-free">free</mark> : costInline(item)}
       {item.timeNeeded && (
@@ -42,7 +43,7 @@ function Meta({ item }: { item: Opportunity }) {
           {" "}· <span className="nowrap">{item.timeNeeded}</span>
         </>
       )}
-      {needsTeacher(item) && <span className="teacher-line"> · your teacher signs you up</span>}
+      {needsTeacher(item) && <span className="teacher-line"> · your teacher signs{"\u00a0"}you{"\u00a0"}up</span>}
     </>
   );
 }
@@ -55,6 +56,7 @@ function Row({
   onOpen,
   onRemove,
   muted,
+  pen = [],
 }: {
   item: Opportunity;
   box: ReactNode;
@@ -63,6 +65,8 @@ function Row({
   onOpen: (item: Opportunity) => void;
   onRemove: (id: string) => void;
   muted?: boolean;
+  // Red-pen notes under the meta line: "in 5 days", "new dates!".
+  pen?: string[];
 }) {
   return (
     <article className={`listing ${muted ? "is-last-year" : ""}`}>
@@ -72,6 +76,13 @@ function Row({
           <button onClick={() => onOpen(item)}>{item.name}</button>
         </h3>
         <p className="listing-meta">{meta}</p>
+        {pen.length > 0 && (
+          <p className="pen pen-line">
+            {pen.map((note) => (
+              <span key={note}>{note}</span>
+            ))}
+          </p>
+        )}
         {children}
       </div>
       <button className="save" aria-label={`Remove ${item.name} from your year`} title="Remove from your year" onClick={() => onRemove(item.id)}>
@@ -81,6 +92,7 @@ function Row({
   );
 }
 
+const sentence = (text: string) => text[0].toUpperCase() + text.slice(1);
 const thenLine = (later: PlanStep[]) => (later.length ? ` · then ${later.slice(0, 2).map(stepPhrase).join(", ")}` : "");
 
 export function YearPlan({
@@ -172,9 +184,27 @@ export function YearPlan({
     );
   }
 
-  // Coming up, grouped by the month of each thing's next step.
+  // The friend's red pen marks what needs attention, on the row itself: new or moved dates,
+  // how soon the next step is, and two things on the same day.
+  const newsById = new Map(news.map((entry) => [entry.item.id, entry.kind]));
+  const clashing = new Set(plan.clashes.flatMap((clash) => clash.items.map((item) => item.id)));
+  const penFor = (item: Opportunity, when?: string) => {
+    const notes: string[] = [];
+    const kind = newsById.get(item.id);
+    if (kind) notes.push(kind === "announced" ? "new dates!" : "dates moved!");
+    if (when) {
+      const soon = inDays(when, today);
+      if (soon) notes.push(soon === "today" || soon === "tomorrow" ? `${soon}!` : soon);
+    }
+    if (clashing.has(item.id)) notes.push("same day as another one you saved");
+    return notes;
+  };
+
+  // Coming up: the next two weeks first, then the month of each thing's next step.
+  const soonIds = new Set(plan.soon.map((entry) => entry.item.id));
   const months = new Map<string, PlanEntry[]>();
-  for (const entry of plan.upcoming) {
+  if (plan.soon.length) months.set("soon", plan.soon);
+  for (const entry of plan.upcoming.filter((entry) => !soonIds.has(entry.item.id))) {
     const key = entry.next.date.slice(0, 7);
     months.set(key, [...(months.get(key) ?? []), entry]);
   }
@@ -204,67 +234,33 @@ export function YearPlan({
       )}
 
       {news.length > 0 && (
-        <section className="plan-alert plan-news" aria-labelledby="plan-news-title">
-          <h2 id="plan-news-title">
-            <Icon name="spark" size={16} /> {news.every((entry) => entry.kind === "changed") ? "Dates have changed" : "Dates are out"}
-          </h2>
-          <ul>
-            {news.map(({ item, kind }) => {
-              const ahead = confirmedSteps(item).filter((step) => step.date >= today.slice(0, step.date.length));
-              return (
-                <li key={item.id}>
-                  <button className="link-button" onClick={() => onOpen(item)}>
-                    <strong>{item.name}</strong>
-                  </button>
-                  : {kind === "announced" ? "this year's dates are confirmed" : "the dates have moved"}
-                  {ahead.length > 0 && <>, {ahead.slice(0, 2).map(stepPhrase).join(", ")}</>}.
-                </li>
-              );
-            })}
-          </ul>
-          <button className="text-button plan-news-ok" onClick={onAcknowledge}>
+        <p className="plan-news">
+          New dates for {news.length === 1 ? "one thing" : `${numberWord(news.length).toLowerCase()} things`} you saved,
+          marked in red pen below.{" "}
+          <button className="text-button" onClick={onAcknowledge}>
             Got it
           </button>
-        </section>
-      )}
-
-      {(plan.soon.length > 0 || plan.clashes.length > 0) && (
-        <section className="plan-alert" aria-labelledby="plan-alert-title">
-          <h2 id="plan-alert-title">
-            <Icon name="bell" size={16} /> Next two weeks
-          </h2>
-          <ul>
-            {plan.soon.map(({ item, next }) => (
-              <li key={item.id}>
-                <strong>{item.name}</strong>: {stepPhrase(next)} ({inDays(next.date, today)})
-              </li>
-            ))}
-            {plan.clashes.map((clash) => (
-              <li key={clash.date} className="plan-clash">
-                <strong>Same day, {formatDate(clash.date)}:</strong> {clash.items.map((item) => item.name).join(" and ")}
-              </li>
-            ))}
-          </ul>
-        </section>
+        </p>
       )}
 
       <div className="page-list">
         {[...months.entries()].map(([month, entries]) => (
           <section className="list-section" key={month} aria-labelledby={`plan-${month}`}>
             <header className="section-head">
-              <h2 id={`plan-${month}`}>{formatDate(month)}</h2>
+              <h2 id={`plan-${month}`}>{month === "soon" ? "Next two weeks" : formatDate(month)}</h2>
+              {month === "soon" && <span>act on these first</span>}
             </header>
             {entries.map(({ item, next, later }) => {
-              const soon = inDays(next.date, today);
               return (
                 <Row
                   key={item.id}
                   item={item}
                   box={<DateBox date={next.date} />}
+                  pen={penFor(item, month === "soon" ? next.date : undefined)}
                   meta={
                     <>
-                      <span className="listing-kind">{stepLabel(next)}</span>
-                      {soon && <span className="plan-soon"> · {soon}</span>}
+                      <span className="listing-kind">{sentence(stepPhrase(next))}</span>
+                      {next.date.length === 10 && <span className="sr-only"> ({spokenDate(next.date)})</span>}
                       {thenLine(later)} · <Meta item={item} />
                     </>
                   }
@@ -289,7 +285,7 @@ export function YearPlan({
               <span>no fixed dates</span>
             </header>
             {plan.anytime.map((item) => (
-              <Row key={item.id} item={item} box={<DateBox date={null} top="ANY" />} meta={<Meta item={item} />} onOpen={onOpen} onRemove={onRemove}>
+              <Row key={item.id} item={item} box={<DateBox date={null} top="ANY" />} pen={penFor(item)} meta={<Meta item={item} />} onOpen={onOpen} onRemove={onRemove}>
                 <div className="plan-row-actions">
                   <button className="text-button" onClick={() => markDone(item.id)}>
                     Mark as done
@@ -312,12 +308,13 @@ export function YearPlan({
                 <Row
                   key={item.id}
                   item={item}
-                  muted
+                  muted={Boolean(last)}
                   box={<DateBox date={last?.date ?? null} top={last ? "LAST YR" : undefined} />}
                   meta={
                     <>
                       <span className="listing-kind">
                         {last ? `Last year: ${formatDate(last.date.slice(0, 7))}` : "No date yet"}
+                        {last && <span className="sr-only">, not confirmed</span>}
                       </span>{" "}
                       · <Meta item={item} />
                     </>
@@ -377,7 +374,20 @@ export function YearPlan({
               <h2 id="plan-finished">Finished. Did you take part?</h2>
             </header>
             {plan.finished.map((item) => (
-              <Row key={item.id} item={item} muted box={<DateBox date={listDate(item)?.date ?? null} />} meta={<Meta item={item} />} onOpen={onOpen} onRemove={onRemove}>
+              <Row
+                key={item.id}
+                item={item}
+                muted
+                box={<DateBox date={listDate(item)?.date ?? null} />}
+                meta={
+                  <>
+                    {listDate(item) && <span className="sr-only">{spokenDate(listDate(item)!.date)}. </span>}
+                    <Meta item={item} />
+                  </>
+                }
+                onOpen={onOpen}
+                onRemove={onRemove}
+              >
                 <div className="plan-row-actions">
                   <button className="btn btn-plain btn-small" onClick={() => markDone(item.id)}>
                     <Icon name="check" size={14} /> Yes, I did
@@ -408,7 +418,12 @@ export function YearPlan({
                   key={item.id}
                   item={item}
                   box={<DateBox date={entry?.doneOn || null} top="DONE" />}
-                  meta={<Meta item={item} />}
+                  meta={
+                    <>
+                      {entry?.doneOn && <span className="sr-only">Done on {spokenDate(entry.doneOn)}. </span>}
+                      <Meta item={item} />
+                    </>
+                  }
                   onOpen={onOpen}
                   onRemove={onRemove}
                 >
@@ -454,7 +469,8 @@ export function YearPlan({
                       )}
                     </h3>
                     <p className="listing-meta">
-                      {resourceKind[resource.kind]} · {resource.by}
+                      {entry?.doneOn && <span className="sr-only">Done on {spokenDate(entry.doneOn)}. </span>}
+                      <span className="kind-word">{resourceKind[resource.kind]}</span> · {resource.by}
                     </p>
                     <label className="plan-note">
                       <span className="sr-only">Your notes on {resource.title}</span>

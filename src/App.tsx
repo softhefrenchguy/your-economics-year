@@ -65,6 +65,8 @@ export default function App() {
   const [about, setAbout] = useState(false);
   // Phones only: the chart starts folded away so the listings are on the first screen.
   const [chartOpen, setChartOpen] = useState(false);
+  // Phones only: the filters fold behind one button so search and the tabs come first.
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const aboutDialog = useRef<HTMLDialogElement>(null);
 
   // The one read of "today": statuses are aged against the real date on every visit.
@@ -93,7 +95,10 @@ export default function App() {
   const freshInTab = live.filter((item) => fresh.ids.has(item.id) && inTab(item, status)).length;
   // The number on the New button, with the other filters and the search applied, like the kinds.
   const freshShown = filterOpportunities(live, filters).filter((item) => fresh.ids.has(item.id) && inTab(item, status)).length;
-  const lead = headline(results, status, today);
+  // The headline describes the whole tab, so it stays true while filters or a search are on;
+  // the line under it says how many are showing.
+  const tabTotal = live.filter((item) => inTab(item, status)).length;
+  const lead = headline(prioritiseFree(live.filter((item) => inTab(item, status))), status, today);
   const activeStatus = statuses.find((s) => s.id === status)!;
   const savedItems = live.filter((item) => saved.includes(item.id));
   const readDone = resources
@@ -102,6 +107,15 @@ export default function App() {
   const news = dateNews(savedItems, seen);
   const filtersOn =
     filters.freeOnly || filters.online || filters.noTeacher || filters.kind !== null || filters.query.trim() !== "" || newOnly;
+  // What's switched on, in words, for the folded filter bar on phones (the search box shows itself).
+  const kindLabel = kindOptions.find((k) => k.id === filters.kind)?.label;
+  const activeFilters = [
+    filters.freeOnly && "Free only",
+    filters.online && "Online only",
+    filters.noTeacher && "No teacher needed",
+    newOnly && "New",
+    kindLabel,
+  ].filter(Boolean) as string[];
   function clearFilters() {
     setFilters(emptyFilters);
     setNewOnly(false);
@@ -256,7 +270,18 @@ export default function App() {
                 <mark className="hl">{lead.highlight}</mark>
                 {lead.after}
               </h1>
-              <p className="lead-sub">{activeStatus.line} Each one links to its official page.</p>
+              <p className="lead-sub">
+                {filtersOn ? (
+                  <>
+                    Showing {results.length} of {tabTotal} with your filters.{" "}
+                    <button className="text-button" onClick={clearFilters}>
+                      Show all
+                    </button>
+                  </>
+                ) : (
+                  <>{activeStatus.line} Each one links to its official page.</>
+                )}
+              </p>
               {fresh.ids.size > 0 && !filtersOn && (
                 // Counts the tab you're on, like the New button; points to the other tab when this one has none.
                 <button className="fresh-note pen" onClick={showNew}>
@@ -295,42 +320,60 @@ export default function App() {
                   </button>
                 )}
               </div>
-              <div className="list-controls">
-                <nav className="status-tabs" aria-label="When you can act">
-                  {statuses.map((s) => (
-                    <button key={s.id} aria-pressed={status === s.id} onClick={() => setStatus(s.id)}>
-                      {s.label} <span>{counts[s.id]}</span>
+              <div className={`browse-controls ${filtersOpen ? "filters-open" : ""}`}>
+                <div className="list-controls">
+                  <nav className="status-tabs" aria-label="When you can act">
+                    {statuses.map((s) => (
+                      <button key={s.id} aria-pressed={status === s.id} onClick={() => setStatus(s.id)}>
+                        {s.label} <span>{counts[s.id]}</span>
+                      </button>
+                    ))}
+                  </nav>
+                  <div className="filter-bar">
+                    <button
+                      className="filter-button"
+                      aria-expanded={filtersOpen}
+                      aria-controls="filter-toggles filter-kinds"
+                      onClick={() => setFiltersOpen(!filtersOpen)}
+                    >
+                      <Icon name="filter" size={15} /> Filters
+                      {activeFilters.length > 0 && <span className="toggle-count"> · {activeFilters.length}</span>}
+                    </button>
+                    {activeFilters.length > 0 && !filtersOpen && <span className="filter-summary">{activeFilters.join(", ")}</span>}
+                    {filtersOn && (
+                      <button className="text-button filter-clear" onClick={clearFilters}>
+                        Clear
+                      </button>
+                    )}
+                  </div>
+                  <div className="toggles" id="filter-toggles" role="group" aria-label="Filters">
+                    <button aria-pressed={filters.freeOnly} onClick={() => setFilters({ ...filters, freeOnly: !filters.freeOnly })}>
+                      <Icon name={filters.freeOnly ? "check" : "filter"} size={14} />
+                      Free only
+                    </button>
+                    <button aria-pressed={filters.online} onClick={() => setFilters({ ...filters, online: !filters.online })}>
+                      <Icon name={filters.online ? "check" : "globe"} size={14} />
+                      Online only
+                    </button>
+                    <button aria-pressed={filters.noTeacher} onClick={() => setFilters({ ...filters, noTeacher: !filters.noTeacher })}>
+                      <Icon name={filters.noTeacher ? "check" : "mail"} size={14} />
+                      No teacher needed
+                    </button>
+                    {(freshShown > 0 || newOnly) && (
+                      <button aria-pressed={newOnly} onClick={() => setNewOnly(!newOnly)}>
+                        <Icon name={newOnly ? "check" : "spark"} size={14} />
+                        New <span className="toggle-count">{freshShown}</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className="kind-chips" id="filter-kinds" role="group" aria-label="Kind of thing">
+                  {[{ id: null, label: "Everything" }, ...kindOptions].map((k) => (
+                    <button key={k.id ?? "all"} aria-pressed={filters.kind === k.id} onClick={() => setFilters({ ...filters, kind: k.id })}>
+                      {k.label} <span>{kindCount(k.id)}</span>
                     </button>
                   ))}
-                </nav>
-                <div className="toggles" role="group" aria-label="Filters">
-                  <button aria-pressed={filters.freeOnly} onClick={() => setFilters({ ...filters, freeOnly: !filters.freeOnly })}>
-                    <Icon name={filters.freeOnly ? "check" : "filter"} size={14} />
-                    Free only
-                  </button>
-                  <button aria-pressed={filters.online} onClick={() => setFilters({ ...filters, online: !filters.online })}>
-                    <Icon name={filters.online ? "check" : "globe"} size={14} />
-                    Online only
-                  </button>
-                  <button aria-pressed={filters.noTeacher} onClick={() => setFilters({ ...filters, noTeacher: !filters.noTeacher })}>
-                    <Icon name={filters.noTeacher ? "check" : "mail"} size={14} />
-                    No teacher needed
-                  </button>
-                  {(freshInTab > 0 || newOnly) && (
-                    <button aria-pressed={newOnly} onClick={() => setNewOnly(!newOnly)}>
-                      <Icon name={newOnly ? "check" : "spark"} size={14} />
-                      New <span className="toggle-count">{freshShown}</span>
-                    </button>
-                  )}
                 </div>
-              </div>
-              <div className="kind-chips" role="group" aria-label="Kind of thing">
-                {[{ id: null, label: "Everything" }, ...kindOptions].map((k) => (
-                  <button key={k.id ?? "all"} aria-pressed={filters.kind === k.id} onClick={() => setFilters({ ...filters, kind: k.id })}>
-                    {k.id && <i className={`kind-dot kind-${k.id}`} aria-hidden="true" />}
-                    {k.label} <span>{kindCount(k.id)}</span>
-                  </button>
-                ))}
               </div>
               <p className="sr-only" role="status">
                 {results.length} {activeStatus.label.toLowerCase()} listings{filtersOn ? " with your filters" : ""}.

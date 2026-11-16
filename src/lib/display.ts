@@ -195,9 +195,11 @@ export function headline(items: Opportunity[], tab: BrowseTab, today: string): {
     ).length;
     if (freeThisMonth >= 2)
       return { highlight: `${numberWord(freeThisMonth)} free things`, after: ` to do before ${monthName(next.toISOString())}.` };
-    return { highlight: `${numberWord(items.length)} things`, after: " you can do right now." };
+    if (!items.length) return { highlight: "Nothing open", after: " right now. Have a look at what's coming." };
+    return { highlight: `${numberWord(items.length)} ${items.length === 1 ? "thing" : "things"}`, after: " you can do right now." };
   }
   const confirmed = items.filter((item) => item.status === "coming-soon").length;
+  if (!items.length) return { highlight: "Nothing waiting to open.", after: " Everything we list is open now." };
   return {
     highlight: `${numberWord(items.length)} not open yet.`,
     after: confirmed
@@ -227,31 +229,46 @@ export function inDays(date: string, today: string): string | null {
   return days <= 14 ? `in ${days} days` : null;
 }
 
-// The countdown on a listing whose application deadline is in the next two weeks. The day
-// itself already gets the "last day!" pen note, so it starts from tomorrow.
+// The red-pen countdown on a listing whose application deadline is in the next two weeks. The
+// day itself already gets the "last day!" note, so it starts from tomorrow.
 export function closingSoon(item: Opportunity, today: string): string | null {
   if (item.status !== "open" || !item.applicationDeadline || item.applicationDeadline <= today) return null;
   const when = inDays(item.applicationDeadline, today);
-  return when ? `Closes ${when}` : null;
+  if (!when) return null;
+  return when === "tomorrow" ? "closes tomorrow!" : `closes ${when}`;
 }
 
-// The short tag on a listing. The colour comes from its kind (talks, competitions,
-// courses, work), the word from its type, so "Essay" and "Competition" share a colour.
-const typeTags: Record<Opportunity["type"], string> = {
+// The kind of thing, as the first word of a listing's meta line. Each word carries its
+// filter's own noun (Talks & tasters, Competitions, Courses & programmes, Work & business), so
+// the line and the filter agree.
+const kindWords: Record<Opportunity["type"], string> = {
   "Taster / event": "Talk",
   Competition: "Competition",
-  "Essay competition": "Essay",
+  "Essay competition": "Essay competition",
   "University programme": "Programme",
   "Summer school": "Summer school",
-  "Mentoring / development": "Mentoring",
+  "Mentoring / development": "Programme",
   "Work experience": "Work experience",
-  "Finance insight": "Insight",
-  "Business & entrepreneurship": "Business",
+  "Finance insight": "Work insight",
+  "Business & entrepreneurship": "Business programme",
 };
-export function typeTag(item: Opportunity): string {
+export function kindWord(item: Opportunity): string {
   // University taster days share the type with public talks but are a different thing to go to.
   if (item.type === "Taster / event" && /taster|explore/i.test(`${item.id} ${item.name}`)) return "Taster";
-  return typeTags[item.type];
+  return kindWords[item.type];
+}
+
+// The date in words, for screen readers: the big date column is drawn for the eye only.
+export function spokenDate(date: string, lastYear = false): string {
+  const value = new Date(`${date.length === 7 ? `${date}-01` : date.slice(0, 10)}T12:00:00Z`);
+  const options: Intl.DateTimeFormatOptions =
+    date.length === 7
+      ? { month: "long", year: "numeric" }
+      : lastYear
+        ? { day: "numeric", month: "long", year: "numeric" }
+        : { weekday: "long", day: "numeric", month: "long" };
+  const words = new Intl.DateTimeFormat("en-GB", { ...options, timeZone: "UTC" }).format(value);
+  return lastYear ? `last year, ${words}, not confirmed` : words;
 }
 
 export function whenLabel(item: Opportunity): string {

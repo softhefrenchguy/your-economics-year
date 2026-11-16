@@ -5,7 +5,7 @@ import { emptyFilters, filterOpportunities, kindOf, matchesQuery } from "./oppor
 import { dateNews, datesSignature, settleSeen } from "./news";
 import { savedSummary, suggestions } from "./suggest";
 import { recordText } from "./plan";
-import { closingSoon, typeTag } from "./display";
+import { closingSoon, headline, kindWord, spokenDate } from "./display";
 
 const fixture = (overrides: Partial<Opportunity>): Opportunity => ({
   ...opportunities[0],
@@ -143,9 +143,9 @@ describe("listing tags and countdowns", () => {
   const today = "2026-11-16";
   it("counts down an open listing's deadline over the next two weeks", () => {
     const at = (date: string) => closingSoon(fixture({ status: "open", applicationDeadline: date }), today);
-    expect(at("2026-11-17")).toBe("Closes tomorrow");
-    expect(at("2026-11-21")).toBe("Closes in 5 days");
-    expect(at("2026-11-30")).toBe("Closes in 14 days");
+    expect(at("2026-11-17")).toBe("closes tomorrow!");
+    expect(at("2026-11-21")).toBe("closes in 5 days");
+    expect(at("2026-11-30")).toBe("closes in 14 days");
     expect(at("2026-12-01")).toBeNull();
   });
   it("leaves out the last day itself (it gets the pen note), past deadlines and events", () => {
@@ -154,9 +154,23 @@ describe("listing tags and countdowns", () => {
     expect(closingSoon(fixture({ status: "open", eventStart: "2026-11-18" }), today)).toBeNull();
     expect(closingSoon(fixture({ status: "coming-soon", applicationDeadline: "2026-11-20" }), today)).toBeNull();
   });
-  it("tells taster days from talks, and gives every type a tag", () => {
-    expect(typeTag(fixture({ type: "Taster / event", id: "bristol-discover-economics-taster", name: "Discover Economics" }))).toBe("Taster");
-    expect(typeTag(fixture({ type: "Taster / event", id: "lse-talk", name: "Money: the inside story" }))).toBe("Talk");
-    for (const item of opportunities) expect(typeTag(item)).toBeTruthy();
+  it("tells taster days from talks, and gives every type a kind word", () => {
+    expect(kindWord(fixture({ type: "Taster / event", id: "bristol-discover-economics-taster", name: "Discover Economics" }))).toBe("Taster");
+    expect(kindWord(fixture({ type: "Taster / event", id: "lse-talk", name: "Money: the inside story" }))).toBe("Talk");
+    for (const item of opportunities) expect(kindWord(item)).toBeTruthy();
+  });
+});
+
+describe("headline and spoken dates", () => {
+  const today = "2026-11-16";
+  it("counts one and none correctly", () => {
+    expect(headline([], "open", today).highlight).toBe("Nothing open");
+    expect(headline([fixture({ status: "open" })], "open", today).highlight).toBe("One thing");
+    expect(headline([], "upcoming", today).highlight).toBe("Nothing waiting to open.");
+  });
+  it("says the date in words, and marks last year's as unconfirmed", () => {
+    expect(spokenDate("2026-11-17")).toBe("Tuesday 17 November");
+    expect(spokenDate("2026-06-03", true)).toBe("last year, 3 June 2026, not confirmed");
+    expect(spokenDate("2027-03")).toBe("March 2027");
   });
 });

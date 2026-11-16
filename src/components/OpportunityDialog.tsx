@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Opportunity } from "../types/opportunity";
 import { formatDate } from "../lib/opportunities";
-import { costLabel, needsTeacher, statusName, teacherMessage, whenLabel } from "../lib/display";
+import { costLabel, kindWord, needsTeacher, statusName, teacherMessage, whenLabel } from "../lib/display";
 import { Icon } from "./Icon";
 
 function confidenceLabel(item: Opportunity): string {
@@ -89,6 +89,7 @@ export function OpportunityDialog({
         </button>
         <p className="detail-chips">
           <span className={`chip ${item.status === "open" ? "chip-accent" : ""}`}>{statusName[item.status]}</span>
+          <span className="chip">{kindWord(item)}</span>
           <span className="chip">{whenLabel(item)}</span>
           <span className="chip">{costLabel(item)}</span>
         </p>

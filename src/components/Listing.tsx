@@ -1,13 +1,13 @@
 import type { ReactNode } from "react";
 import type { Opportunity } from "../types/opportunity";
 import type { Section } from "../lib/display";
-import { closingSoon, costInline, dayParts, listDate, needsTeacher, placeLabel, shortProvider, todayNote, typeTag } from "../lib/display";
-import { kindOf } from "../lib/opportunities";
+import { closingSoon, costInline, dayParts, kindWord, listDate, needsTeacher, placeLabel, shortProvider, spokenDate, todayNote } from "../lib/display";
 import { Icon } from "./Icon";
 
-// One dated listing: big serif date on the left; a coloured tag for what kind of thing it
-// is (plus a countdown when it closes within two weeks), the title and one meta line; save on
-// the right. Today's listing gets the pale-yellow band, a red pen circle and a margin note.
+// One dated listing: big serif date on the left, then the title and one meta line that starts
+// with what kind of thing it is; save on the right. The friend's red pen does the urgency: a
+// "closes in 5 days" note under a deadline in the next fortnight, and on the day itself the
+// pale-yellow band, a circle round the date and "last day!" in the margin.
 export function Listing({
   item,
   today,
@@ -31,6 +31,8 @@ export function Listing({
   const note = dateOverride ? null : todayNote(item, today);
   const canApply = item.status === "open" && !needsTeacher(item);
   const closing = note ? null : closingSoon(item, today);
+  // The date column is drawn for the eye; this is the same date in words for screen readers.
+  const spoken = parts && at ? spokenDate(at.date, at.lastYear) : item.status === "open" ? "any time" : "date to be confirmed";
   return (
     <article className={`listing ${note ? "is-today" : ""} ${at?.lastYear ? "is-last-year" : ""} ${item.status === "closed" ? "is-closed" : ""}`}>
       <div className="listing-date" aria-hidden="true">
@@ -56,16 +58,19 @@ export function Listing({
         {note && <i className="pen-circle" />}
       </div>
       <div className="listing-body">
-        <p className="listing-top">
-          <span className={`type-tag kind-${kindOf(item)}`}>{typeTag(item)}</span>
-          {closing && <strong className="closing">{closing}</strong>}
-        </p>
         <h3>
           <button onClick={() => onOpen(item)}>{item.name}</button>
           {isNew && <span className="new-tag pen">new!</span>}
         </h3>
         <p className="listing-meta">
-          {dateOverride && <span className="listing-kind">{dateOverride.label} · </span>}
+          {!dateOverride && <span className="sr-only">{spoken[0].toUpperCase() + spoken.slice(1)}. </span>}
+          <span className="kind-word">{kindWord(item)}</span> ·{" "}
+          {dateOverride && (
+            <span className="listing-kind">
+              {dateOverride.label}
+              <span className="sr-only"> {spoken}</span> ·{" "}
+            </span>
+          )}
           {shortProvider(item) !== item.name && <>{shortProvider(item)} · </>}
           {placeLabel(item)} ·{" "}
           {item.costType === "free" ? <mark className="hl-free">free</mark> : costInline(item)}
@@ -74,9 +79,10 @@ export function Listing({
               {" "}· <span className="nowrap">{item.timeNeeded}</span>
             </>
           )}
-          {needsTeacher(item) && <span className="teacher-line"> · your teacher signs you up</span>}
+          {needsTeacher(item) && <span className="teacher-line"> · your teacher signs{"\u00a0"}you{"\u00a0"}up</span>}
           {item.status === "closed" && <span> · closed</span>}
         </p>
+        {closing && <p className="pen pen-line">{closing}</p>}
         {note && canApply && (
           <a className="btn btn-ink btn-small" href={item.officialUrl} target="_blank" rel="noopener noreferrer">
             Sign up on the official site <Icon name="arrow" size={15} />

@@ -14,7 +14,9 @@ import {
   type Filters as FilterState,
 } from "./lib/opportunities";
 import { headline, inTab, numberWord, sections, upcomingSections, type BrowseTab } from "./lib/display";
-import { progressStore } from "./lib/progress";
+import { progressStore, readStore } from "./lib/progress";
+import { dateNews, seenStore, settleSeen, type Seen } from "./lib/news";
+import { resources } from "./data/resources";
 import type { Progress, ProgressMap } from "./lib/plan";
 import { todayISO } from "./lib/clock";
 import { reminderStore } from "./lib/reminders";
@@ -53,10 +55,16 @@ export default function App() {
   const [newOnly, setNewOnly] = useState(false);
   const [saved, setSaved] = useState<string[]>(() => reminderStore.load());
   const [progress, setProgress] = useState<ProgressMap>(() => progressStore.load());
+  const [readProgress, setReadProgress] = useState<ProgressMap>(() => readStore.load());
+  const [seen, setSeen] = useState<Seen>(() => seenStore.load());
+  // Chrome and Edge offer their own install prompt; we keep it for the button in About.
+  const [installPrompt, setInstallPrompt] = useState<{ prompt: () => Promise<void> } | null>(null);
   const [selected, setSelected] = useState<Opportunity | null>(null);
   const [printTerm, setPrintTerm] = useState<Term | null>(null);
   const [toast, setToast] = useState("");
   const [about, setAbout] = useState(false);
+  // Phones only: the chart starts folded away so the listings are on the first screen.
+  const [chartOpen, setChartOpen] = useState(false);
   const aboutDialog = useRef<HTMLDialogElement>(null);
 
   // The one read of "today": statuses are aged against the real date on every visit.
@@ -83,10 +91,17 @@ export default function App() {
   const kindPool = filterOpportunities(live, { ...filters, kind: null }).filter((item) => isShown(item) && inTab(item, status));
   const kindCount = (kind: string | null) => kindPool.filter((item) => !kind || kindOf(item) === kind).length;
   const freshInTab = live.filter((item) => fresh.ids.has(item.id) && inTab(item, status)).length;
+  // The number on the New button, with the other filters and the search applied, like the kinds.
+  const freshShown = filterOpportunities(live, filters).filter((item) => fresh.ids.has(item.id) && inTab(item, status)).length;
   const lead = headline(results, status, today);
   const activeStatus = statuses.find((s) => s.id === status)!;
   const savedItems = live.filter((item) => saved.includes(item.id));
-  const filtersOn = filters.freeOnly || filters.online || filters.noTeacher || filters.kind !== null || newOnly;
+  const readDone = resources
+    .filter((item) => readProgress[item.id]?.done)
+    .sort((a, b) => readProgress[b.id].doneOn.localeCompare(readProgress[a.id].doneOn));
+  const news = dateNews(savedItems, seen);
+  const filtersOn =
+    filters.freeOnly || filters.online || filters.noTeacher || filters.kind !== null || filters.query.trim() !== "" || newOnly;
   function clearFilters() {
     setFilters(emptyFilters);
     setNewOnly(false);
@@ -132,6 +147,45 @@ export default function App() {
       document.documentElement.classList.remove("printing-sheet");
     };
   }, [printTerm]);
+  // Remember the dates of anything newly saved, and forget anything unsaved. News stays until
+  // "Got it" in Your year.
+  useEffect(() => {
+    const items = live.filter((item) => saved.includes(item.id));
+    setSeen((current) => {
+      const next = settleSeen(items, current);
+      seenStore.save(next);
+      return next;
+    });
+  }, [live, saved]);
+  // Said once per visit (the first render's news), so a student who never opens Your year
+  // still hears about it.
+  const [firstNews] = useState(news);
+  useEffect(() => {
+    if (!firstNews.length || listingIdFromUrl(window.location.search)) return;
+    setToast(
+      firstNews.length === 1
+        ? `${firstNews[0].kind === "changed" ? "Dates have changed" : "Dates are out"} for ${firstNews[0].item.name}, which you saved. It's in Your year.`
+        : `Dates are out for ${numberWord(firstNews.length).toLowerCase()} things you saved. They're in Your year.`,
+    );
+  }, [firstNews]);
+  function acknowledgeNews() {
+    const next = settleSeen(savedItems, seen, true);
+    setSeen(next);
+    seenStore.save(next);
+  }
+  useEffect(() => {
+    const capture = (event: Event) => {
+      event.preventDefault();
+      setInstallPrompt(event as unknown as { prompt: () => Promise<void> });
+    };
+    const installed = () => setInstallPrompt(null);
+    window.addEventListener("beforeinstallprompt", capture);
+    window.addEventListener("appinstalled", installed);
+    return () => {
+      window.removeEventListener("beforeinstallprompt", capture);
+      window.removeEventListener("appinstalled", installed);
+    };
+  }, []);
   useEffect(() => {
     if (about) aboutDialog.current?.showModal();
     else aboutDialog.current?.close();
@@ -159,6 +213,11 @@ export default function App() {
     const next = { ...progress, [id]: entry };
     setProgress(next);
     if (!progressStore.save(next)) setToast("This browser won't store your notes, so they'll only last until you close the tab.");
+  }
+  function updateRead(id: string, entry: Progress) {
+    const next = { ...readProgress, [id]: entry };
+    setReadProgress(next);
+    if (!readStore.save(next)) setToast("This browser won't store your notes, so they'll only last until you close the tab.");
   }
 
   return (
@@ -198,7 +257,7 @@ export default function App() {
                 {lead.after}
               </h1>
               <p className="lead-sub">{activeStatus.line} Each one links to its official page.</p>
-              {fresh.ids.size > 0 && !newOnly && (
+              {fresh.ids.size > 0 && !filtersOn && (
                 // Counts the tab you're on, like the New button; points to the other tab when this one has none.
                 <button className="fresh-note pen" onClick={showNew}>
                   {freshInTab > 0
@@ -207,9 +266,35 @@ export default function App() {
                   →
                 </button>
               )}
-              <YearChart items={live} academicYear={academicYear} today={today} />
+              <button className="chart-toggle" aria-expanded={chartOpen} aria-controls="year-chart" onClick={() => setChartOpen(!chartOpen)}>
+                {chartOpen ? "Hide the year at a glance" : "See the year at a glance"}
+                <Icon name="chevron" size={14} />
+              </button>
+              <div id="year-chart" className={`chart-wrap ${chartOpen ? "is-open" : ""}`}>
+                <YearChart items={live} academicYear={academicYear} today={today} />
+              </div>
             </aside>
             <section className="list-col" aria-label={`${activeStatus.label} listings`}>
+              <div className="search" role="search">
+                <Icon name="search" size={17} />
+                <label className="sr-only" htmlFor="search">
+                  Search listings
+                </label>
+                <input
+                  id="search"
+                  type="search"
+                  value={filters.query}
+                  placeholder="Search: LSE, essay, Bitcoin…"
+                  autoComplete="off"
+                  enterKeyHint="search"
+                  onChange={(event) => setFilters({ ...filters, query: event.target.value })}
+                />
+                {filters.query && (
+                  <button aria-label="Clear search" onClick={() => setFilters({ ...filters, query: "" })}>
+                    <Icon name="close" size={15} />
+                  </button>
+                )}
+              </div>
               <div className="list-controls">
                 <nav className="status-tabs" aria-label="When you can act">
                   {statuses.map((s) => (
@@ -234,7 +319,7 @@ export default function App() {
                   {(freshInTab > 0 || newOnly) && (
                     <button aria-pressed={newOnly} onClick={() => setNewOnly(!newOnly)}>
                       <Icon name={newOnly ? "check" : "spark"} size={14} />
-                      New <span className="toggle-count">{freshInTab}</span>
+                      New <span className="toggle-count">{freshShown}</span>
                     </button>
                   )}
                 </div>
@@ -242,6 +327,7 @@ export default function App() {
               <div className="kind-chips" role="group" aria-label="Kind of thing">
                 {[{ id: null, label: "Everything" }, ...kindOptions].map((k) => (
                   <button key={k.id ?? "all"} aria-pressed={filters.kind === k.id} onClick={() => setFilters({ ...filters, kind: k.id })}>
+                    {k.id && <i className={`kind-dot kind-${k.id}`} aria-hidden="true" />}
                     {k.label} <span>{kindCount(k.id)}</span>
                   </button>
                 ))}
@@ -258,7 +344,10 @@ export default function App() {
                 />
               ) : (
                 <div className="empty">
-                  <h2>Nothing {status === "open" ? "open now" : "coming up"} with those filters.</h2>
+                  <h2>
+                    Nothing {status === "open" ? "open now" : "coming up"}{" "}
+                    {filters.query.trim() ? <>matches “{filters.query.trim()}”</> : "with those filters"}.
+                  </h2>
                   <div className="empty-actions">
                     {statuses
                       .filter((s) => s.id !== status && counts[s.id] > 0)
@@ -282,17 +371,25 @@ export default function App() {
         {view === "year" && (
           <YearPlan
             items={savedItems}
+            all={live}
             today={today}
             progress={progress}
             onProgress={updateProgress}
+            readDone={readDone}
+            readProgress={readProgress}
+            onReadProgress={updateRead}
+            news={news}
+            onAcknowledge={acknowledgeNews}
             onOpen={setSelected}
+            onSave={toggleSaved}
             onRemove={toggleSaved}
             onBrowse={() => go("browse")}
+            onRead={() => go("read")}
             onToast={setToast}
           />
         )}
 
-        {view === "read" && <ReadListen />}
+        {view === "read" && <ReadListen progress={readProgress} today={today} onProgress={updateRead} />}
 
         {view === "teachers" && <TeacherPage opportunities={live} today={today} onPrint={setPrintTerm} />}
 
@@ -361,14 +458,45 @@ export default function App() {
           <h3>Your year</h3>
           <p>
             Everything you save, in the order you need to act, with a button to put the dates in your own calendar. Tick
-            things off and jot down what you got from them, ready for your personal statement. It's all kept in this
-            browser on this device: no account, no emails.
+            things off and jot down what you got from them, ready for your personal statement. When something you saved
+            gets this year's dates, it tells you. It's all kept in this browser on this device: no account, no emails.
           </p>
           <h3>Sending things to your teacher</h3>
           <p>
             Some opportunities need your school to sign you up. “Copy message for my teacher” copies a short message
             with the official link for you to paste into an email or chat yourself. Nothing is sent for you.
           </p>
+          <h3>Read &amp; listen</h3>
+          <p>
+            Books, podcasts, free courses and websites for the weeks between events. Tick off what you've done and add a
+            line on it; it goes in Your year with everything else.
+          </p>
+          <h3>Sharing a listing</h3>
+          <p>
+            Every listing has its own link. Use <strong>Share</strong> in a listing to send it to a friend or post it in a
+            class chat.
+          </p>
+          <h3>For teachers</h3>
+          <p>
+            The Teachers page lists what needs a school to sign students up, and prints a one-page list of what's on each
+            term, to put up or email out.
+          </p>
+          <h3>Put it on your phone</h3>
+          <p>
+            It works like an app from your home screen. On an iPhone, tap Share, then <strong>Add to Home Screen</strong>.
+            On Android, open the browser menu and tap <strong>Install app</strong> or <strong>Add to home screen</strong>.
+          </p>
+          {installPrompt && (
+            <button
+              className="btn btn-ink install-btn"
+              onClick={async () => {
+                await installPrompt.prompt();
+                setInstallPrompt(null);
+              }}
+            >
+              <Icon name="download" size={16} /> Install on this device
+            </button>
+          )}
         </div>
       </dialog>
 

@@ -214,6 +214,46 @@ export function todayNote(item: Opportunity, today: string): string | null {
   return null;
 }
 
+const daysUntil = (date: string, today: string) =>
+  Math.round((Date.parse(`${date}T12:00:00Z`) - Date.parse(`${today}T12:00:00Z`)) / 86400000);
+
+// "today", "tomorrow", "in 5 days" for a day up to two weeks away; null otherwise.
+export function inDays(date: string, today: string): string | null {
+  if (date.length !== 10) return null;
+  const days = daysUntil(date, today);
+  if (days < 0) return null;
+  if (days === 0) return "today";
+  if (days === 1) return "tomorrow";
+  return days <= 14 ? `in ${days} days` : null;
+}
+
+// The countdown on a listing whose application deadline is in the next two weeks. The day
+// itself already gets the "last day!" pen note, so it starts from tomorrow.
+export function closingSoon(item: Opportunity, today: string): string | null {
+  if (item.status !== "open" || !item.applicationDeadline || item.applicationDeadline <= today) return null;
+  const when = inDays(item.applicationDeadline, today);
+  return when ? `Closes ${when}` : null;
+}
+
+// The short tag on a listing. The colour comes from its kind (talks, competitions,
+// courses, work), the word from its type, so "Essay" and "Competition" share a colour.
+const typeTags: Record<Opportunity["type"], string> = {
+  "Taster / event": "Talk",
+  Competition: "Competition",
+  "Essay competition": "Essay",
+  "University programme": "Programme",
+  "Summer school": "Summer school",
+  "Mentoring / development": "Mentoring",
+  "Work experience": "Work experience",
+  "Finance insight": "Insight",
+  "Business & entrepreneurship": "Business",
+};
+export function typeTag(item: Opportunity): string {
+  // University taster days share the type with public talks but are a different thing to go to.
+  if (item.type === "Taster / event" && /taster|explore/i.test(`${item.id} ${item.name}`)) return "Taster";
+  return typeTags[item.type];
+}
+
 export function whenLabel(item: Opportunity): string {
   if (item.status === "closed") return "Closed";
   if (isRollingOpen(item)) return "Any time";

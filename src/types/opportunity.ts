@@ -103,6 +103,9 @@ export interface Opportunity {
 
   officialUrl: string;
   sourceLastChecked: string;
+  // Roughly how long it takes ("3 days", "a 75-minute paper"), lower case. Only set where the
+  // organiser says, or the format makes it plain (a public lecture); left out rather than guessed.
+  timeNeeded?: string;
   // The day this listing was added to the site (drives the "New" badge). Not a provider date.
   addedOn?: string;
 

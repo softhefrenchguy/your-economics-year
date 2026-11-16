@@ -1,11 +1,13 @@
 import type { ReactNode } from "react";
 import type { Opportunity } from "../types/opportunity";
 import type { Section } from "../lib/display";
-import { costInline, dayParts, listDate, needsTeacher, placeLabel, shortProvider, todayNote } from "../lib/display";
+import { closingSoon, costInline, dayParts, listDate, needsTeacher, placeLabel, shortProvider, todayNote, typeTag } from "../lib/display";
+import { kindOf } from "../lib/opportunities";
 import { Icon } from "./Icon";
 
-// One dated listing: big serif date on the left, title and a single meta line, save on the
-// right. Today's listing gets the pale-yellow band, a red pen circle and a margin note.
+// One dated listing: big serif date on the left; a coloured tag for what kind of thing it
+// is (plus a countdown when it closes within two weeks), the title and one meta line; save on
+// the right. Today's listing gets the pale-yellow band, a red pen circle and a margin note.
 export function Listing({
   item,
   today,
@@ -28,6 +30,7 @@ export function Listing({
   const parts = at ? dayParts(at.date) : null;
   const note = dateOverride ? null : todayNote(item, today);
   const canApply = item.status === "open" && !needsTeacher(item);
+  const closing = note ? null : closingSoon(item, today);
   return (
     <article className={`listing ${note ? "is-today" : ""} ${at?.lastYear ? "is-last-year" : ""} ${item.status === "closed" ? "is-closed" : ""}`}>
       <div className="listing-date" aria-hidden="true">
@@ -53,6 +56,10 @@ export function Listing({
         {note && <i className="pen-circle" />}
       </div>
       <div className="listing-body">
+        <p className="listing-top">
+          <span className={`type-tag kind-${kindOf(item)}`}>{typeTag(item)}</span>
+          {closing && <strong className="closing">{closing}</strong>}
+        </p>
         <h3>
           <button onClick={() => onOpen(item)}>{item.name}</button>
           {isNew && <span className="new-tag pen">new!</span>}
@@ -62,6 +69,11 @@ export function Listing({
           {shortProvider(item) !== item.name && <>{shortProvider(item)} · </>}
           {placeLabel(item)} ·{" "}
           {item.costType === "free" ? <mark className="hl-free">free</mark> : costInline(item)}
+          {item.timeNeeded && (
+            <>
+              {" "}· <span className="nowrap">{item.timeNeeded}</span>
+            </>
+          )}
           {needsTeacher(item) && <span className="teacher-line"> · your teacher signs you up</span>}
           {item.status === "closed" && <span> · closed</span>}
         </p>

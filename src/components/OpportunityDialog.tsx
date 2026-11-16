@@ -152,6 +152,11 @@ export function OpportunityDialog({
           {item.costType === "free" ? "free to take part" : item.costType === "unknown" ? "cost not listed on the official page" : costLabel(item)}
         </p>
         {item.financialSupport && <p>{item.financialSupport}</p>}
+        {item.timeNeeded && (
+          <p className="time-line">
+            <Icon name="clock" size={15} /> Time it takes: {item.timeNeeded}
+          </p>
+        )}
 
         <h3>
           When <span className={`confidence confidence-${item.dateConfidence}`}>{confidenceLabel(item)}</span>

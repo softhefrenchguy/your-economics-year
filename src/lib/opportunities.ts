@@ -34,6 +34,8 @@ export interface Filters {
   // Only things a student can sign up to without a teacher.
   noTeacher: boolean;
   kind: Kind | null;
+  // Free text from the search box.
+  query: string;
   location: string;
   categories: Category[];
 }
@@ -42,6 +44,7 @@ export const emptyFilters: Filters = {
   online: false,
   noTeacher: false,
   kind: null,
+  query: "",
   location: "",
   categories: [],
 };
@@ -75,6 +78,26 @@ export function categorise(opportunity: Opportunity): Category[] {
   if (opportunity.topics.some((topic) => policyTopics.includes(topic))) categories.push("Policy");
   return categories;
 }
+// Search: every word typed has to appear somewhere in the listing (name, organiser, place,
+// type, topics or description). Case and accents don't matter, so "lse" finds "LSE" and
+// "dauphine" finds "Dauphine-PSL".
+const fold = (text: string) =>
+  text
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase();
+export function matchesQuery(item: Opportunity, query: string): boolean {
+  const words = fold(query).split(/[^a-z0-9£$]+/).filter(Boolean);
+  if (!words.length) return true;
+  const haystack = fold(
+    [item.name, item.provider, item.location, item.type, kindOptions.find((k) => k.id === kindOf(item))!.label, ...item.topics, item.description].join(" "),
+  );
+  // Short words must start a word, so "ai" finds "AI" but not "said".
+  const found = (word: string) =>
+    word.length > 3 ? haystack.includes(word) : ` ${haystack}`.match(new RegExp(`[^a-z0-9]${word.replace(/[$]/g, "\\$")}`)) !== null;
+  return words.every(found);
+}
+
 // Different filter groups intersect; selections within the category group are alternatives.
 export function filterOpportunities(
   items: Opportunity[],
@@ -88,6 +111,7 @@ export function filterOpportunities(
       (!filters.online || item.deliveryMode === "online") &&
       (!filters.noTeacher || !(item.requiresTeacher || item.requiresSchoolNomination)) &&
       (!filters.kind || kindOf(item) === filters.kind) &&
+      matchesQuery(item, filters.query) &&
       (!filters.location || item.location === filters.location) &&
       (!filters.categories.length ||
         filters.categories.some((category) => categorise(item).includes(category))),

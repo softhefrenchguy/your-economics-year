@@ -1,0 +1,16 @@
+{
+  "name": "Your Economics Year",
+  "short_name": "Econ Year",
+  "description": "Competitions, talks, courses and work experience for Year 12 Economics students in London, in date order.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FDFCF9",
+  "theme_color": "#FDFCF9",
+  "lang": "en-GB",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

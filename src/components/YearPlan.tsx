@@ -1,21 +1,25 @@
 import { useState, type ReactNode } from "react";
 import type { Opportunity } from "../types/opportunity";
 import { formatDate } from "../lib/opportunities";
-import { costInline, dayParts, listDate, needsTeacher, placeLabel, shortProvider } from "../lib/display";
-import { buildPlan, recordText, stepLabel, stepPhrase, type PlanEntry, type PlanStep, type Progress, type ProgressMap } from "../lib/plan";
+import { costInline, dayParts, inDays, listDate, needsTeacher, placeLabel, shortProvider } from "../lib/display";
+import {
+  buildPlan,
+  confirmedSteps,
+  recordText,
+  stepLabel,
+  stepPhrase,
+  type PlanEntry,
+  type PlanStep,
+  type Progress,
+  type ProgressMap,
+} from "../lib/plan";
 import { buildCalendar } from "../lib/calendar";
+import type { DateNews } from "../lib/news";
+import { savedSummary, suggestions } from "../lib/suggest";
+import type { Resource } from "../data/resources";
 import { Icon } from "./Icon";
 
-const daysUntil = (date: string, today: string) =>
-  Math.round((Date.parse(`${date}T12:00:00Z`) - Date.parse(`${today}T12:00:00Z`)) / 86400000);
-
-function inDays(date: string, today: string): string | null {
-  if (date.length !== 10) return null;
-  const days = daysUntil(date, today);
-  if (days === 0) return "today";
-  if (days === 1) return "tomorrow";
-  return days <= 14 ? `in ${days} days` : null;
-}
+const resourceKind: Record<Resource["kind"], string> = { book: "Book", podcast: "Podcast", course: "Free course", website: "Website" };
 
 function DateBox({ date, top }: { date: string | null; top?: string }) {
   const parts = date ? dayParts(date) : null;
@@ -33,6 +37,11 @@ function Meta({ item }: { item: Opportunity }) {
     <>
       {shortProvider(item) !== item.name && <>{shortProvider(item)} · </>}
       {placeLabel(item)} · {item.costType === "free" ? <mark className="hl-free">free</mark> : costInline(item)}
+      {item.timeNeeded && (
+        <>
+          {" "}· <span className="nowrap">{item.timeNeeded}</span>
+        </>
+      )}
       {needsTeacher(item) && <span className="teacher-line"> · your teacher signs you up</span>}
     </>
   );
@@ -76,26 +85,46 @@ const thenLine = (later: PlanStep[]) => (later.length ? ` · then ${later.slice(
 
 export function YearPlan({
   items,
+  all,
   today,
   progress,
   onProgress,
+  readDone,
+  readProgress,
+  onReadProgress,
+  news,
+  onAcknowledge,
   onOpen,
+  onSave,
   onRemove,
   onBrowse,
+  onRead,
   onToast,
 }: {
   items: Opportunity[];
+  // Everything on the site, for suggestions.
+  all: Opportunity[];
   today: string;
   progress: ProgressMap;
   onProgress: (id: string, entry: Progress) => void;
+  // Books, podcasts and courses ticked off in Read & listen.
+  readDone: Resource[];
+  readProgress: ProgressMap;
+  onReadProgress: (id: string, entry: Progress) => void;
+  news: DateNews[];
+  onAcknowledge: () => void;
   onOpen: (item: Opportunity) => void;
+  onSave: (id: string) => void;
   onRemove: (id: string) => void;
   onBrowse: () => void;
+  onRead: () => void;
   onToast: (message: string) => void;
 }) {
   const plan = buildPlan(items, today, progress);
   const calendar = buildCalendar([...plan.upcoming.map((entry) => entry.item)], today, new Date().toISOString());
   const [copied, setCopied] = useState(false);
+  const tips = suggestions(items, all, today);
+  const readNudge = items.length >= 2 && readDone.length === 0;
 
   const markDone = (id: string) => onProgress(id, { done: true, note: progress[id]?.note ?? "", doneOn: today });
   // Keeps the note, in case it was ticked by mistake.
@@ -115,7 +144,7 @@ export function YearPlan({
 
   async function copyRecord() {
     try {
-      await navigator.clipboard.writeText(recordText(plan.done, progress));
+      await navigator.clipboard.writeText(recordText(plan.done, progress, readDone, readProgress));
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2500);
     } catch {
@@ -123,7 +152,7 @@ export function YearPlan({
     }
   }
 
-  if (!items.length) {
+  if (!items.length && !readDone.length) {
     return (
       <div className="page">
         <h1 className="page-title">Your year</h1>
@@ -164,7 +193,7 @@ export function YearPlan({
             <Icon name="calendar" size={16} /> Add {calendar.count} {calendar.count === 1 ? "date" : "dates"} to my calendar
           </button>
         )}
-        {plan.done.length > 0 && (
+        {(plan.done.length > 0 || readDone.length > 0) && (
           <button className="btn btn-plain" onClick={copyRecord}>
             <Icon name={copied ? "check" : "book"} size={16} /> {copied ? "Copied" : "Copy my notes"}
           </button>
@@ -172,6 +201,31 @@ export function YearPlan({
       </div>
       {calendar.count > 0 && (
         <p className="plan-hint">Works with Google, Apple and Outlook calendars, with a reminder 3 days before each deadline.</p>
+      )}
+
+      {news.length > 0 && (
+        <section className="plan-alert plan-news" aria-labelledby="plan-news-title">
+          <h2 id="plan-news-title">
+            <Icon name="spark" size={16} /> {news.every((entry) => entry.kind === "changed") ? "Dates have changed" : "Dates are out"}
+          </h2>
+          <ul>
+            {news.map(({ item, kind }) => {
+              const ahead = confirmedSteps(item).filter((step) => step.date >= today.slice(0, step.date.length));
+              return (
+                <li key={item.id}>
+                  <button className="link-button" onClick={() => onOpen(item)}>
+                    <strong>{item.name}</strong>
+                  </button>
+                  : {kind === "announced" ? "this year's dates are confirmed" : "the dates have moved"}
+                  {ahead.length > 0 && <>, {ahead.slice(0, 2).map(stepPhrase).join(", ")}</>}.
+                </li>
+              );
+            })}
+          </ul>
+          <button className="text-button plan-news-ok" onClick={onAcknowledge}>
+            Got it
+          </button>
+        </section>
       )}
 
       {(plan.soon.length > 0 || plan.clashes.length > 0) && (
@@ -276,6 +330,47 @@ export function YearPlan({
           </section>
         )}
 
+        {(tips.length > 0 || readNudge) && (
+          <section className="list-section" aria-labelledby="plan-suggest">
+            <header className="section-head">
+              <h2 id="plan-suggest">To round out your year</h2>
+            </header>
+            {tips.length > 0 && <p className="plan-hint suggest-intro">{savedSummary(items)} A mix tells a better story than more of the same.</p>}
+            {tips.map(({ kind, missing, why, item, next }) => (
+              <article className="suggestion" key={kind}>
+                <p className="suggestion-why">
+                  <strong>{missing}</strong> {why}
+                </p>
+                <div className="suggestion-pick">
+                  <div>
+                    <button className="suggestion-name" onClick={() => onOpen(item)}>
+                      {item.name}
+                    </button>
+                    <p className="listing-meta">
+                      <span className="listing-kind">{next ? stepPhrase(next)[0].toUpperCase() + stepPhrase(next).slice(1) : "Open now"}</span> ·{" "}
+                      <Meta item={item} />
+                    </p>
+                  </div>
+                  <button className="btn btn-plain btn-small" onClick={() => onSave(item.id)}>
+                    <Icon name="bookmark" size={14} /> Save
+                  </button>
+                </div>
+              </article>
+            ))}
+            {readNudge && (
+              <article className="suggestion">
+                <p className="suggestion-why">
+                  <strong>Nothing from Read &amp; listen yet.</strong> A podcast on the bus counts, and it gives you something to
+                  talk about at interview.
+                </p>
+                <button className="text-button" onClick={onRead}>
+                  Find one in Read &amp; listen
+                </button>
+              </article>
+            )}
+          </section>
+        )}
+
         {plan.finished.length > 0 && (
           <section className="list-section" aria-labelledby="plan-finished">
             <header className="section-head">
@@ -332,6 +427,56 @@ export function YearPlan({
                     </button>
                   </div>
                 </Row>
+              );
+            })}
+          </section>
+        )}
+
+        {readDone.length > 0 && (
+          <section className="list-section" aria-labelledby="plan-read">
+            <header className="section-head">
+              <h2 id="plan-read">Read &amp; listened</h2>
+              <span>{readDone.length} so far</span>
+            </header>
+            {readDone.map((resource) => {
+              const entry = readProgress[resource.id];
+              return (
+                <article className="listing" key={resource.id}>
+                  <DateBox date={entry?.doneOn || null} top="DONE" />
+                  <div className="listing-body">
+                    <h3>
+                      {resource.url ? (
+                        <a href={resource.url} target="_blank" rel="noopener noreferrer">
+                          {resource.title}
+                        </a>
+                      ) : (
+                        resource.title
+                      )}
+                    </h3>
+                    <p className="listing-meta">
+                      {resourceKind[resource.kind]} · {resource.by}
+                    </p>
+                    <label className="plan-note">
+                      <span className="sr-only">Your notes on {resource.title}</span>
+                      <textarea
+                        rows={2}
+                        value={entry?.note ?? ""}
+                        placeholder="One argument you'd push back on, or one thing that stuck."
+                        onChange={(event) =>
+                          onReadProgress(resource.id, { done: true, doneOn: entry?.doneOn || today, note: event.target.value })
+                        }
+                      />
+                    </label>
+                    <div className="plan-row-actions">
+                      <button
+                        className="text-button"
+                        onClick={() => onReadProgress(resource.id, { done: false, note: entry?.note ?? "", doneOn: "" })}
+                      >
+                        Not done yet
+                      </button>
+                    </div>
+                  </div>
+                </article>
               );
             })}
           </section>

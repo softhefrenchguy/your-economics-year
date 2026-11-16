@@ -16,7 +16,10 @@ export type IconName =
   | "home"
   | "bookmark"
   | "share"
-  | "headphones";
+  | "headphones"
+  | "search"
+  | "clock"
+  | "download";
 const paths: Record<IconName, string> = {
   arrow: "M5 12h14m-6-6 6 6-6 6",
   bell: "M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4",
@@ -36,6 +39,9 @@ const paths: Record<IconName, string> = {
   bookmark: "M6 3h12v18l-6-5-6 5Z",
   share: "M12 3v12M7 8l5-5 5 5M5 13v8h14v-8",
   headphones: "M4 18v-6a8 8 0 0 1 16 0v6M4 15h3v6H4zM17 15h3v6h-3z",
+  search: "M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14ZM16.5 16.5 21 21",
+  clock: "M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM12 7v5l3 2",
+  download: "M12 3v12M7 10l5 5 5-5M5 21h14",
 };
 export function Icon({
   name,

@@ -95,13 +95,19 @@ export function buildPlan(items: Opportunity[], today: string, progress: Progres
 }
 
 // Plain text of everything ticked off, with notes — to paste into a personal statement draft.
-export function recordText(done: Opportunity[], progress: ProgressMap): string {
-  return done
-    .map((item) => {
-      const entry = progress[item.id];
-      const when = entry?.doneOn ? ` (${formatDate(entry.doneOn.slice(0, 7))})` : "";
-      const note = entry?.note.trim();
-      return `${item.name} — ${item.provider}${when}${note ? `\n${note}` : ""}`;
-    })
-    .join("\n\n");
+// Books, podcasts and courses from Read & listen follow the listings, under their own heading.
+export function recordText(
+  done: Opportunity[],
+  progress: ProgressMap,
+  read: { title: string; by: string; kind: string; id: string }[] = [],
+  readProgress: ProgressMap = {},
+): string {
+  const block = (title: string, entry: { note: string; doneOn: string } | undefined) => {
+    const when = entry?.doneOn ? ` (${formatDate(entry.doneOn.slice(0, 7))})` : "";
+    const note = entry?.note.trim();
+    return `${title}${when}${note ? `\n${note}` : ""}`;
+  };
+  const listings = done.map((item) => block(`${item.name} — ${item.provider}`, progress[item.id]));
+  const reading = read.map((item) => block(`${item.title} — ${item.by}`, readProgress[item.id]));
+  return [...listings, ...(reading.length ? [`Reading and listening\n\n${reading.join("\n\n")}`] : [])].join("\n\n");
 }

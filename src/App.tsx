@@ -199,8 +199,12 @@ export default function App() {
               </h1>
               <p className="lead-sub">{activeStatus.line} Each one links to its official page.</p>
               {fresh.ids.size > 0 && !newOnly && (
+                // Counts the tab you're on, like the New button; points to the other tab when this one has none.
                 <button className="fresh-note pen" onClick={showNew}>
-                  {numberWord(fresh.ids.size)} new {fresh.sinceVisit ? "since you were last here" : "this week"} →
+                  {freshInTab > 0
+                    ? `${numberWord(freshInTab)} new ${fresh.sinceVisit ? "since you were last here" : "this week"}`
+                    : `${numberWord(fresh.ids.size)} new in ${statuses.find((s) => s.id !== status)!.label}`}{" "}
+                  →
                 </button>
               )}
               <YearChart items={live} academicYear={academicYear} today={today} />

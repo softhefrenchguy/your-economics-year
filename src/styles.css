@@ -130,6 +130,11 @@ mark { color: inherit; background: none; }
 .resource-why { margin-top: 4px; font-size: 14px; color: #3b4352; }
 .resource .text-button { display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; color: var(--ink); }
 .resource-library { margin-top: 6px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.resource-stretch { margin-left: 8px; padding: 1px 6px; border: 1px solid var(--rule); border-radius: 999px; font-size: 11px; color: var(--ink); }
+.show-more { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin-top: 4px; padding: 11px 0; border-top: 1px solid var(--rule); font-size: 14px; font-weight: 700; color: var(--ink); }
+.show-more:hover { background: var(--wash); }
+.show-more svg { transform: rotate(90deg); transition: transform 0.15s; }
+.show-more[aria-expanded="true"] svg { transform: rotate(-90deg); }
 
 .term-box { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px; margin: 22px 0 6px; padding: 18px 20px; background: var(--wash); border-radius: 8px; }
 .term-box h2 { font-family: var(--serif); font-weight: 800; font-size: 20px; }

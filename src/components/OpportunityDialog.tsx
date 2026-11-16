@@ -13,17 +13,38 @@ function confidenceLabel(item: Opportunity): string {
 
 export function OpportunityDialog({
   item,
+  link,
   saved,
   onSave,
   onClose,
 }: {
   item: Opportunity;
+  link: string;
   saved: boolean;
   onSave: (id: string) => void;
   onClose: () => void;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [copied, setCopied] = useState(false);
+  const [shared, setShared] = useState("");
+  // The phone's own share sheet (WhatsApp, Messages…) where there is one; otherwise copy the link.
+  async function share() {
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: item.name, text: `${item.name} (${item.provider})`, url: link });
+        return;
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(link);
+      setShared("Link copied");
+    } catch {
+      setShared("Couldn't copy. Copy the address from your browser's address bar");
+    }
+    window.setTimeout(() => setShared(""), 3000);
+  }
   useEffect(() => {
     const element = dialog.current!;
     const trigger = document.activeElement instanceof HTMLElement ? document.activeElement : null;
@@ -84,8 +105,13 @@ export function OpportunityDialog({
             <Icon name={saved ? "check" : "bookmark"} size={17} />
             <span>{saved ? "In your year" : "Add to your year"}</span>
           </button>
+          <button className="btn btn-icon" onClick={share}>
+            <Icon name={shared === "Link copied" ? "check" : "share"} size={17} />
+            <span>{shared === "Link copied" ? "Link copied" : "Share"}</span>
+          </button>
         </div>
 
+        {shared && shared !== "Link copied" && <p className="note-line">{shared}</p>}
         <p className="detail-lead">{item.description}</p>
         <h3>What you get out of it</h3>
         <p>{item.whyRelevant}</p>

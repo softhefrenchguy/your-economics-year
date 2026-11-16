@@ -19,6 +19,10 @@ import type { Progress, ProgressMap } from "./lib/plan";
 import { todayISO } from "./lib/clock";
 import { reminderStore } from "./lib/reminders";
 import { freshListings, recordVisit, visitStore } from "./lib/fresh";
+import { listingIdFromUrl, listingUrl, setListingInUrl, siteUrl } from "./lib/links";
+import type { Term } from "./lib/terms";
+import { TermSheet } from "./components/TermSheet";
+import { ReadListen } from "./components/ReadListen";
 import { Icon, type IconName } from "./components/Icon";
 import { ListingSections } from "./components/Listing";
 import { YearChart } from "./components/YearChart";
@@ -26,10 +30,11 @@ import { OpportunityDialog } from "./components/OpportunityDialog";
 import { YearPlan } from "./components/YearPlan";
 import { TeacherPage } from "./components/TeacherPage";
 
-type View = "browse" | "year" | "teachers";
+type View = "browse" | "year" | "read" | "teachers";
 const views: { id: View; label: string; icon: IconName }[] = [
   { id: "browse", label: "Browse", icon: "home" },
   { id: "year", label: "Your year", icon: "calendar" },
+  { id: "read", label: "Read & listen", icon: "headphones" },
   { id: "teachers", label: "Teachers", icon: "mail" },
 ];
 const statuses: { id: BrowseTab; label: string; line: string }[] = [
@@ -49,6 +54,7 @@ export default function App() {
   const [saved, setSaved] = useState<string[]>(() => reminderStore.load());
   const [progress, setProgress] = useState<ProgressMap>(() => progressStore.load());
   const [selected, setSelected] = useState<Opportunity | null>(null);
+  const [printTerm, setPrintTerm] = useState<Term | null>(null);
   const [toast, setToast] = useState("");
   const [about, setAbout] = useState(false);
   const aboutDialog = useRef<HTMLDialogElement>(null);
@@ -95,6 +101,37 @@ export default function App() {
     const timer = window.setTimeout(() => setToast(""), 5000);
     return () => window.clearTimeout(timer);
   }, [toast]);
+  // A shared link (?listing=<id>) opens that listing; the address follows whatever is open,
+  // so it can be copied from the browser too.
+  useEffect(() => {
+    const id = listingIdFromUrl(window.location.search);
+    if (!id) return;
+    const item = withEffectiveStatus(opportunities, today).find((entry) => entry.id === id);
+    if (item) setSelected(item);
+    else {
+      setListingInUrl(null);
+      setToast("That listing isn't on the site any more. Here's everything that's on now.");
+    }
+  }, [today]);
+  useEffect(() => {
+    setListingInUrl(selected?.id ?? null);
+  }, [selected]);
+  // The termly list: rendered for print only, then the browser's print window (Save as PDF).
+  useEffect(() => {
+    if (!printTerm) return;
+    const title = document.title;
+    document.title = `Economics opportunities, ${printTerm.name}`;
+    document.documentElement.classList.add("printing-sheet");
+    const done = () => setPrintTerm(null);
+    window.addEventListener("afterprint", done);
+    const timer = window.setTimeout(() => window.print(), 50);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("afterprint", done);
+      document.title = title;
+      document.documentElement.classList.remove("printing-sheet");
+    };
+  }, [printTerm]);
   useEffect(() => {
     if (about) aboutDialog.current?.showModal();
     else aboutDialog.current?.close();
@@ -251,7 +288,9 @@ export default function App() {
           />
         )}
 
-        {view === "teachers" && <TeacherPage opportunities={live} />}
+        {view === "read" && <ReadListen />}
+
+        {view === "teachers" && <TeacherPage opportunities={live} today={today} onPrint={setPrintTerm} />}
 
         <footer className="footer">
           <p>
@@ -274,8 +313,15 @@ export default function App() {
       </nav>
 
       {selected && (
-        <OpportunityDialog item={selected} saved={saved.includes(selected.id)} onSave={toggleSaved} onClose={() => setSelected(null)} />
+        <OpportunityDialog
+          item={selected}
+          link={listingUrl(selected.id)}
+          saved={saved.includes(selected.id)}
+          onSave={toggleSaved}
+          onClose={() => setSelected(null)}
+        />
       )}
+      {printTerm && <TermSheet items={live} term={printTerm} today={today} siteUrl={siteUrl()} />}
 
       <dialog
         ref={aboutDialog}

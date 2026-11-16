@@ -1,6 +1,7 @@
 import type { Opportunity } from "../types/opportunity";
 import { formatDate, teacherOpportunities } from "../lib/opportunities";
 import { costLabel, statusName } from "../lib/display";
+import { termsFrom, type Term } from "../lib/terms";
 import { Icon } from "./Icon";
 
 function whatsNeeded(item: Opportunity): string {
@@ -58,8 +59,17 @@ function TeacherItem({ item }: { item: Opportunity }) {
   );
 }
 
-export function TeacherPage({ opportunities }: { opportunities: Opportunity[] }) {
+export function TeacherPage({
+  opportunities,
+  today,
+  onPrint,
+}: {
+  opportunities: Opportunity[];
+  today: string;
+  onPrint: (term: Term) => void;
+}) {
   const { nominated, direct } = teacherOpportunities(opportunities);
+  const terms = termsFrom(today);
   return (
     <section className="page teacher-page" aria-labelledby="teacher-title">
       <h1 className="page-title" id="teacher-title">For teachers: five minutes for something a student wants to do</h1>
@@ -68,6 +78,22 @@ export function TeacherPage({ opportunities }: { opportunities: Opportunity[] })
         can't act on alone — because it needs your department to nominate or register the school, or because it's a
         booking only a staff member can make. Everything else on the site, a student can pursue independently.
       </p>
+      <div className="term-box">
+        <div>
+          <h2>A termly list to print or email</h2>
+          <p>
+            Everything with a date in the term on one page: what it is, when, the cost and who signs up. Opens your print
+            window. Choose “Save as PDF” to get a file to email to students or pin up.
+          </p>
+        </div>
+        <div className="term-buttons">
+          {terms.map((term) => (
+            <button key={term.key} className="btn btn-ink" onClick={() => onPrint(term)}>
+              <Icon name="calendar" size={16} /> {term.name}
+            </button>
+          ))}
+        </div>
+      </div>
       {nominated.length > 0 && (
         <div className="teacher-group">
           <h3 className="teacher-group-title">Entered competitively through your school</h3>

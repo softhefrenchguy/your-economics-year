@@ -38,11 +38,12 @@
   scrollbar-color: var(--rule-strong) var(--paper);
 }
 
-/* Dark: follows the phone or computer setting. The paper turns charcoal, the ink turns cream,
-   and the highlighters and pen are toned so light text still reads over them. Screen only, so
-   the printed termly list stays black on white. */
-@media screen and (prefers-color-scheme: dark) {
-  :root {
+/* Dark: the paper turns charcoal, the ink turns cream, and the highlighters and pen are toned
+   so light text still reads over them. Follows the device until the header switch is used;
+   index.html sets data-theme before the page draws. Screen only, so the printed termly list
+   stays black on white. */
+@media screen {
+  :root[data-theme="dark"] {
     --paper: #13171e;
     --ink: #ebe7de;
     --muted: #9ca3b0;
@@ -108,6 +109,8 @@ mark { color: inherit; background: none; }
 .count { display: inline-grid; place-items: center; min-width: 20px; height: 20px; margin-left: 6px; padding: 0 5px; border-radius: 10px; background: var(--pen); color: var(--on-pen); font-size: 11px; font-weight: 800; }
 .edition { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
 .about-link { display: none; }
+.theme-btn { display: grid; flex: none; place-items: center; width: 40px; height: 40px; margin-right: -8px; border-radius: 50%; color: var(--muted); }
+.theme-btn:hover { color: var(--ink); background: var(--wash); }
 
 /* ---------- Browse: lead column + reading column ---------- */
 .paper {
@@ -396,7 +399,7 @@ mark { color: inherit; background: none; }
   .masthead-inner { height: 56px; gap: 12px; }
   .wordmark { font-size: 20px; }
   .topnav, .edition { display: none; }
-  .about-link { display: block; margin: 0 -8px 0 auto; padding: 10px 8px; font-size: 14px; font-weight: 600; color: var(--muted); }
+  .about-link { display: block; margin: 0 0 0 auto; padding: 10px 8px; font-size: 14px; font-weight: 600; color: var(--muted); }
   .lead-title { font-size: 30px; }
   .status-tabs { gap: 18px; overflow-x: auto; }
   .status-tabs button { font-size: 14px; }
@@ -437,13 +440,19 @@ mark { color: inherit; background: none; }
   .sheet { width: 100%; max-width: 100%; max-height: 92vh; margin: auto 0 0; border-radius: 10px 10px 0 0; }
 }
 
+/* The smallest phones: wordmark, About and the light/dark switch on one line. */
+@media (max-width: 360px) {
+  .masthead-inner { gap: 4px; }
+  .wordmark { font-size: 18px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
 
 /* Dark overrides of single rules above (the colours themselves are the tokens at the top). */
-@media screen and (prefers-color-scheme: dark) {
-  .sheet::backdrop { background: rgb(0 0 0 / 0.6); }
+@media screen {
+  [data-theme="dark"] .sheet::backdrop { background: rgb(0 0 0 / 0.6); }
   /* The toast turns cream in the dark, so the yellow highlighter icon would vanish on it. */
-  .toast svg:first-child { color: var(--pen); }
+  [data-theme="dark"] .toast svg:first-child { color: var(--pen); }
 }

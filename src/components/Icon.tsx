@@ -19,7 +19,9 @@ export type IconName =
   | "headphones"
   | "search"
   | "clock"
-  | "download";
+  | "download"
+  | "sun"
+  | "moon";
 const paths: Record<IconName, string> = {
   arrow: "M5 12h14m-6-6 6 6-6 6",
   bell: "M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4",
@@ -42,6 +44,8 @@ const paths: Record<IconName, string> = {
   search: "M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14ZM16.5 16.5 21 21",
   clock: "M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM12 7v5l3 2",
   download: "M12 3v12M7 10l5 5 5-5M5 21h14",
+  sun: "M12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8ZM12 2.5v2m0 15v2M5.3 5.3l1.4 1.4m10.6 10.6 1.4 1.4M2.5 12h2m15 0h2M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4",
+  moon: "M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z",
 };
 export function Icon({
   name,

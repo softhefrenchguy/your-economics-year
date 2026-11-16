@@ -144,7 +144,7 @@ Paper and ink, plus the stationery a student actually uses: a red pen and two hi
 - **Bar** and **Dash** (`bar`, `dash`): the chart's other-month bars, and every dashed "last year" outline.
 
 ### Dark
-Every colour above is a token, redefined under `prefers-color-scheme: dark` (screen only, so printed lists stay black on white): paper `#13171e`, ink `#ebe7de`, muted `#9ca3b0`, rule `#2a303b`, pen `#ff6b7d`, yellow highlighter `#7d6408`, pink `#8a2c63`, teacher blue `#8eb0ff`, today `#262214`, wash `#1d222b`. The highlighters are darkened so cream text still reads over them (4.6:1 and up).
+Every colour above is a token, redefined under `:root[data-theme="dark"]` (screen only, so printed lists stay black on white). The site follows the device until the sun/moon switch in the masthead is used; the choice is then kept in that browser, and a small script in index.html applies it before the page draws. Dark values: paper `#13171e`, ink `#ebe7de`, muted `#9ca3b0`, rule `#2a303b`, pen `#ff6b7d`, yellow highlighter `#7d6408`, pink `#8a2c63`, teacher blue `#8eb0ff`, today `#262214`, wash `#1d222b`. The highlighters are darkened so cream text still reads over them (4.6:1 and up).
 
 ### Named Rules
 **The Red Pen Rule.** Red is handwriting. It marks, circles, counts down and jokes; it never fills a button, colours body text or tints a box.
@@ -209,7 +209,7 @@ Mostly square: 6px on buttons and sheets, 4px on chips and date boxes, 8px on th
 - **Detail sheet chips:** 24px, 1.5px outline: status (ink-filled when open), kind, when, cost.
 
 ### Navigation
-- **Masthead:** serif wordmark, text nav with a 2px ink underline on the current page, the edition line ("Year 12 · 2026/27") in small caps above 1040px, and a double rule beneath.
+- **Masthead:** serif wordmark, text nav with a 2px ink underline on the current page, the edition line ("Year 12 · 2026/27") in small caps above 1040px, a round 40px light/dark switch (moon in light, sun in dark) at the end, and a double rule beneath.
 - **Phone:** the bottom tab bar; the current item is ink, the rest muted, with a red count badge on Your year.
 
 ### Listing (signature)

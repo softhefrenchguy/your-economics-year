@@ -28,6 +28,7 @@ import { ReadListen } from "./components/ReadListen";
 import { Icon, type IconName } from "./components/Icon";
 import { ListingSections } from "./components/Listing";
 import { YearChart } from "./components/YearChart";
+import { applyTheme, currentTheme, deviceDark, savedTheme, saveTheme, type Theme } from "./lib/theme";
 import { OpportunityDialog } from "./components/OpportunityDialog";
 import { YearPlan } from "./components/YearPlan";
 import { TeacherPage } from "./components/TeacherPage";
@@ -68,6 +69,22 @@ export default function App() {
   // Phones only: the filters fold behind one button so search and the tabs come first.
   const [filtersOpen, setFiltersOpen] = useState(false);
   const aboutDialog = useRef<HTMLDialogElement>(null);
+  // Light or dark: follows the device until the switch is used (see src/lib/theme.ts).
+  const [theme, setTheme] = useState<Theme>(currentTheme);
+  useEffect(() => applyTheme(theme), [theme]);
+  useEffect(() => {
+    const device = deviceDark();
+    const follow = () => {
+      if (!savedTheme()) setTheme(device.matches ? "dark" : "light");
+    };
+    device.addEventListener("change", follow);
+    return () => device.removeEventListener("change", follow);
+  }, []);
+  function switchTheme() {
+    const next = theme === "dark" ? "light" : "dark";
+    saveTheme(next);
+    setTheme(next);
+  }
 
   // The one read of "today": statuses are aged against the real date on every visit.
   const today = useMemo(() => todayISO(), []);
@@ -258,6 +275,14 @@ export default function App() {
           </span>
           <button className="about-link" onClick={() => setAbout(true)}>
             About
+          </button>
+          <button
+            className="theme-btn"
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            title={theme === "dark" ? "Light mode" : "Dark mode"}
+            onClick={switchTheme}
+          >
+            <Icon name={theme === "dark" ? "sun" : "moon"} size={19} />
           </button>
         </div>
       </header>

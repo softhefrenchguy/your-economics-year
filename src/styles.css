@@ -110,6 +110,16 @@ mark { color: inherit; background: none; }
 .toggles button { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 11px; border-radius: 16px; font-size: 13px; font-weight: 600; color: var(--muted); box-shadow: inset 0 0 0 1.5px var(--rule-strong); }
 .toggles button:hover { color: var(--ink); }
 .toggles button[aria-pressed="true"] { background: var(--ink); color: var(--paper); box-shadow: none; }
+.toggles { flex-wrap: wrap; }
+.toggle-count { font-variant-numeric: tabular-nums; }
+.kind-chips { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 12px 0 2px; }
+.kind-chips button { padding: 2px 0; font-size: 13px; font-weight: 600; color: var(--muted); border-bottom: 2px solid transparent; white-space: nowrap; }
+.kind-chips button span { font-variant-numeric: tabular-nums; opacity: 0.75; }
+.kind-chips button:hover { color: var(--ink); }
+.kind-chips button[aria-pressed="true"] { color: var(--ink); background: linear-gradient(transparent 58%, var(--hl) 58% 92%, transparent 92%); }
+.fresh-note { display: inline-block; margin-top: 14px; font-size: 24px; line-height: 1.1; transform: rotate(-2deg); transform-origin: left center; }
+.fresh-note:hover { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+.new-tag { display: inline-block; margin-left: 8px; font-size: 21px; line-height: 0.8; transform: rotate(-6deg); white-space: nowrap; }
 
 /* ---------- Sections and listings ---------- */
 .section-head { display: flex; align-items: baseline; gap: 12px; padding: 26px 0 8px; }
@@ -254,6 +264,7 @@ mark { color: inherit; background: none; }
   .status-tabs { gap: 18px; overflow-x: auto; }
   .status-tabs button { font-size: 14px; }
   .toggles { padding-bottom: 12px; }
+  .kind-chips { flex-wrap: nowrap; overflow-x: auto; margin: 0 calc(-1 * var(--gutter)); padding: 12px var(--gutter) 4px; scrollbar-width: none; }
   .list-controls { flex-direction: column; align-items: stretch; gap: 6px; }
   .listing { grid-template-columns: 54px minmax(0, 1fr) 34px; gap: 12px; }
   .listing-date strong { font-size: 32px; }

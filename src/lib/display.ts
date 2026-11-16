@@ -24,6 +24,12 @@ export function costLabel(item: Opportunity): string {
   return `${item.costCurrency === "USD" ? "US$" : "£"}${item.costAmount}`;
 }
 
+// The cost mid-sentence in a list line: "paid", "cost not listed", but "£40" and "US$35" kept as is.
+export function costInline(item: Opportunity): string {
+  const label = costLabel(item);
+  return /^[A-Z][a-z]/.test(label) ? label[0].toLowerCase() + label.slice(1) : label;
+}
+
 export function placeLabel(item: Opportunity): string {
   if (item.deliveryMode === "online") return "online";
   const location = item.location.replace(/\s*\(.*$/, "");

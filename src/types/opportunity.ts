@@ -103,6 +103,8 @@ export interface Opportunity {
 
   officialUrl: string;
   sourceLastChecked: string;
+  // The day this listing was added to the site (drives the "New" badge). Not a provider date.
+  addedOn?: string;
 
   requiresSchoolNomination: boolean;
   requiresTeacher: boolean;

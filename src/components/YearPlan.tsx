@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import type { Opportunity } from "../types/opportunity";
 import { formatDate } from "../lib/opportunities";
-import { costLabel, dayParts, listDate, needsTeacher, placeLabel, shortProvider } from "../lib/display";
+import { costInline, dayParts, listDate, needsTeacher, placeLabel, shortProvider } from "../lib/display";
 import { buildPlan, recordText, stepLabel, stepPhrase, type PlanEntry, type PlanStep, type Progress, type ProgressMap } from "../lib/plan";
 import { buildCalendar } from "../lib/calendar";
 import { Icon } from "./Icon";
@@ -32,7 +32,7 @@ function Meta({ item }: { item: Opportunity }) {
   return (
     <>
       {shortProvider(item) !== item.name && <>{shortProvider(item)} · </>}
-      {placeLabel(item)} · {item.costType === "free" ? <mark className="hl-free">free</mark> : costLabel(item).toLowerCase()}
+      {placeLabel(item)} · {item.costType === "free" ? <mark className="hl-free">free</mark> : costInline(item)}
       {needsTeacher(item) && <span className="teacher-line"> · your teacher signs you up</span>}
     </>
   );

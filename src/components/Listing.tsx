@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { Opportunity } from "../types/opportunity";
 import type { Section } from "../lib/display";
-import { costLabel, dayParts, listDate, needsTeacher, placeLabel, shortProvider, todayNote } from "../lib/display";
+import { costInline, dayParts, listDate, needsTeacher, placeLabel, shortProvider, todayNote } from "../lib/display";
 import { Icon } from "./Icon";
 
 // One dated listing: big serif date on the left, title and a single meta line, save on the
@@ -10,6 +10,7 @@ export function Listing({
   item,
   today,
   saved,
+  isNew = false,
   dateOverride,
   onOpen,
   onSave,
@@ -17,6 +18,7 @@ export function Listing({
   item: Opportunity;
   today: string;
   saved: boolean;
+  isNew?: boolean;
   // The timeline passes the specific date and label it is listing this item under.
   dateOverride?: { date: string; label: string; lastYear: boolean };
   onOpen: (item: Opportunity) => void;
@@ -53,12 +55,13 @@ export function Listing({
       <div className="listing-body">
         <h3>
           <button onClick={() => onOpen(item)}>{item.name}</button>
+          {isNew && <span className="new-tag pen">new!</span>}
         </h3>
         <p className="listing-meta">
           {dateOverride && <span className="listing-kind">{dateOverride.label} · </span>}
           {shortProvider(item) !== item.name && <>{shortProvider(item)} · </>}
           {placeLabel(item)} ·{" "}
-          {item.costType === "free" ? <mark className="hl-free">free</mark> : costLabel(item).toLowerCase()}
+          {item.costType === "free" ? <mark className="hl-free">free</mark> : costInline(item)}
           {needsTeacher(item) && <span className="teacher-line"> · your teacher signs you up</span>}
           {item.status === "closed" && <span> · closed</span>}
         </p>
@@ -137,6 +140,7 @@ export function ListingSections({
   groups,
   today,
   saved,
+  fresh,
   onOpen,
   onSave,
   jokes: withJokes = true,
@@ -144,6 +148,8 @@ export function ListingSections({
   groups: Section[];
   today: string;
   saved: string[];
+  // Listings to mark "new!".
+  fresh?: Set<string>;
   onOpen: (item: Opportunity) => void;
   onSave: (id: string) => void;
   jokes?: boolean;
@@ -166,6 +172,7 @@ export function ListingSections({
                   item={item}
                   today={today}
                   saved={saved.includes(item.id)}
+                  isNew={fresh?.has(item.id)}
                   dateOverride={group.dates?.[item.id]}
                   onOpen={onOpen}
                   onSave={onSave}

@@ -7,15 +7,41 @@ export type Category =
   | "Finance"
   | "Policy"
   | "Business";
+// What kind of thing it is, in the words a student would use. Every type maps to exactly one.
+export type Kind = "talks" | "competitions" | "programmes" | "work";
+export const kindOptions: { id: Kind; label: string }[] = [
+  { id: "talks", label: "Talks & tasters" },
+  { id: "competitions", label: "Competitions" },
+  { id: "programmes", label: "Courses & programmes" },
+  { id: "work", label: "Work & business" },
+];
+const kindByType: Record<Opportunity["type"], Kind> = {
+  "Taster / event": "talks",
+  Competition: "competitions",
+  "Essay competition": "competitions",
+  "University programme": "programmes",
+  "Summer school": "programmes",
+  "Mentoring / development": "programmes",
+  "Work experience": "work",
+  "Finance insight": "work",
+  "Business & entrepreneurship": "work",
+};
+export const kindOf = (item: Opportunity): Kind => kindByType[item.type];
+
 export interface Filters {
   freeOnly: boolean;
   online: boolean;
+  // Only things a student can sign up to without a teacher.
+  noTeacher: boolean;
+  kind: Kind | null;
   location: string;
   categories: Category[];
 }
 export const emptyFilters: Filters = {
   freeOnly: false,
   online: false,
+  noTeacher: false,
+  kind: null,
   location: "",
   categories: [],
 };
@@ -60,6 +86,8 @@ export function filterOpportunities(
       (!status || item.status === status) &&
       (!filters.freeOnly || item.costType === "free") &&
       (!filters.online || item.deliveryMode === "online") &&
+      (!filters.noTeacher || !(item.requiresTeacher || item.requiresSchoolNomination)) &&
+      (!filters.kind || kindOf(item) === filters.kind) &&
       (!filters.location || item.location === filters.location) &&
       (!filters.categories.length ||
         filters.categories.some((category) => categorise(item).includes(category))),

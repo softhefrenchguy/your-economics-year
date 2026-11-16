@@ -7,15 +7,18 @@ import {
   emptyFilters,
   filterOpportunities,
   formatDate,
+  kindOf,
+  kindOptions,
   prioritiseFree,
   withEffectiveStatus,
   type Filters as FilterState,
 } from "./lib/opportunities";
-import { headline, inTab, sections, upcomingSections, type BrowseTab } from "./lib/display";
+import { headline, inTab, numberWord, sections, upcomingSections, type BrowseTab } from "./lib/display";
 import { progressStore } from "./lib/progress";
 import type { Progress, ProgressMap } from "./lib/plan";
 import { todayISO } from "./lib/clock";
 import { reminderStore } from "./lib/reminders";
+import { freshListings, recordVisit, visitStore } from "./lib/fresh";
 import { Icon, type IconName } from "./components/Icon";
 import { ListingSections } from "./components/Listing";
 import { YearChart } from "./components/YearChart";
@@ -42,6 +45,7 @@ export default function App() {
   const [view, setView] = useState<View>("browse");
   const [status, setStatus] = useState<BrowseTab>("open");
   const [filters, setFilters] = useState<FilterState>(emptyFilters);
+  const [newOnly, setNewOnly] = useState(false);
   const [saved, setSaved] = useState<string[]>(() => reminderStore.load());
   const [progress, setProgress] = useState<ProgressMap>(() => progressStore.load());
   const [selected, setSelected] = useState<Opportunity | null>(null);
@@ -55,15 +59,36 @@ export default function App() {
   // London-focused: only what a London-based student can do (London, online or UK-wide).
   const live = useMemo(() => withEffectiveStatus(opportunities.filter(availableInLondon), today), [today]);
 
-  const filtered = filterOpportunities(live, filters);
+  // Remembers this visit (two dates, this browser only) to work out what's new since the last one.
+  const previousVisit = useMemo(() => {
+    const visits = recordVisit(visitStore.load(), today);
+    visitStore.save(visits);
+    return visits.previous;
+  }, [today]);
+  const fresh = useMemo(() => freshListings(live, today, previousVisit), [live, today, previousVisit]);
+
+  const isShown = (item: Opportunity) => !newOnly || fresh.ids.has(item.id);
+  const filtered = filterOpportunities(live, filters).filter(isShown);
   const results = prioritiseFree(filtered.filter((item) => inTab(item, status)));
   const counts = Object.fromEntries(
     statuses.map((s) => [s.id, filtered.filter((item) => inTab(item, s.id)).length]),
   ) as Record<BrowseTab, number>;
+  // Each kind's count with every other filter applied, so the numbers match what a tap shows.
+  const kindPool = filterOpportunities(live, { ...filters, kind: null }).filter((item) => isShown(item) && inTab(item, status));
+  const kindCount = (kind: string | null) => kindPool.filter((item) => !kind || kindOf(item) === kind).length;
+  const freshInTab = live.filter((item) => fresh.ids.has(item.id) && inTab(item, status)).length;
   const lead = headline(results, status, today);
   const activeStatus = statuses.find((s) => s.id === status)!;
   const savedItems = live.filter((item) => saved.includes(item.id));
-  const filtersOn = filters.freeOnly || filters.online;
+  const filtersOn = filters.freeOnly || filters.online || filters.noTeacher || filters.kind !== null || newOnly;
+  function clearFilters() {
+    setFilters(emptyFilters);
+    setNewOnly(false);
+  }
+  function showNew() {
+    setNewOnly(true);
+    if (!freshInTab) setStatus(status === "open" ? "upcoming" : "open");
+  }
 
   useEffect(() => {
     if (!toast) return;
@@ -136,6 +161,11 @@ export default function App() {
                 {lead.after}
               </h1>
               <p className="lead-sub">{activeStatus.line} Each one links to its official page.</p>
+              {fresh.ids.size > 0 && !newOnly && (
+                <button className="fresh-note pen" onClick={showNew}>
+                  {numberWord(fresh.ids.size)} new {fresh.sinceVisit ? "since you were last here" : "this week"} →
+                </button>
+              )}
               <YearChart items={live} academicYear={academicYear} today={today} />
             </aside>
             <section className="list-col" aria-label={`${activeStatus.label} listings`}>
@@ -156,7 +186,24 @@ export default function App() {
                     <Icon name={filters.online ? "check" : "globe"} size={14} />
                     Online only
                   </button>
+                  <button aria-pressed={filters.noTeacher} onClick={() => setFilters({ ...filters, noTeacher: !filters.noTeacher })}>
+                    <Icon name={filters.noTeacher ? "check" : "mail"} size={14} />
+                    No teacher needed
+                  </button>
+                  {(freshInTab > 0 || newOnly) && (
+                    <button aria-pressed={newOnly} onClick={() => setNewOnly(!newOnly)}>
+                      <Icon name={newOnly ? "check" : "spark"} size={14} />
+                      New <span className="toggle-count">{freshInTab}</span>
+                    </button>
+                  )}
                 </div>
+              </div>
+              <div className="kind-chips" role="group" aria-label="Kind of thing">
+                {[{ id: null, label: "Everything" }, ...kindOptions].map((k) => (
+                  <button key={k.id ?? "all"} aria-pressed={filters.kind === k.id} onClick={() => setFilters({ ...filters, kind: k.id })}>
+                    {k.label} <span>{kindCount(k.id)}</span>
+                  </button>
+                ))}
               </div>
               <p className="sr-only" role="status">
                 {results.length} {activeStatus.label.toLowerCase()} listings{filtersOn ? " with your filters" : ""}.
@@ -165,7 +212,8 @@ export default function App() {
                 <ListingSections
                   groups={status === "open" ? sections(results, today, "open") : upcomingSections(results, today)}
                   {...listProps}
-                  jokes={status === "open"}
+                  fresh={fresh.ids}
+                  jokes={status === "open" && !filtersOn}
                 />
               ) : (
                 <div className="empty">
@@ -179,7 +227,7 @@ export default function App() {
                         </button>
                       ))}
                     {filtersOn && (
-                      <button className="btn btn-plain" onClick={() => setFilters(emptyFilters)}>
+                      <button className="btn btn-plain" onClick={clearFilters}>
                         Clear filters
                       </button>
                     )}

@@ -56,6 +56,7 @@ function entry(id: string, fields: Partial<Opportunity>): Opportunity {
 
 export const opportunities: Opportunity[] = [
   entry("lse-pathways-banking-finance", {
+    addedOn: "2026-09-16",
     name: "Pathways to Banking and Finance",
     provider: "London School of Economics / Sutton Trust",
     type: "University programme",
@@ -86,6 +87,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("birkbeck-migration-economics", {
+    addedOn: "2026-09-16",
     name: "Migration: Economic Problem or Economic Opportunity?",
     provider: "Birkbeck, University of London",
     type: "Taster / event",
@@ -115,6 +117,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("dauphine-preuni-economics-management", {
+    addedOn: "2026-09-16",
     sourceLastChecked: "2026-11-08",
     costAmount: 275,
     name: "Dauphine-PSL Pre-Uni Camp — Economics & Management",
@@ -146,6 +149,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("yse-launch", {
+    addedOn: "2026-09-16",
     name: "LAUNCH",
     provider: "Young Social Entrepreneurs",
     type: "Business & entrepreneurship",
@@ -171,6 +175,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("fcdo-next-generation-economics", {
+    addedOn: "2026-09-16",
     name: "FCDO Next Generation Economics Competition",
     provider: "Foreign, Commonwealth & Development Office",
     type: "Essay competition",
@@ -207,6 +212,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("cambridge-economics-challenge", {
+    addedOn: "2026-09-16",
     sourceLastChecked: "2026-11-08",
     eventEnd: "2027-06-22",
     eventStart: "2027-06-01",
@@ -251,6 +257,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("oxford-econsoc-essay", {
+    addedOn: "2026-09-16",
     name: "Oxford Economics Society Sixth Form Essay Competition",
     provider: "Oxford Economics Society",
     type: "Essay competition",
@@ -278,6 +285,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("lsesu-economics-essay", {
+    addedOn: "2026-09-16",
     sourceLastChecked: "2026-11-08",
     name: "LSESU Economics Society Annual Essay Competition",
     provider: "LSESU Economics Society",
@@ -307,6 +315,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("iea-monetary-policy-essay", {
+    addedOn: "2026-09-16",
     name: "Monetary Policy Essay Prize",
     provider: "IEA / Institute of International Monetary Research / Vinson Centre",
     type: "Essay competition",
@@ -336,6 +345,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("iea-budget-challenge", {
+    addedOn: "2026-09-16",
     name: "The Budget Challenge",
     provider: "Institute of Economic Affairs",
     type: "Competition",
@@ -374,6 +384,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("soas-y12-outreach-summer-school", {
+    addedOn: "2026-09-16",
     name: "SOAS Year 12 Outreach Summer School — Thriving Futures",
     provider: "SOAS University of London",
     type: "Summer school",
@@ -405,6 +416,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("ucl-management-summer-school", {
+    addedOn: "2026-09-16",
     name: "UCL School of Management Non-Residential Summer School",
     provider: "UCL School of Management",
     type: "Summer school",
@@ -436,6 +448,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("christs-cambridge-summer-school", {
+    addedOn: "2026-09-16",
     name: "Experience Christ's Summer School",
     provider: "Christ's College, University of Cambridge",
     type: "Summer school",
@@ -466,6 +479,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("royal-holloway-economics-work-experience", {
+    addedOn: "2026-09-16",
     name: "Work Experience @RHULECON",
     provider: "Royal Holloway Department of Economics",
     type: "Work experience",
@@ -489,6 +503,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("royal-holloway-data-bootcamp", {
+    addedOn: "2026-09-16",
     name: "Economics Data Boot Camp",
     provider: "Royal Holloway Department of Economics",
     type: "University programme",
@@ -511,6 +526,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("royal-holloway-economics-ai", {
+    addedOn: "2026-09-16",
     sourceLastChecked: "2026-11-08",
     name: "Economics of AI Insight Day",
     provider: "Royal Holloway Department of Economics",
@@ -535,6 +551,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("aon-discover-finance-city-edition", {
+    addedOn: "2026-09-16",
     name: "Aon Work Insight Programme",
     provider: "Aon",
     type: "Work experience",
@@ -563,6 +580,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("gs-money-markets-risk", {
+    addedOn: "2026-09-16",
     name: "Understanding Money, Markets and Risk",
     provider: "Goldman Sachs / LSEG Foundation / Founders4Schools",
     type: "Mentoring / development",
@@ -592,6 +610,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("city-st-georges-economics-taster", {
+    addedOn: "2026-09-16",
     name: "A Taste of Economics at City St George's",
     provider: "City St George's, University of London",
     type: "Taster / event",
@@ -618,6 +637,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("lse-explore-economic-history", {
+    addedOn: "2026-09-16",
     name: "LSE Explore Extra — Economic History",
     provider: "London School of Economics",
     type: "Taster / event",
@@ -644,6 +664,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("res-annual-public-lecture-2026", {
+    addedOn: "2026-09-16",
     name: "RES Annual Public Lecture 2026 — Is Economics broken?",
     provider: "Royal Economic Society / Discover Economics",
     type: "Taster / event",
@@ -670,6 +691,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("frontier-economics-apprenticeship-evening", {
+    addedOn: "2026-09-16",
     sourceLastChecked: "2026-11-08",
     name: "Economic Apprenticeships at Frontier — Open Evening",
     provider: "Frontier Economics / Discover Economics",
@@ -696,6 +718,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("young-enterprise-company-programme", {
+    addedOn: "2026-09-16",
     name: "Company Programme",
     provider: "Young Enterprise",
     type: "Business & entrepreneurship",
@@ -728,6 +751,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("bristol-discover-economics-taster", {
+    addedOn: "2026-09-16",
     name: "Discover Economics in-school taster session",
     provider: "University of Bristol, School of Economics",
     type: "Taster / event",
@@ -757,6 +781,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("nuffield-research-placements", {
+    addedOn: "2026-09-16",
     name: "Nuffield Research Placements",
     provider: "STEM Learning / Nuffield Foundation",
     type: "Work experience",
@@ -787,6 +812,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("young-economist-of-the-year", {
+    addedOn: "2026-09-16",
     name: "Young Economist of the Year",
     provider: "Royal Economic Society / KPMG UK",
     type: "Essay competition",
@@ -815,6 +841,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("discover-economics-boe-economists-bristol", {
+    addedOn: "2026-09-16",
     sourceLastChecked: "2026-11-15",
     name: "Discover Economics with Bank of England Economists",
     provider: "Discover Economics / Bank of England",
@@ -841,6 +868,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("lse-monetary-policy-musalem-2026", {
+    addedOn: "2026-09-16",
     sourceLastChecked: "2026-11-08",
     name: "In Conversation with Alberto Musalem, President of the Federal Reserve Bank of St. Louis",
     provider: "London School of Economics",
@@ -867,6 +895,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("lse-cop32-african-climate-economics-2026", {
+    addedOn: "2026-09-16",
     sourceLastChecked: "2026-11-08",
     name: "The Road to COP32: An African Agenda for Climate Action and Economic Development",
     provider: "London School of Economics",
@@ -892,6 +921,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("kings-entrepreneurship-essay-competition", {
+    addedOn: "2026-09-16",
     name: "King's Entrepreneurship Lab Essay Competition",
     provider: "King's Entrepreneurship Lab (E-Lab), King's College Cambridge",
     type: "Essay competition",
@@ -922,6 +952,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("sidgwick-prize-economics", {
+    addedOn: "2026-09-16",
     sourceLastChecked: "2026-11-15",
     applicationDeadline: "2027-06-30",
     applicationsOpen: "2026-09-19",
@@ -955,6 +986,7 @@ export const opportunities: Opportunity[] = [
     dateConfidence: "confirmed",
   }),
   entry("lse-stone-centre-for-wealth-inequality-and-entrepreneurship", {
+    addedOn: "2026-11-03",
     name: "How should we tax the wealthy?",
     provider: "LSE (Stone Centre for Wealth Inequality and Entrepreneurship)",
     type: "Taster / event",
@@ -991,6 +1023,7 @@ export const opportunities: Opportunity[] = [
     dateConfidence: "confirmed"
   }),
   entry("lse-financial-markets-group-fmg-from-values-to-impact-what-c", {
+    addedOn: "2026-11-03",
     name: "From values to impact: what can sustainable investing achieve?",
     provider: "LSE Financial Markets Group (FMG)",
     type: "Taster / event",
@@ -1028,6 +1061,7 @@ export const opportunities: Opportunity[] = [
     dateConfidence: "confirmed"
   }),
   entry("lse-economica-structural-change-and-development-economica-ph", {
+    addedOn: "2026-11-03",
     name: "Structural change and development (Economica Phillips Lecture)",
     provider: "LSE (Economica)",
     type: "Taster / event",
@@ -1064,6 +1098,7 @@ export const opportunities: Opportunity[] = [
     dateConfidence: "confirmed"
   }),
   entry("lse-the-ralph-miliband-programme-anti-fascist-economics-in-d", {
+    addedOn: "2026-11-03",
     name: "Anti-fascist economics: In Defence of Affordability, Dignity and Democracy",
     provider: "LSE - The Ralph Miliband Programme",
     type: "Taster / event",
@@ -1100,6 +1135,7 @@ export const opportunities: Opportunity[] = [
     dateConfidence: "confirmed"
   }),
   entry("lse-department-of-geography-and-environment-global-school-of", {
+    addedOn: "2026-11-03",
     name: "Can global value chains go green? Trade, investment and the net-zero development challenge",
     provider: "LSE (Department of Geography and Environment, Global School of Sustainability, International Growth Centre)",
     type: "Taster / event",
@@ -1137,6 +1173,7 @@ export const opportunities: Opportunity[] = [
     dateConfidence: "confirmed"
   }),
   entry("lse-health-london-school-of-economics-the-economics-of-chanc", {
+    addedOn: "2026-11-03",
     name: "The economics of chance: what random events reveal about forces shaping health",
     provider: "LSE Health, London School of Economics",
     type: "Taster / event",
@@ -1172,6 +1209,7 @@ export const opportunities: Opportunity[] = [
     dateConfidence: "confirmed"
   }),
   entry("lse-hayek-programme-in-economics-and-liberal-political-econo", {
+    addedOn: "2026-11-03",
     name: "British progress and the centre-right",
     provider: "LSE (Hayek Programme in Economics and Liberal Political Economy)",
     type: "Taster / event",
@@ -1210,6 +1248,7 @@ export const opportunities: Opportunity[] = [
 
   // Added by hand on 3 Nov 2026 after a London-focus search; each checked on its official page.
   entry("kcl-k-plus", {
+    addedOn: "2026-11-03",
     name: "K+ (Social Science & Public Policy pathway)",
     provider: "King's College London",
     type: "University programme",
@@ -1240,6 +1279,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("smf-aspiring-professionals-programme", {
+    addedOn: "2026-11-03",
     name: "Aspiring Professionals Programme",
     provider: "Social Mobility Foundation",
     type: "Mentoring / development",
@@ -1270,6 +1310,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("fitzwilliam-economics-essay-competition", {
+    addedOn: "2026-11-03",
     name: "Gerald O'Connell Essay Competition in Economics",
     provider: "Fitzwilliam College, Cambridge",
     type: "Essay competition",
@@ -1302,6 +1343,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("john-locke-essay-competition", {
+    addedOn: "2026-11-03",
     name: "John Locke Institute Essay Competition (Economics)",
     provider: "John Locke Institute",
     type: "Essay competition",
@@ -1335,6 +1377,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("sutton-trust-summer-schools", {
+    addedOn: "2026-11-03",
     eventEnd: "2027-08",
     eventStart: "2027-06",
     applicationDeadline: "2027-03-04",
@@ -1370,6 +1413,7 @@ export const opportunities: Opportunity[] = [
     dateConfidence: "confirmed",
   }),
   entry("lse-international-inequalities-institute-addressing-the-adve", {
+    addedOn: "2026-11-08",
     name: "Addressing the adverse consequences of inequality (John Hills Memorial Lecture)",
     provider: "LSE International Inequalities Institute",
     type: "Taster / event",
@@ -1406,6 +1450,7 @@ export const opportunities: Opportunity[] = [
     dateConfidence: "confirmed"
   }),
   entry("lse-hayek-programme-in-economics-and-liberal-political-econo-2", {
+    addedOn: "2026-11-08",
     name: "Is Bitcoin the way to a better money? Is gold?",
     provider: "LSE Hayek Programme in Economics and Liberal Political Economy",
     type: "Taster / event",
@@ -1442,6 +1487,7 @@ export const opportunities: Opportunity[] = [
     dateConfidence: "confirmed"
   }),
   entry("lse-centre-for-macroeconomics-money-the-inside-story", {
+    addedOn: "2026-11-15",
     name: "Money: the inside story",
     provider: "LSE Centre For Macroeconomics",
     type: "Taster / event",
@@ -1479,6 +1525,7 @@ export const opportunities: Opportunity[] = [
     dateConfidence: "confirmed"
   }),
   entry("lse-department-of-international-development-coming-full-circ", {
+    addedOn: "2026-11-15",
     name: "Coming full circle? Sir Arthur Lewis and the future of development theory",
     provider: "LSE Department of International Development",
     type: "Taster / event",
@@ -1518,6 +1565,7 @@ export const opportunities: Opportunity[] = [
   // ---- Added 15 Nov 2026 from a source search; every fact checked on the official page that day. ----
 
   entry("harvard-international-economics-essay-contest", {
+    addedOn: "2026-11-15",
     name: "Harvard International Economics Essay Contest",
     provider: "Harvard Undergraduate Economics Association",
     type: "Essay competition",
@@ -1550,6 +1598,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("erc-econ-club", {
+    addedOn: "2026-11-15",
     name: "Econ Club",
     provider: "Economic Research Council",
     type: "Mentoring / development",
@@ -1579,6 +1628,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("gresham-romantic-history-of-copyright", {
+    addedOn: "2026-11-15",
     name: "The Romantic History of Copyright",
     provider: "Gresham College",
     type: "Taster / event",
@@ -1607,6 +1657,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("imperial-sutton-trust-economics-finance-data-science", {
+    addedOn: "2026-11-15",
     name: "Economics, Finance and Data Science Summer School",
     provider: "Imperial College London / Sutton Trust",
     type: "Summer school",
@@ -1642,6 +1693,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("marshall-society-essay-competition", {
+    addedOn: "2026-11-15",
     name: "Marshall Society Essay Competition",
     provider: "Marshall Society (University of Cambridge)",
     type: "Essay competition",

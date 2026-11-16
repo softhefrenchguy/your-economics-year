@@ -10,6 +10,8 @@ import {
   emptyFilters,
   filterOpportunities,
   formatDate,
+  kindOf,
+  kindOptions,
   prioritiseFree,
   sortByDeadline,
   teacherOpportunities,
@@ -17,6 +19,7 @@ import {
   withEffectiveStatus,
 } from "./opportunities";
 import { inTab, upcomingSections } from "./display";
+import { freshListings, recordVisit } from "./fresh";
 import type { Opportunity } from "../types/opportunity";
 
 const fixture = (overrides: Partial<Opportunity>): Opportunity => ({
@@ -43,7 +46,7 @@ describe("opportunity filtering", () => {
   it("intersects cost, delivery, location, category and status filters", () => {
     const result = filterOpportunities(
       opportunities,
-      { freeOnly: true, online: true, location: "UK-wide", categories: ["Policy"] },
+      { ...emptyFilters, freeOnly: true, online: true, location: "UK-wide", categories: ["Policy"] },
       "coming-soon",
     );
     expect(result.map((item) => item.id)).toEqual(["fcdo-next-generation-economics"]);
@@ -57,6 +60,22 @@ describe("opportunity filtering", () => {
     expect(result.filter((item) => item.id === "oxford-econsoc-essay")).toHaveLength(1);
     expect(new Set(result.map((item) => item.id)).size).toBe(result.length);
     expect(result.every((item) => categorise(item).some((c) => c === "Competition" || c === "Finance"))).toBe(true);
+  });
+  it("gives every type exactly one kind, and the kind filter keeps only that kind", () => {
+    const kinds = kindOptions.map((k) => k.id);
+    expect(opportunities.every((item) => kinds.includes(kindOf(item)))).toBe(true);
+    for (const kind of kinds) {
+      const result = filterOpportunities(opportunities, { ...emptyFilters, kind });
+      expect(result.length).toBeGreaterThan(0);
+      expect(result.every((item) => kindOf(item) === kind)).toBe(true);
+    }
+    const total = kinds.reduce((sum, kind) => sum + filterOpportunities(opportunities, { ...emptyFilters, kind }).length, 0);
+    expect(total).toBe(opportunities.length);
+  });
+  it("'No teacher needed' drops anything a teacher has to sign the school up for", () => {
+    const result = filterOpportunities(opportunities, { ...emptyFilters, noTeacher: true });
+    expect(result.length).toBeGreaterThan(0);
+    expect(result.some((item) => item.requiresTeacher || item.requiresSchoolNomination)).toBe(false);
   });
   it("does not treat hybrid programmes as fully online", () => {
     expect(
@@ -307,6 +326,9 @@ describe("data integrity", () => {
     expect(opportunities.every((item) => /^\d{4}-\d{2}-\d{2}$/.test(item.sourceLastChecked))).toBe(true);
     expect(new Set(opportunities.map((item) => item.id)).size).toBe(opportunities.length);
   });
+  it("records the day every listing was added", () => {
+    expect(opportunities.every((item) => /^\d{4}-\d{2}-\d{2}$/.test(item.addedOn ?? ""))).toBe(true);
+  });
   it("only claims previous-cycle confidence when real previous-cycle dates are stored", () => {
     for (const item of opportunities) {
       if (item.dateConfidence === "previous-cycle") expect(item.previousCycle).not.toBeNull();
@@ -350,5 +372,35 @@ describe("one 'Not open yet' list", () => {
     const [jan] = upcomingSections([lastYearJan, confirmed], today);
     expect(jan.dates?.sutton).toEqual({ date: "2027-01-11", label: "Opens", lastYear: false });
     expect(jan.dates?.locke).toEqual({ date: "2026-01-20", label: "Not announced yet · last year's date", lastYear: true });
+  });
+});
+
+describe("what's new", () => {
+  const items = [
+    fixture({ id: "old", addedOn: "2026-09-16" }),
+    fixture({ id: "last-month", addedOn: "2026-10-20" }),
+    fixture({ id: "this-week", addedOn: "2026-11-15" }),
+    fixture({ id: "closed", addedOn: "2026-11-15", status: "closed" }),
+  ];
+  it("counts several visits on one day as one, and remembers the day before", () => {
+    const first = recordVisit(null, "2026-11-01");
+    expect(first).toEqual({ last: "2026-11-01", previous: null });
+    expect(recordVisit(first, "2026-11-01")).toEqual(first);
+    expect(recordVisit(first, "2026-11-16")).toEqual({ last: "2026-11-16", previous: "2026-11-01" });
+  });
+  it("marks this week's additions as new for a first-time or recent visitor, never closed ones", () => {
+    for (const previous of [null, "2026-11-14"]) {
+      const fresh = freshListings(items, "2026-11-16", previous);
+      expect([...fresh.ids]).toEqual(["this-week"]);
+      expect(fresh.sinceVisit).toBe(false);
+    }
+  });
+  it("reaches back to a previous visit more than a week ago", () => {
+    const fresh = freshListings(items, "2026-11-16", "2026-10-01");
+    expect([...fresh.ids]).toEqual(["last-month", "this-week"]);
+    expect(fresh.sinceVisit).toBe(true);
+  });
+  it("drops the badge once a listing is more than a week old", () => {
+    expect(freshListings(items, "2026-11-23", "2026-11-22").ids.size).toBe(0);
   });
 });

@@ -286,6 +286,7 @@ export function validateNewEntry(proposal, existingIds, existingUrls, officialUr
     ...(requiresTeacher || requiresSchoolNomination ? { teacherPitch: proposal.teacherPitch } : {}),
     officialUrl,
     sourceLastChecked: today,
+    addedOn: today,
     requiresTeacher,
     requiresSchoolNomination,
     wideningParticipation: Boolean(proposal.wideningParticipation),

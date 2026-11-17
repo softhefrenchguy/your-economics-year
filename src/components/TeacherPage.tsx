@@ -20,6 +20,8 @@ function whatsNeeded(item: Opportunity): string {
 function costLine(item: Opportunity): string {
   if (item.costType === "free") return "Free to take part.";
   if (item.costType === "unknown") return item.financialSupport ?? "Cost isn't listed on the official page — confirm before committing.";
+  // A fee that varies (by school type, say) has no single costAmount; its note says it in full.
+  if (item.costAmount == null && item.financialSupport) return item.financialSupport;
   return `${costLabel(item)} to take part.`;
 }
 

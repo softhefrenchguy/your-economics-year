@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { opportunities, REFERENCE_DATE } from "./data/opportunities";
+import { opportunities } from "./data/opportunities";
 import type { Opportunity } from "./types/opportunity";
 import {
   availableInLondon,
@@ -270,9 +270,6 @@ export default function App() {
             ))}
             <button onClick={() => setAbout(true)}>About</button>
           </nav>
-          <span className="edition">
-            Year 12 · {academicYear}/{String(academicYear + 1).slice(2)}
-          </span>
           <button className="about-link" onClick={() => setAbout(true)}>
             About
           </button>
@@ -463,9 +460,8 @@ export default function App() {
 
         <footer className="footer">
           <p>
-            What's open, not open yet and closed is worked out live from today's date ({formatDate(today, true)}). The listings
-            were last verified by hand on {formatDate(REFERENCE_DATE, true)}, and each links to its official page, which
-            always has the final word.
+            What's open, not open yet and closed is worked out live from today's date ({formatDate(today, true)}). Each listing
+            shows when it was last checked against its official page, which always has the final word.
           </p>
           <p>Independent and student-built. Not affiliated with any organiser listed here.</p>
         </footer>

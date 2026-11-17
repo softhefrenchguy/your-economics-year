@@ -152,6 +152,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("yse-launch", {
+    sourceLastChecked: "2026-11-17",
     addedOn: "2026-09-16",
     timeNeeded: "several weeks, in a team",
     name: "LAUNCH",
@@ -164,9 +165,9 @@ export const opportunities: Opportunity[] = [
     deliveryMode: "hybrid",
     ukWide: true,
     costType: "unknown",
-    status: "coming-soon",
+    status: "open",
     recurring: true,
-    expectedWindow: "Returning in 2027 · exact dates not yet announced",
+    expectedWindow: "Sign-ups for the 2027 competition are open now; no deadline is published yet.",
     eligibilitySummary: "UK Year 12 students working in teams of 2–5.",
     eligibilityDetails:
       "Open to UK Year 12 students who form teams of two to five. No school nomination is required to register a team.",
@@ -175,10 +176,11 @@ export const opportunities: Opportunity[] = [
     whyRelevant:
       "Useful for students interested in entrepreneurship, incentives, costs, viability and applying economic thinking to real problems.",
     officialUrl: "https://yseuk.org/launch/",
-    dateConfidence: "expected",
+    dateConfidence: "confirmed",
   }),
 
   entry("fcdo-next-generation-economics", {
+    sourceLastChecked: "2026-11-17",
     addedOn: "2026-09-16",
     timeNeeded: "a few evenings",
     name: "FCDO Next Generation Economics Competition",
@@ -219,7 +221,7 @@ export const opportunities: Opportunity[] = [
   entry("cambridge-economics-challenge", {
     addedOn: "2026-09-16",
     timeNeeded: "a 75-minute paper",
-    sourceLastChecked: "2026-11-08",
+    sourceLastChecked: "2026-11-17",
     eventEnd: "2027-06-22",
     eventStart: "2027-06-01",
     applicationDeadline: "2027-05-31",
@@ -258,11 +260,12 @@ export const opportunities: Opportunity[] = [
     officialUrl: "https://www.cecl6.com/",
     requiresSchoolNomination: true,
     requiresTeacher: true,
-    dateConfidence: "previous-cycle",
+    dateConfidence: "confirmed",
     featured: true,
   }),
 
   entry("oxford-econsoc-essay", {
+    sourceLastChecked: "2026-11-17",
     addedOn: "2026-09-16",
     timeNeeded: "a few weeks of writing",
     name: "Oxford Economics Society Sixth Form Essay Competition",
@@ -323,6 +326,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("iea-monetary-policy-essay", {
+    sourceLastChecked: "2026-11-17",
     addedOn: "2026-09-16",
     timeNeeded: "a few weeks of writing",
     name: "Monetary Policy Essay Prize",
@@ -389,11 +393,12 @@ export const opportunities: Opportunity[] = [
     officialUrl: "https://iea.org.uk/the-budget-challenge/",
     requiresSchoolNomination: true,
     requiresTeacher: true,
-    sourceLastChecked: "2026-10-19",
+    sourceLastChecked: "2026-11-17",
     dateConfidence: "confirmed",
   }),
 
   entry("soas-y12-outreach-summer-school", {
+    sourceLastChecked: "2026-11-17",
     addedOn: "2026-09-16",
     timeNeeded: "5 days",
     name: "SOAS Year 12 Outreach Summer School — Thriving Futures",
@@ -427,6 +432,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("ucl-management-summer-school", {
+    sourceLastChecked: "2026-11-17",
     addedOn: "2026-09-16",
     timeNeeded: "a week",
     name: "UCL School of Management Non-Residential Summer School",
@@ -491,6 +497,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("royal-holloway-economics-work-experience", {
+    sourceLastChecked: "2026-11-17",
     addedOn: "2026-09-16",
     name: "Work Experience @RHULECON",
     provider: "Royal Holloway Department of Economics",
@@ -515,6 +522,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("royal-holloway-data-bootcamp", {
+    sourceLastChecked: "2026-11-17",
     addedOn: "2026-09-16",
     timeNeeded: "a week",
     name: "Economics Data Boot Camp",
@@ -541,7 +549,7 @@ export const opportunities: Opportunity[] = [
   entry("royal-holloway-economics-ai", {
     addedOn: "2026-09-16",
     timeNeeded: "a day",
-    sourceLastChecked: "2026-11-08",
+    sourceLastChecked: "2026-11-17",
     name: "Economics of AI Insight Day",
     provider: "Royal Holloway Department of Economics",
     type: "Taster / event",
@@ -565,6 +573,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("aon-discover-finance-city-edition", {
+    sourceLastChecked: "2026-11-17",
     addedOn: "2026-09-16",
     timeNeeded: "3 days",
     name: "Aon Work Insight Programme",
@@ -595,6 +604,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("gs-money-markets-risk", {
+    sourceLastChecked: "2026-11-17",
     addedOn: "2026-09-16",
     name: "Understanding Money, Markets and Risk",
     provider: "Goldman Sachs / LSEG Foundation / Founders4Schools",
@@ -736,6 +746,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("young-enterprise-company-programme", {
+    sourceLastChecked: "2026-11-17",
     addedOn: "2026-09-16",
     timeNeeded: "12 weeks to a school year",
     name: "Company Programme",
@@ -749,7 +760,9 @@ export const opportunities: Opportunity[] = [
     location: "UK-wide",
     deliveryMode: "in-person",
     ukWide: true,
-    costType: "unknown",
+    costType: "paid",
+    financialSupport:
+      "£560 per student company for state schools, or £2,500 for independent schools. The school pays, not each student.",
     status: "open",
     recurring: true,
     expectedWindow:
@@ -833,6 +846,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("young-economist-of-the-year", {
+    sourceLastChecked: "2026-11-17",
     addedOn: "2026-09-16",
     timeNeeded: "a few evenings",
     name: "Young Economist of the Year",
@@ -946,6 +960,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("kings-entrepreneurship-essay-competition", {
+    sourceLastChecked: "2026-11-17",
     addedOn: "2026-09-16",
     timeNeeded: "a few weeks of writing",
     name: "King's Entrepreneurship Lab Essay Competition",
@@ -980,7 +995,7 @@ export const opportunities: Opportunity[] = [
   entry("sidgwick-prize-economics", {
     addedOn: "2026-09-16",
     timeNeeded: "a few weeks of writing",
-    sourceLastChecked: "2026-11-15",
+    sourceLastChecked: "2026-11-17",
     applicationDeadline: "2027-06-30",
     applicationsOpen: "2026-09-19",
     name: "The Sidgwick Prize — Economics",
@@ -1006,7 +1021,7 @@ export const opportunities: Opportunity[] = [
     },
     eligibilitySummary: "Any student aged 13–18 on the submission date, from any country.",
     description:
-      "An international essay competition across eight academic disciplines, including an Economics category with questions on topics like cryptocurrency regulation and automation.",
+      "An international essay competition across eight academic disciplines, including Economics. Write up to 2,000 words on one of four 2027 economics questions: whether AI could drive growth of 30% a year, whether cheap, capable AI could make comparative advantage stop applying, whether cryptocurrency is an antidote to excessive public debt, and whether a promised interest-rate cut far in the future does more than a near-term one.",
     whyRelevant:
       "Every entrant gets individual written feedback from an academic specialist — unusual among essay competitions, and useful independent of whether you place.",
     officialUrl: "https://www.sidgwickprize.com/",
@@ -1159,7 +1174,7 @@ export const opportunities: Opportunity[] = [
     description: "A public talk at LSE where economist Isabella Weber (University of Massachusetts Amherst), known for her work on inflation and price stabilisation policy, discusses her new book on affordability, democracy and economic systems, in conversation with LSE's Lea Ypi.",
     whyRelevant: "If you're interested in economics, this is a chance to hear a research economist talk about real-world policy issues like inflation and price controls, and how economic ideas connect to broader questions about society and democracy — a good way to see economics applied beyond the textbook.",
     officialUrl: "https://www.lse.ac.uk/events/ralph-miliband-programme/anti-fascist-economics-in-defense-of-affordability-dignity-and-democracy",
-    sourceLastChecked: "2026-11-03",
+    sourceLastChecked: "2026-11-17",
     requiresTeacher: false,
     requiresSchoolNomination: false,
     wideningParticipation: false,
@@ -1198,7 +1213,7 @@ export const opportunities: Opportunity[] = [
     description: "This is a free public talk at LSE bringing together leading economists from the World Bank, European Bank for Reconstruction and Development, Asian Infrastructure Investment Bank and LSE to discuss whether global trade and investment can support both economic development and environmental sustainability. You can attend in person at LSE's campus or watch online via LSE Live.",
     whyRelevant: "If you're interested in how economics connects to real-world issues like international trade, development and climate policy, this talk offers a chance to hear directly from economists working at major international institutions like the World Bank and OECD, and to see how academic research on global value chains feeds into policy debates.",
     officialUrl: "https://www.lse.ac.uk/events/global-value-chains",
-    sourceLastChecked: "2026-11-03",
+    sourceLastChecked: "2026-11-17",
     requiresTeacher: false,
     requiresSchoolNomination: false,
     wideningParticipation: false,
@@ -1235,7 +1250,7 @@ export const opportunities: Opportunity[] = [
     description: "A public lecture by Harvard physician-economist Anupam B Jena, exploring how economists use \"natural experiments\" — real-world events that mimic controlled experiments — to understand what drives healthcare spending, quality, and patient outcomes. Jena will discuss findings from his research and his book Random Acts of Medicine, showing how economic thinking can uncover patterns in medical and policy behaviour.",
     whyRelevant: "This talk shows how economic reasoning and data analysis are applied beyond traditional finance or markets — to healthcare policy — using a method (natural experiments) that's a great introduction to applied economic research. It's a chance to see how a top health economist thinks through real-world problems, whether you attend in person or watch online.",
     officialUrl: "https://www.lse.ac.uk/events/economics-chance-health",
-    sourceLastChecked: "2026-11-03",
+    sourceLastChecked: "2026-11-17",
     requiresTeacher: false,
     requiresSchoolNomination: false,
     wideningParticipation: false,
@@ -1273,7 +1288,7 @@ export const opportunities: Opportunity[] = [
     description: "This LSE public event brings together an entrepreneur, a former MP, a policy expert and an LSE economics professor to debate whether a market-liberal agenda — covering productivity, planning reform, energy costs and competition — can tackle the UK's regional inequality and stagnant growth. You can attend in person at LSE's campus or watch online via LSE Live.",
     whyRelevant: "If you're interested in economics and public policy, this is a chance to hear live debate among practitioners and an LSE economics professor on real UK growth and productivity issues, and to see how economic theory gets applied to live policy arguments.",
     officialUrl: "https://www.lse.ac.uk/events/british-progress",
-    sourceLastChecked: "2026-11-03",
+    sourceLastChecked: "2026-11-17",
     requiresTeacher: false,
     requiresSchoolNomination: false,
     wideningParticipation: false,
@@ -1307,7 +1322,7 @@ export const opportunities: Opportunity[] = [
     whyRelevant:
       "Finishing K+ can get you up to a two-grade reduced offer for most King's courses and a £1,000 bursary if you enrol, and the pathway covers economics, politics and social policy.",
     officialUrl: "https://www.kcl.ac.uk/study/social-mobility/projects/prospective-students/k-plus",
-    sourceLastChecked: "2026-11-03",
+    sourceLastChecked: "2026-11-17",
     wideningParticipation: true,
     dateConfidence: "confirmed",
     featured: true,
@@ -1338,7 +1353,7 @@ export const opportunities: Opportunity[] = [
     whyRelevant:
       "A mentor and real work experience in banking, finance or economics, plus university application support, from Year 12 onwards and completely free.",
     officialUrl: "https://socialmobility.org.uk/apply",
-    sourceLastChecked: "2026-11-03",
+    sourceLastChecked: "2026-11-17",
     wideningParticipation: true,
     dateConfidence: "confirmed",
     featured: true,
@@ -1357,25 +1372,25 @@ export const opportunities: Opportunity[] = [
     deliveryMode: "online",
     ukWide: true,
     costType: "free",
-    status: "watchlist",
+    status: "open",
+    applicationDeadline: "2027-02-26",
     recurring: true,
-    expectedWindow: "Questions usually come out in November; the 2027 questions aren't published yet",
     previousCycle: {
       label: "2026 competition",
       applicationDeadline: "2026-02-27",
       notes: "A 1,500-word essay answering one of the college's economics questions, submitted online as a PDF. Past deadlines: 28 Feb 2025, 1 Mar 2024.",
     },
     eligibilitySummary:
-      "Year 12 students at UK schools; some past years were limited to state schools, so check this year's rules.",
+      "Year 12 (or equivalent) home students at UK state schools.",
     eligibilityDetails:
-      "Entrants must be in their penultimate year of school (Year 12 in England and Wales). In past years the economics competition was open to UK state-school students only. Check the rules in this year's questions PDF.",
+      "The 2027 Gerald O'Connell Competition in Economics is open to all home students in Year 12 (or equivalent) attending a state school in the UK. Read the rules in the economics questions PDF on the official page before you start.",
     description:
-      "Fitzwilliam College's annual economics essay prize: choose one question, write up to 1,500 words (excluding bibliography) and submit it online.",
+      "Fitzwilliam College's annual economics essay prize. For 2027 you answer the economics questions in no more than 1,200 words in total, using the college's submission template and research log, by 6pm on Friday 26 February. Two optional support webinars run on 13 January and 10 February.",
     whyRelevant:
       "A Cambridge college essay prize judged by economists. It's a strong thing to write about in a personal statement, and the questions are a good way to read beyond the A-level syllabus.",
-    officialUrl: "https://www.fitz.cam.ac.uk/node/347",
-    sourceLastChecked: "2026-11-03",
-    dateConfidence: "previous-cycle",
+    officialUrl: "https://www.fitz.cam.ac.uk/fitzwilliam-college-essay-competitions-2027",
+    sourceLastChecked: "2026-11-17",
+    dateConfidence: "confirmed",
   }),
 
   entry("john-locke-essay-competition", {
@@ -1409,7 +1424,7 @@ export const opportunities: Opportunity[] = [
     whyRelevant:
       "One of the best-known essay prizes for sixth-formers. Economics admissions tutors recognise it, and the questions push you to argue rather than describe.",
     officialUrl: "https://www.johnlockeinstitute.com/essay-competition",
-    sourceLastChecked: "2026-11-03",
+    sourceLastChecked: "2026-11-17",
     dateConfidence: "previous-cycle",
   }),
 
@@ -1482,7 +1497,7 @@ export const opportunities: Opportunity[] = [
     description: "This inaugural John Hills Memorial Lecture, hosted by LSE's International Inequalities Institute, brings together leading economists Richard Blundell (UCL) and Francisco Ferreira (LSE) to discuss inequalities in income, work, wealth, place and health in advanced economies like the UK, drawing on the IFS Deaton Review. It explores why economic policies need to go beyond redistribution to address the root causes of inequality.",
     whyRelevant: "If you're interested in economics and public policy, this lecture offers a chance to hear from two highly distinguished economists discussing real-world issues like wealth inequality, regional disparities, and social mobility - directly connecting academic economic theory to pressing policy debates in the UK.",
     officialUrl: "https://www.lse.ac.uk/events/consequences-inequality",
-    sourceLastChecked: "2026-11-08",
+    sourceLastChecked: "2026-11-17",
     requiresTeacher: false,
     requiresSchoolNomination: false,
     wideningParticipation: false,
@@ -1520,7 +1535,7 @@ export const opportunities: Opportunity[] = [
     description: "A free public lecture at LSE where Professor Lawrence H. White (George Mason University), author of Better Money: Gold, Fiat, or Bitcoin?, compares gold, fiat currency and Bitcoin as monetary standards, examining how each performs under economic shocks and what might make the soundest money in a digital age. An economic journalist will join as a discussant.",
     whyRelevant: "If you're curious about how money actually works and whether alternatives like Bitcoin or gold could do a better job than central bank currencies, this talk offers a rigorous but accessible comparison from a leading monetary economist, plus a live discussion with a journalist — a great way to see university-level economic debate in action.",
     officialUrl: "https://www.lse.ac.uk/hayek/events/future-of-money-bitcoin-gold",
-    sourceLastChecked: "2026-11-08",
+    sourceLastChecked: "2026-11-17",
     requiresTeacher: false,
     requiresSchoolNomination: false,
     wideningParticipation: false,
@@ -1559,7 +1574,7 @@ export const opportunities: Opportunity[] = [
     description: "A public talk at LSE where Rupal Patel and Jack Leslie, both economic advisers at the Bank of England, discuss their book 'Money: The Inside Story'. They'll cover how money works, what causes inflation, and what happens inside the Bank of England during a banking crisis, chaired by LSE Professor Ricardo Reis.",
     whyRelevant: "This talk offers a chance to hear directly from Bank of England economists about how inflation and monetary policy work in practice, giving real-world insight into topics you'll encounter in A-level Economics, delivered by practitioners rather than just textbooks.",
     officialUrl: "https://www.lse.ac.uk/events/money-1",
-    sourceLastChecked: "2026-11-15",
+    sourceLastChecked: "2026-11-17",
     requiresTeacher: false,
     requiresSchoolNomination: false,
     wideningParticipation: false,
@@ -1597,7 +1612,7 @@ export const opportunities: Opportunity[] = [
     description: "A free public lecture and panel discussion at LSE marking the legacy of Nobel Laureate economist Sir Arthur Lewis. The evening opens with a short lecture from St Lucia's Foreign Minister, followed by a panel of LSE economists and development academics discussing Lewis's contributions and their relevance to development economics today.",
     whyRelevant: "This is a chance to hear leading academics discuss development economics — a key area of the subject — and see how historical economic theory connects to today's policy debates, whether you attend in person or watch online.",
     officialUrl: "https://www.lse.ac.uk/events/development-theory",
-    sourceLastChecked: "2026-11-15",
+    sourceLastChecked: "2026-11-17",
     requiresTeacher: false,
     requiresSchoolNomination: false,
     wideningParticipation: false,
@@ -1636,7 +1651,7 @@ export const opportunities: Opportunity[] = [
     whyRelevant:
       "A tightly argued 1,500-word essay on a live economic question is exactly the kind of independent thinking you'll do at university, and the prompts are global, so you can use evidence from the UK or anywhere else.",
     officialUrl: "https://www.thehuea.org/competitions/hieec",
-    sourceLastChecked: "2026-11-15",
+    sourceLastChecked: "2026-11-17",
     dateConfidence: "confirmed",
   }),
 
@@ -1656,6 +1671,7 @@ export const opportunities: Opportunity[] = [
     costType: "free",
     status: "open",
     recurring: true,
+    expectedWindow: "Your teacher can register the school any time through the Economic Research Council's sign-up form.",
     eligibilitySummary: "Sixth form students at any UK school. Your teacher signs the school up.",
     eligibilityDetails:
       "A teacher registers the school and its students through the Economic Research Council's sign-up form. The ERC says it offers the programme free to every school in the UK.",
@@ -1697,7 +1713,7 @@ export const opportunities: Opportunity[] = [
     whyRelevant:
       "Ideas behave very differently from ordinary goods: anyone can use one without using it up. This lecture shows what that means for markets, using one of the biggest economic arguments around AI right now.",
     officialUrl: "https://www.gresham.ac.uk/whats-on/romantic-copyright",
-    sourceLastChecked: "2026-11-15",
+    sourceLastChecked: "2026-11-17",
     dateConfidence: "confirmed",
   }),
 

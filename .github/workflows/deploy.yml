@@ -29,10 +29,7 @@ jobs:
 
       - run: npm ci
 
-      - name: Build (Pages base path)
-        run: npm run build
-        env:
-          GITHUB_PAGES: "true"
+      - run: npm run build
 
       - uses: actions/configure-pages@v5
 

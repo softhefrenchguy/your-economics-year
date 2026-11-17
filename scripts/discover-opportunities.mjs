@@ -83,6 +83,12 @@ const HUB_SOURCES = [
   "https://niesr.ac.uk/events/list/",
   // Cambridge's economics society: links to each year's essay competition page.
   "https://marshallsoc.org/",
+  // Added 2026-11-17: London universities' widening-participation programme pages for Year 12
+  // (each checked to load and link to the current year's programmes). They catch rounds like
+  // LSE Thrive, UCL Masterclasses and Queen Mary Futures when they open each year.
+  "https://www.lse.ac.uk/study-at-lse/undergraduate/widening-participation/activities",
+  "https://www.ucl.ac.uk/engage/widening-participation/events-and-programmes",
+  "https://www.qmul.ac.uk/outreach/access-programmes/",
 ];
 // Third-party listing sites, not organisers. Every entry must cite the organiser's own
 // official page, so from these hubs only links to OTHER sites are kept as candidates —

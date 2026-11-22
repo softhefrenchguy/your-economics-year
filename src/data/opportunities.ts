@@ -56,6 +56,7 @@ function entry(id: string, fields: Partial<Opportunity>): Opportunity {
 
 export const opportunities: Opportunity[] = [
   entry("lse-pathways-banking-finance", {
+    sourceLastChecked: "2026-11-22",
     addedOn: "2026-09-16",
     timeNeeded: "18 months, alongside school",
     name: "Pathways to Banking and Finance",
@@ -72,6 +73,8 @@ export const opportunities: Opportunity[] = [
     applicationDeadline: "2026-10-19",
     status: "open",
     recurring: true,
+    expectedWindow:
+      "LSE says dates for the next cohort will be added to its page by summer 2027; you can register interest with the Sutton Trust before then.",
     eligibilitySummary:
       "Year 12 students within roughly 90 minutes' commute of LSE who meet the programme's academic and widening-participation criteria.",
     eligibilityDetails:
@@ -297,7 +300,7 @@ export const opportunities: Opportunity[] = [
   entry("lsesu-economics-essay", {
     addedOn: "2026-09-16",
     timeNeeded: "a few weeks of writing",
-    sourceLastChecked: "2026-11-08",
+    sourceLastChecked: "2026-11-22",
     name: "LSESU Economics Society Annual Essay Competition",
     provider: "LSESU Economics Society",
     type: "Essay competition",
@@ -466,6 +469,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("christs-cambridge-summer-school", {
+    sourceLastChecked: "2026-11-22",
     addedOn: "2026-09-16",
     name: "Experience Christ's Summer School",
     provider: "Christ's College, University of Cambridge",
@@ -635,6 +639,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("city-st-georges-economics-taster", {
+    sourceLastChecked: "2026-11-22",
     addedOn: "2026-09-16",
     timeNeeded: "2 hours",
     name: "A Taste of Economics at City St George's",
@@ -663,6 +668,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("lse-explore-economic-history", {
+    sourceLastChecked: "2026-11-22",
     addedOn: "2026-09-16",
     name: "LSE Explore Extra — Economic History",
     provider: "London School of Economics",
@@ -783,6 +789,7 @@ export const opportunities: Opportunity[] = [
   }),
 
   entry("bristol-discover-economics-taster", {
+    sourceLastChecked: "2026-11-22",
     addedOn: "2026-09-16",
     timeNeeded: "1 hour, in school",
     name: "Discover Economics in-school taster session",
@@ -815,9 +822,9 @@ export const opportunities: Opportunity[] = [
 
   entry("nuffield-research-placements", {
     addedOn: "2026-09-16",
-    timeNeeded: "4–6 weeks over the summer",
-    name: "Nuffield Research Placements",
-    provider: "STEM Learning / Nuffield Foundation",
+    timeNeeded: "1–2 weeks over the summer",
+    name: "STEM Research Placements (formerly Nuffield Research Placements)",
+    provider: "STEM Learning",
     type: "Work experience",
     topics: ["Economics", "Data"],
     yearGroups: ["Year 12"],
@@ -826,23 +833,23 @@ export const opportunities: Opportunity[] = [
     deliveryMode: "in-person",
     ukWide: true,
     costType: "free",
-    financialSupport:
-      "Free to take part; travel costs reimbursed, and a £100 bursary may be available depending on family circumstances.",
-    status: "coming-soon",
+    financialSupport: "Free to take part, with support towards expenses such as travel.",
+    applicationsOpen: "2026-10-20",
+    applicationDeadline: "2027-04-19",
+    status: "open",
     recurring: true,
-    expectedWindow:
-      "Applications for the next summer's placements typically open in the preceding autumn/winter — the exact 2027 opening date isn't confirmed yet; check the official page.",
     eligibilitySummary:
-      "Year 12, aged 16+, studying a relevant subject (including Economics) at A-level, plus a widening-participation criterion (e.g. free school meals, first in family to university, household income under £30,000, or care experience).",
+      "Year 12, aged 16+, at a UK state school or college, studying at least one relevant A-level (Economics counts), plus one widening-participation criterion (e.g. free school meals, first in family to go to university, or household income under £40,000).",
     eligibilityDetails:
-      "A 4–6 week self-directed research placement the summer after Year 12, in a university, research institute, company or voluntary organisation, on a project in science, technology, engineering, maths or quantitative social science — Economics projects are eligible. Requires at least 5 GCSEs at grade 6+ including maths, plus one widening-participation criterion.",
+      "You need at least 5 GCSEs at grade 5 or above, including maths, a science and English (or another humanities subject), and to be studying one or more A-levels (or equivalent) in science, technology, engineering, economics, geography, psychology, computing, statistics or maths. You must also meet at least one of: lived in local authority care, a young carer, household income below £40,000 before tax, free school meals at any point in the last six years, a 16–19 bursary or similar, or first in your immediate family to go into higher education. You need to be free for 1–2 consecutive weeks in July and/or August 2027. Check the full criteria on the official page before applying.",
     description:
-      "A 4–6 week paid-for research placement over the summer after Year 12, working on a real project that can be economics-focused.",
+      "A free summer placement after Year 12: 1–2 weeks working on an independent project with support from STEM professionals, in settings from university labs and research centres to offices. Applications for summer 2027 opened on 20 October 2026 and close on 19 April 2027.",
     whyRelevant:
-      "Genuine independent research experience — a strong, concrete example for a personal statement, and rare for Economics specifically.",
-    officialUrl: "https://www.stem.org.uk/placements",
+      "Genuine independent research experience, and Economics A-level counts as a relevant subject: a strong, concrete example for a personal statement.",
+    officialUrl: "https://www.stem.org.uk/stem-research-placements-for-students",
+    sourceLastChecked: "2026-11-22",
     wideningParticipation: true,
-    dateConfidence: "expected",
+    dateConfidence: "confirmed",
   }),
 
   entry("young-economist-of-the-year", {
@@ -1461,7 +1468,7 @@ export const opportunities: Opportunity[] = [
     whyRelevant:
       "A free week studying economics at a top university, which some partner universities recognise with contextual or guaranteed alternative offers.",
     officialUrl: "https://summerschools.suttontrust.com/",
-    sourceLastChecked: "2026-11-15",
+    sourceLastChecked: "2026-11-22",
     wideningParticipation: true,
     dateConfidence: "confirmed",
   }),
@@ -1682,7 +1689,7 @@ export const opportunities: Opportunity[] = [
     teacherPitch:
       "Free for every UK school and almost no admin: register once and your students get on-demand webinars that build on A-level content, plus an optional research component and mentoring for keen students.",
     officialUrl: "https://ercouncil.org/the-ercs-econ-club/",
-    sourceLastChecked: "2026-11-15",
+    sourceLastChecked: "2026-11-22",
     requiresTeacher: true,
     dateConfidence: "confirmed",
   }),
@@ -1748,7 +1755,7 @@ export const opportunities: Opportunity[] = [
     whyRelevant:
       "A taste of how economics is studied with data at one of London's top universities, at no cost to you.",
     officialUrl: "https://summerschools.suttontrust.com/course/imperial-college-london/economics-finance-and-data-science/",
-    sourceLastChecked: "2026-11-15",
+    sourceLastChecked: "2026-11-22",
     wideningParticipation: true,
     dateConfidence: "confirmed",
   }),
@@ -1782,7 +1789,7 @@ export const opportunities: Opportunity[] = [
     whyRelevant:
       "The titles read like Cambridge supervision questions, so it's good practice at arguing both sides with theory and evidence, even if you don't place.",
     officialUrl: "https://marshallsoc.org/marshall-society-essay-competition-2026/",
-    sourceLastChecked: "2026-11-15",
+    sourceLastChecked: "2026-11-22",
     dateConfidence: "previous-cycle",
   }),
   // ---- Added 17 Nov 2026 from a manual source search; every fact checked on the official page that day. ----

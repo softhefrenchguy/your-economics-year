@@ -19,6 +19,14 @@ import { readFile, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { chromium } from "playwright";
+import {
+  forgetHost,
+  isRefusalStatus,
+  loadOwnBrowserHosts,
+  rememberHost,
+  saveOwnBrowserHosts,
+  straightToOwnBrowser,
+} from "./own-browser-hosts.mjs";
 
 export const NAV_TIMEOUT_MS = 30000;
 const HUMAN_WAIT_MS = 10 * 60 * 1000;
@@ -102,9 +110,11 @@ export async function isCloudflareChallenge(page, response) {
   }
 }
 
-// Hosts that showed a Cloudflare check earlier in this run: their other pages go straight to
-// copy-paste rather than loading in the bot's window first.
-const cloudflareHosts = new Set();
+// Sites that refused the bot's browser (a Cloudflare check, a CAPTCHA nobody could pass in
+// its window, a 403), in this run or an earlier one: their other pages go straight to
+// copy-paste rather than loading in the bot's window and asking again for every page.
+// See own-browser-hosts.mjs.
+const ownBrowserHosts = isInteractive ? loadOwnBrowserHosts() : {};
 
 // A link that's gone, as opposed to a site refusing the bot: no point copy-pasting it, and
 // no point trying it again next week (see source-health.mjs). DNS failures deliberately
@@ -412,9 +422,16 @@ export async function visit(context, url) {
   } catch {
     // manualCopy reports the bad URL below
   }
-  if (isInteractive && cloudflareHosts.has(host)) return manualCopy(url, "Cloudflare check");
+  const today = new Date().toISOString().slice(0, 10);
+  if (isInteractive) {
+    const known = straightToOwnBrowser(ownBrowserHosts, host, today);
+    if (known) return manualCopy(url, known.reason);
+  }
   const page = await context.newPage();
   let fallbackReason = null;
+  // True when the bot was refused as a browser (a bot check, a 403), as opposed to a page
+  // that's merely broken: only then do the site's other pages skip the bot's window.
+  let siteRefusedBot = false;
   try {
     const response = await page.goto(url, { waitUntil: "domcontentloaded", timeout: NAV_TIMEOUT_MS });
     const status = response?.status() ?? 0;
@@ -428,23 +445,31 @@ export async function visit(context, url) {
       if (!(await looksBlocked(page))) cloudflare = false;
     }
     if (cloudflare) {
-      cloudflareHosts.add(host);
+      // Remembered straight away, even if the copy below gets skipped: it can never clear here.
+      rememberHost(ownBrowserHosts, host, "Cloudflare check", today);
+      saveOwnBrowserHosts(ownBrowserHosts);
       fallbackReason = "Cloudflare check";
     } else if (DEAD_STATUSES.has(status) && !(await looksBlocked(page))) {
       return { ok: false, status, dead: true, error: `HTTP ${status} — the link is dead, the entry needs a new URL` };
     } else if (await looksBlocked(page)) {
       if (!isInteractive) return { ok: false, status, blocked: true, error: `bot check / CAPTCHA (HTTP ${status})` };
       const outcome = await waitForHuman(page, url);
-      if (outcome !== "passed")
+      if (outcome !== "passed") {
+        siteRefusedBot = true;
         fallbackReason =
           outcome === "copy" ? "you chose copy-paste" : outcome === "skipped" ? "bot check kept looping" : "bot check not completed in time";
+      }
     } else if (!response || status >= 400) {
       // An error/denial page with no human check on it. Headless: report it. Interactive:
       // the site may just be refusing automated browsers, so offer copy-paste.
       if (!isInteractive) return { ok: false, status, error: `HTTP ${status || "no response"}` };
+      siteRefusedBot = isRefusalStatus(status);
       fallbackReason = `HTTP ${status || "no response"}`;
     }
     if (!fallbackReason) {
+      // The bot got in by itself (or the person passed the check in its window), so a site
+      // remembered from an earlier run no longer needs the person's browser.
+      if (isInteractive && forgetHost(ownBrowserHosts, host)) saveOwnBrowserHosts(ownBrowserHosts);
       const text = await page.evaluate(() => document.body?.innerText ?? "");
       const links = await page.$$eval("a[href]", (anchors) =>
         anchors
@@ -460,5 +485,13 @@ export async function visit(context, url) {
   } finally {
     if (!page.isClosed()) await page.close().catch(() => {});
   }
-  return manualCopy(url, fallbackReason);
+  const copied = await manualCopy(url, fallbackReason);
+  // Only once the person's browser has actually got the page: then the rest of this site's
+  // pages go straight there, this run and on later Sundays, with no pop-up per page.
+  if (siteRefusedBot && copied.ok) {
+    rememberHost(ownBrowserHosts, host, fallbackReason, today);
+    saveOwnBrowserHosts(ownBrowserHosts);
+    console.log(`   (${host} pages now open straight in your browser — no more pop-ups for this site.)\n`);
+  }
+  return copied;
 }

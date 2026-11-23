@@ -3,6 +3,7 @@ import { formatDate, teacherOpportunities } from "../lib/opportunities";
 import { costLabel, statusName } from "../lib/display";
 import { termsFrom, type Term } from "../lib/terms";
 import { Icon } from "./Icon";
+import { OfficialLink } from "./OfficialLink";
 
 function whatsNeeded(item: Opportunity): string {
   if (item.requiresSchoolNomination) {
@@ -49,9 +50,7 @@ function TeacherItem({ item }: { item: Opportunity }) {
         <Icon name="info" />
         <p>
           <strong>Official source: </strong>
-          <a href={item.officialUrl} target="_blank" rel="noopener noreferrer">
-            {new URL(item.officialUrl).hostname.replace("www.", "")}
-          </a>
+          <OfficialLink item={item}>{new URL(item.officialUrl).hostname.replace("www.", "")}</OfficialLink>
           <br />
           Checked {formatDate(item.sourceLastChecked, true)} — verify current details there before committing your
           department's time.

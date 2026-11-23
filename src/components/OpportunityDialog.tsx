@@ -3,6 +3,7 @@ import type { Opportunity } from "../types/opportunity";
 import { formatDate } from "../lib/opportunities";
 import { costLabel, kindWord, needsTeacher, statusName, teacherMessage, whenLabel } from "../lib/display";
 import { Icon } from "./Icon";
+import { OfficialLink } from "./OfficialLink";
 
 function confidenceLabel(item: Opportunity): string {
   if (item.status === "open" || item.status === "closed") return "Confirmed";
@@ -98,9 +99,9 @@ export function OpportunityDialog({
 
         <div className="detail-actions">
           {canApply && (
-            <a className="btn btn-primary" href={item.officialUrl} target="_blank" rel="noopener noreferrer">
+            <OfficialLink className="btn btn-primary" item={item}>
               Apply on the official site <Icon name="arrow" size={16} />
-            </a>
+            </OfficialLink>
           )}
           <button className={`btn btn-icon ${saved ? "is-on" : ""}`} aria-pressed={saved} onClick={() => onSave(item.id)}>
             <Icon name={saved ? "check" : "bookmark"} size={17} />
@@ -197,9 +198,7 @@ export function OpportunityDialog({
           <Icon name="info" size={16} />
           <span>
             Official page:{" "}
-            <a href={item.officialUrl} target="_blank" rel="noopener noreferrer">
-              {new URL(item.officialUrl).hostname.replace("www.", "")}
-            </a>
+            <OfficialLink item={item}>{new URL(item.officialUrl).hostname.replace("www.", "")}</OfficialLink>
             , last checked {formatDate(item.sourceLastChecked, true)}. Always apply there; this site just helps you find it.
           </span>
         </p>

@@ -3,6 +3,7 @@ import type { Opportunity } from "../types/opportunity";
 import type { Section } from "../lib/display";
 import { closingSoon, costInline, dayParts, kindWord, listDate, needsTeacher, placeLabel, shortProvider, spokenDate, todayNote } from "../lib/display";
 import { Icon } from "./Icon";
+import { OfficialLink } from "./OfficialLink";
 
 // One dated listing: big serif date on the left, then the title and one meta line that starts
 // with what kind of thing it is; save on the right. The friend's red pen does the urgency: a
@@ -84,9 +85,9 @@ export function Listing({
         </p>
         {closing && <p className="pen pen-line">{closing}</p>}
         {note && canApply && (
-          <a className="btn btn-ink btn-small" href={item.officialUrl} target="_blank" rel="noopener noreferrer">
+          <OfficialLink className="btn btn-ink btn-small" item={item}>
             Sign up on the official site <Icon name="arrow" size={15} />
-          </a>
+          </OfficialLink>
         )}
       </div>
       <button
